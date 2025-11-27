@@ -28,7 +28,7 @@ def view_contact():
         print(f"\n({index})", end='')
         print(f" Name: {contact_data[0]}")
         print(f"    Contact Number: {contact_data[1]}")
-        print(f"    Email: {contact_data[2]}\n")
+        print(f"    Email: {contact_data[2]}")
         index += 1
     conn.close()
 
@@ -44,14 +44,15 @@ def update_contact():
         print(f"\n({index})", end='')
         print(f" Name: {contact_data[0]}")
         index += 1
-    index_input = int(input("Which index number you want to edit? \n"))
+    update_name_input = input("\nEnter contact name you want to update? \n").lower().strip()
+
     name_input = input("Enter Name: ")
     contact_num_input = int(input("Enter Contact Number: "))
     email_input = input("Enter Email: ")
 
     cur.execute("update contacts set name = ?, contact_number = ?, " \
-                "email = ? where rowid = ?", (name_input, contact_num_input, 
-                                              email_input, index_input)) 
+                "email = ? where name = ?", (name_input, contact_num_input, 
+                                              email_input, update_name_input)) 
 
     conn.commit()
     print(f"Contact for {name_input} updated successfully!")
