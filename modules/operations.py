@@ -104,6 +104,9 @@ def update_contact():
     en.stores_encrypted_email_in_db(encrypted_email, name_input)
     en.stores_email_key_in_env_file(email_key, name_input)
 
+    # Removing the keys from .env file 
+    remove_unwanted_env_entries(update_name_input)
+
     print(f"Contact for {name_input} updated successfully!")
     conn.close()
 
@@ -128,18 +131,13 @@ def delete_contact():
         if name_input in already_existing_names_list:
             break
         elif name_input not in already_existing_names_list:
-            print("Error! Enter a name which is already in the list!")
+            print("Error! Enter a name which already exists!")
 
     cur.execute("delete from contacts where name = ?", (name_input,))
     conn.commit()
 
     # Removing the keys from .env file 
-    name_of_email_key = f"KEY_OF_EMAIL_{name_input.upper()}"
-    name_of_key = f"KEY_OF_{name_input.upper()}"
-    command_to_remove_email_key = f"dotenv unset {name_of_email_key}"
-    command_to_remove_key = f"dotenv unset {name_of_key}"
-    res1 = subprocess.run(command_to_remove_email_key, shell=True, capture_output=True)
-    res1 = subprocess.run(command_to_remove_key, shell=True, capture_output=True)
+    remove_unwanted_env_entries(name_input)
 
     print(f"\nContact for '{name_input}' deleted successfully!")
     conn.close()
@@ -182,6 +180,52 @@ def search_name():
             print(f"Email: {original_email}")
 
         conn.close()
+
+def remove_unwanted_env_entries(name_input):
+    # Removing the keys from .env file 
+    name_of_email_key = f"KEY_OF_EMAIL_{name_input.upper()}"
+    name_of_key = f"KEY_OF_{name_input.upper()}"
+    command_to_remove_email_key = f"dotenv unset {name_of_email_key}"
+    command_to_remove_key = f"dotenv unset {name_of_key}"
+    res1 = subprocess.run(command_to_remove_email_key, shell=True, capture_output=True)
+    res1 = subprocess.run(command_to_remove_key, shell=True, capture_output=True)
         
+def help():
+    """Provides the user manual"""
+
+    print("\n=== APPLICATION MANUAL ===")
+    print("This CLI application operates by selecting an option number.")
+    print("Each operation is assigned an index. Enter the index to execute it.")
+    print()
+    print("AVAILABLE OPERATIONS:")
+    print("1. Create Contact")
+    print("   Use this option to add a new contact. You will be prompted for required fields.")
+    print()
+    print("2. Update Contact")
+    print("   Use this to modify an existing contact. You must enter a valid contact index.")
+    print()
+    print("3. View Contact")
+    print("   Displays the details of a specific contact. Input the contact index when asked.")
+    print()
+    print("4. Delete Contact")
+    print("   Removes a contact permanently. Requires the contact index.")
+    print()
+    print("5. Search Contact")
+    print("   Allows searching by name or other supported fields.")
+    print()
+    print("6. View All Contacts")
+    print("   Lists every stored contact in order.")
+    print()
+    print("7. Help")
+    print("   Displays this manual.")
+    print()
+    print("0. Exit")
+    print("   Closes the application.")
+    print()
+    print("INSTRUCTIONS:")
+    print("- Enter only integer indices.")
+    print("- Invalid inputs will trigger an error message; re-enter a valid number.")
+    print("- Follow on-screen prompts for each operation.")
+
 if __name__ == '__main__':
     search_name()

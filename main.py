@@ -10,7 +10,7 @@ def main():
         print("\n------------------------\n")
         print("1. Create Contact \n2. Update Contact")
         print("3. View Contact \n4. Delete Contact \n5. Search Contact")
-        print("Enter 0 to exit.\n")
+        print("Enter 0 to exit | Enter 7 for help.\n")
         operation_input = get_and_validate.get_and_validate_input_operation()
 
         # Checks User input and performs the task
@@ -31,6 +31,9 @@ def main():
 
         elif operation_input == 5:
             op.search_name()
+
+        elif operation_input == 7:
+            op.help()
 
     print("\nThanks for using Contact Manager!\n")
 
