@@ -54,7 +54,7 @@
 
 <h2>CLI Preview</h2>
 <img width="600" alt="Screenshot_20251128_163608" src="https://github.com/user-attachments/assets/f6b08f30-2cbc-4f38-80a3-75a505861d90" />
-<img width="450" alt="Screenshot_20251128_164322" src="https://github.com/user-attachments/assets/8116044a-5c08-47f3-a698-c8a727e5544a" />
+<img width="420" alt="Screenshot_20251128_164322" src="https://github.com/user-attachments/assets/8116044a-5c08-47f3-a698-c8a727e5544a" />
 
 
 
