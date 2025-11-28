@@ -107,5 +107,27 @@ def retrieve_email_key_from_env_file(name):
     key_for_email = key_for_email.encode('utf-8')
     return key_for_email
 
+def recreate_original_contact_num(name):
+    """Takes the key and encrypted contact number and returns the decrypted contact number"""
+    #Retrieves the contact number and decrypts it via its key in .env file
+    key_for_contact_num = retrieve_contact_num_key_from_env_file(name)
+    encrypted_contact_num_tuple = retrieve_encrypted_number_from_db(name)
+    encrypted_contact_num = encrypted_contact_num_tuple[0]
+    original_contact_num = decrypt(encrypted_contact_num, key_for_contact_num)
+    original_contact_num = original_contact_num.decode('utf-8') # decodes the contact number otherwise it shows b'contact number' which is not preferred
+
+    return original_contact_num
+
+def recreate_original_email(name):
+    """Takes the key and encrypted email and returns the decrypted email"""
+            #Retrieves the email and decrypts it via its key in .env file
+    key_for_email = retrieve_email_key_from_env_file(name)
+    encrypted_email_tuple = retrieve_encrypted_email_from_db(name)
+    encrypted_email = encrypted_email_tuple[0]
+    original_email = decrypt(encrypted_email, key_for_email)
+    original_email = original_email.decode('utf-8') # decodes the email otherwise it shows b'email' which is not preferred
+
+    return original_email
+
 if __name__ == '__main__':
     pass

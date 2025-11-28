@@ -43,19 +43,9 @@ def view_contact():
     
     index = 1
     for contact_data in contacts_data:
-        #Retrieves the contact number and decrypts it via its key in .env file
-        key_for_contact_num = en.retrieve_contact_num_key_from_env_file(contact_data[0])
-        encrypted_contact_num_tuple = en.retrieve_encrypted_number_from_db(contact_data[0])
-        encrypted_contact_num = encrypted_contact_num_tuple[0]
-        original_contact_num = en.decrypt(encrypted_contact_num, key_for_contact_num)
-        original_contact_num = original_contact_num.decode('utf-8') # decodes the contact number otherwise it shows b'contact number' which is not preferred
 
-        #Retrieves the email and decrypts it via its key in .env file
-        key_for_email = en.retrieve_email_key_from_env_file(contact_data[0])
-        encrypted_email_tuple = en.retrieve_encrypted_email_from_db(contact_data[0])
-        encrypted_email = encrypted_email_tuple[0]
-        original_email = en.decrypt(encrypted_email, key_for_email)
-        original_email = original_email.decode('utf-8') # decodes the email otherwise it shows b'email' which is not preferred
+        original_contact_num = en.recreate_original_contact_num(contact_data[0])
+        original_email = en.recreate_original_email(contact_data[0])
 
         print(f"\n({index})", end='')
         print(f" Name: {contact_data[0].title()}")
@@ -173,20 +163,9 @@ def search_name():
 
             cur.execute("select * from contacts where name = ?",(name,))
             contact_data = cur.fetchone()
-
-            #Retrieves the contact number and decrypts it via its key in .env file
-            key_for_contact_num = en.retrieve_contact_num_key_from_env_file(name)
-            encrypted_contact_num_tuple = en.retrieve_encrypted_number_from_db(name)
-            encrypted_contact_num = encrypted_contact_num_tuple[0]
-            original_contact_num = en.decrypt(encrypted_contact_num, key_for_contact_num)
-            original_contact_num = original_contact_num.decode('utf-8') # decodes the contact number otherwise it shows b'contact number' which is not preferred
-
-            #Retrieves the email and decrypts it via its key in .env file
-            key_for_email = en.retrieve_email_key_from_env_file(name)
-            encrypted_email_tuple = en.retrieve_encrypted_email_from_db(name)
-            encrypted_email = encrypted_email_tuple[0]
-            original_email = en.decrypt(encrypted_email, key_for_email)
-            original_email = original_email.decode('utf-8') # decodes the email otherwise it shows b'email' which is not preferred
+            
+            original_contact_num = en.recreate_original_contact_num(contact_data[0])
+            original_email = en.recreate_original_email(contact_data[0])
 
             print("\nResults:")
             print(f"\nName: {contact_data[0]}")
