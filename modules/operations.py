@@ -1,4 +1,5 @@
 import re
+import subprocess
 import modules.database as db
 import modules.get_and_validate_user_input as get_and_validate
 import modules.encryption as en
@@ -131,6 +132,14 @@ def delete_contact():
 
     cur.execute("delete from contacts where name = ?", (name_input,))
     conn.commit()
+
+    # Removing the keys from .env file 
+    name_of_email_key = f"KEY_OF_EMAIL_{name_input.upper()}"
+    name_of_key = f"KEY_OF_{name_input.upper()}"
+    command_to_remove_email_key = f"dotenv unset {name_of_email_key}"
+    command_to_remove_key = f"dotenv unset {name_of_key}"
+    res1 = subprocess.run(command_to_remove_email_key, shell=True, capture_output=True)
+    res1 = subprocess.run(command_to_remove_key, shell=True, capture_output=True)
 
     print(f"\nContact for '{name_input}' deleted successfully!")
     conn.close()
