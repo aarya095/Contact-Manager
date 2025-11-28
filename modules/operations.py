@@ -1,6 +1,7 @@
 import re
 import subprocess
 import json
+
 import modules.database as db
 import modules.get_and_validate_user_input as get_and_validate
 import modules.encryption as en
@@ -18,7 +19,7 @@ def create_contact():
     cur.execute("insert into contacts VALUES (?,?,?)", \
                 (name_input,null1, null2))
     conn.commit()
-    conn.close()
+    
     # Encrypts and stores the contact number in the db and its key in the .env file
     contact_num_input = str(contact_num_input)
     contact_num_input = contact_num_input.encode('utf-8')
@@ -31,7 +32,7 @@ def create_contact():
     encrypted_email, email_key = en.encrypt(email_input)
     en.stores_encrypted_email_in_db(encrypted_email, name_input)
     en.stores_email_key_in_env_file(email_key, name_input)
-
+    conn.close()
     print(f"Contact for {name_input} created successfully!")
 
 def view_contact():
