@@ -8,7 +8,7 @@
 <h2>📌 Navigate</h2>
 <ul>
   <li><a href="#features">Features</a></li>
-  <li><a href="#💻-cli-preview">CLI Preview</a></li>
+  <li><a href="#cli-preview">CLI Preview</a></li>
   <li><a href="#database">Database Schema</a></li>
   <li><a href="#validation-and-utilities">Validation and Utilities</a></li>
   <li><a href="#project-structure">Project Structure</a></li>
@@ -64,7 +64,7 @@
 
 <hr>
 
-<h2>💻 CLI Preview</h2>
+<h2>CLI Preview</h2>
 <p>Introductory Message</p>
 <img width="600" alt="Intro Message" src="https://github.com/user-attachments/assets/f6b08f30-2cbc-4f38-80a3-75a505861d90" />
 <p>Create Entry Demo</p>
@@ -85,7 +85,7 @@
 
 <hr>
 
-<h2>🗄️ Database</h2>
+<h2>Database</h2>
 
 <p>
   The application uses <b>SQLite3</b> for storage.  
@@ -104,7 +104,7 @@
 
 <hr>
 
-<h2>🛠️ Validation and Utilities</h2>
+<h2>Validation and Utilities</h2>
 <ul>
   <li>📧 <b>Email Validation:</b> Implemented using the <code>validators</code> package.</li>
   <li>💾 <b>Exporting:</b> Performed via the <code>json</code> module and standard file operations.</li>
@@ -114,7 +114,7 @@
 
 <hr>
 
-<h2>📂 Project Structure</h2>
+<h2>Project Structure</h2>
 <pre>
 contacts_data.db
 contacts_data.json
@@ -138,7 +138,7 @@ modules/
 
 <hr>
 
-<h2>▶️ Usage</h2>
+<h2>Usage</h2>
 <p>Run the application:</p>
 <pre>
 python main.py
@@ -146,7 +146,7 @@ python main.py
 
 <hr>
 
-<h2>📦 Requirements</h2>
+<h2>Requirements</h2>
 <ul>
   <li>🐍 Python 3.x</li>
   <li>🔑 cryptography==46.0.3</li>
@@ -156,7 +156,7 @@ python main.py
 
 <hr>
 
-<h2>👤 Author</h2>
+<h2>Author</h2>
 <p>
 <b>Aarya Sarfare</b><br>
 IT Engineering student | Building in Full Stack Development and Cybersecurity
