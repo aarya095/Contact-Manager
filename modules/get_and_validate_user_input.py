@@ -40,7 +40,7 @@ def generate_list_of_already_used_names():
     contact_names_list = []
     for contact_names in contacts_data:
         for contact_name in contact_names:
-            contact_names_list.append(contact_name)
+            contact_names_list.append(contact_name.lower())
     
     conn.close()
     return contact_names_list
@@ -52,9 +52,9 @@ def get_and_validate_input_name():
     
     while True:
         #Keeps looping till the below conitions are satisfied
-        name_input = input("Enter Name: ").strip()
+        name_input = input("Enter Name: ").strip().lower()
 
-        if name_input in already_existing_names_list:
+        if name_input in already_existing_names_list: # checks if the user name already exists
             print(f"Contact by name '{name_input}' already exists.")
 
         if len(name_input) > 50:
