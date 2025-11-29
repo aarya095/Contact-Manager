@@ -66,22 +66,25 @@
 
 <h2>CLI Preview</h2>
 <p>Introductory Message</p>
-<img width="600" alt="Intro Message" src="https://github.com/user-attachments/assets/f6b08f30-2cbc-4f38-80a3-75a505861d90" />
+<img width="600" alt="Intro Message" src="https://github.com/user-attachments/assets/217f540d-c79e-4414-adb5-dc99c8db4697" />
 <p>Create Entry Demo</p>
-<img width="420" alt="Create Entry" src="https://github.com/user-attachments/assets/8116044a-5c08-47f3-a698-c8a727e5544a" />
+<img width="410" alt="Create Entry" src="https://github.com/user-attachments/assets/47ef04ae-1b36-4b84-b79a-7893507a2f04" />
 <p>View Entry Demo</p>
-<img width="330" alt="View Entry" src="https://github.com/user-attachments/assets/a886447a-918f-447c-a134-1404a315c6bd" />
+<img width="320" alt="View Entry" src="https://github.com/user-attachments/assets/feb830cd-e1b4-4f75-9468-98c07e76a807" />
 <p>Update Entry Demo</p>
-<img width="420" alt="Update Entry" src="https://github.com/user-attachments/assets/6bc5f74b-5861-4398-93f4-11a78001af01" />
+<img width="420" alt="Update Entry" src="https://github.com/user-attachments/assets/6ff5c4b4-de38-466b-b4cf-2e71fa253378" />
 <p>Delete Entry Demo</p>
-<img width="440" alt="Delete Entry" src="https://github.com/user-attachments/assets/f763535b-fd50-4214-a09e-2b12b2e934bf" />
+<img width="435"alt="Delete Entry" src="https://github.com/user-attachments/assets/2a1db5bb-37e3-4e9a-90f5-2753c251929e" />
 <p>Search Demo</p>
-<img width="410" alt="Search Entry" src="https://github.com/user-attachments/assets/32efdd7a-783f-4213-a037-d694bf2b7065" />
+<img width="400" alt="Search Entry" src="https://github.com/user-attachments/assets/a27342ae-a6b7-4982-a661-d38b7f30252d" />
 <p>Exporting to JSON</p>
-<img width="505" height="100" alt="Export JSON" src="https://github.com/user-attachments/assets/f5eb7eb4-6072-47f6-ab93-d3f120a94ffd" />
+<img width="500" alt="Export JSON" src="https://github.com/user-attachments/assets/f5e02ead-071a-464d-b76a-ff02fc0e220f" />
 <pre>[{"Name": "india", "Contact Number": "1231231231", "Email": "india@qwe.qwe"}, 
   {"Name": "kirti", "Contact Number": "6784566544", "Email": "kirti@gotmail.com"}, 
-  {"Name": "aditi", "Contact Number": "9874560984", "Email": "aditi@email.com"}]</pre>
+  {"Name": "omkar", "Contact Number": "9874569874", "Email": "omkar_90@hotmail.in"}, 
+  {"Name": "harsh", "Contact Number": "4564564564", "Email": "harsh_01@email.com"}]</pre>
+<p>Exiting Message</p>
+<img width="515" alt="Exiting Message" src="https://github.com/user-attachments/assets/27b3575c-4d86-45dd-94c4-3a21edfc19a7" />
 
 <hr>
 
@@ -152,6 +155,7 @@ python main.py
   <li>🔑 cryptography==46.0.3</li>
   <li>📧 validators==0.35.0</li>
   <li>📝 dotenv==0.9.9</li>
+  <li>▶️ colorama==0.4.6</li>
 </ul>
 
 <hr>
