@@ -68,9 +68,9 @@
 <p>Introductory Message</p>
 <img width="600" alt="Intro Message" src="https://github.com/user-attachments/assets/217f540d-c79e-4414-adb5-dc99c8db4697" />
 <p>Create Entry Demo</p>
-<img width="420" alt="Create Entry" src="https://github.com/user-attachments/assets/8116044a-5c08-47f3-a698-c8a727e5544a" />
+<img width="410" alt="Create Entry" src="https://github.com/user-attachments/assets/47ef04ae-1b36-4b84-b79a-7893507a2f04" />
 <p>View Entry Demo</p>
-<img width="330" alt="View Entry" src="https://github.com/user-attachments/assets/a886447a-918f-447c-a134-1404a315c6bd" />
+<img width="320" alt="View Entry" src="https://github.com/user-attachments/assets/feb830cd-e1b4-4f75-9468-98c07e76a807" />
 <p>Update Entry Demo</p>
 <img width="420" alt="Update Entry" src="https://github.com/user-attachments/assets/6bc5f74b-5861-4398-93f4-11a78001af01" />
 <p>Delete Entry Demo</p>
