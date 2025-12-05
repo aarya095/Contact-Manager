@@ -39,7 +39,7 @@ def stores_encrypted_email_in_db(encrypted_contact_info, name):
 
 def stores_contact_num_key_in_env_file(key, name):
     """Stores the Contact Number key in the .env file"""
-    name_of_key = f"KEY_OF_{name.upper()}"
+    name_of_key = f"KEY_OF_{name.upper()}" # Turning to upper case to maintain the format
     
     # decoding the key as would store along with the 'b' as prefix in the database
     key_str = key.decode('utf-8') 
