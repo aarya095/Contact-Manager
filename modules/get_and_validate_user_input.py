@@ -1,4 +1,7 @@
+# Third Party Modules
 import validators as val
+
+# User-defined modules
 import modules.database as db
 
 def get_and_validate_input_email():

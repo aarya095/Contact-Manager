@@ -1,7 +1,9 @@
+# Built-in Modules
 import re
 import subprocess
 import json
 
+# User-defined modules
 import modules.database as db
 import modules.get_and_validate_user_input as get_and_validate
 import modules.encryption as en

@@ -1,6 +1,11 @@
-from cryptography.fernet import Fernet
+# Built-in Modules
 import subprocess
+
+# Third Party Modules
+from cryptography.fernet import Fernet
 from dotenv import dotenv_values
+
+# User-defined modules
 import modules.database as db
 
 def encrypt(contact_info):
@@ -95,7 +100,7 @@ def retrieve_contact_num_key_from_env_file(name):
             break
     # encoding the key as decrypt() function expects a bytes object
     key_for_contact_number = key_for_contact_number.encode('utf-8')
-    
+
     return key_for_contact_number
 
 def retrieve_email_key_from_env_file(name):
