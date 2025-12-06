@@ -7,17 +7,18 @@ import modules.get_and_validate_user_input as get_and_validate
 
 def main():
     """Main function"""
+
     print(Fore.LIGHTGREEN_EX)
     print("╔═╗┌─┐┌┐┌┌─┐┌─┐┌┬┐ ╔╦╗┌─┐┌┐┌┌─┐┌─┐┌─┐┬─┐")   
     print("║  │ ││││├─┤│   │  ║║║├─┤│││├─┤│ ┬├┤ ├┬┘")
     print("╚═╝└─┘┘└┘┴ ┴└─┘ ┴  ╩ ╩┴ ┴┘└┘┴ ┴└─┘└─┘┴└─")
-    while True:
 
+    while True:
         print(Fore.LIGHTCYAN_EX, Style.BRIGHT + "------------------------\n")
         print("1. Create Contact \n2. Update Contact")
         print("3. View Contact \n4. Delete Contact \n5. Search Contact")
         print("Enter 0 to exit | Enter 6 to export data | Enter 7 for help.\n")
-        
+
         operation_input = get_and_validate.get_and_validate_input_operation()
 
         # Checks User input and performs the task
