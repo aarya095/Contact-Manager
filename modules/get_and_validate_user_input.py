@@ -15,6 +15,7 @@ def get_and_validate_input_email():
             print("The email field can't be empty.")
         else:
             print(f"'{email_input}' is not a valid a valid email.")
+
     return email_input
 
 def get_and_validate_input_number():
@@ -30,12 +31,16 @@ def get_and_validate_input_number():
                 print("Contact number should be 10 integers long.")
         except ValueError:
             print("Please provide an integer.")
+
     contact_num_input = int(contact_num_input)
+
     return contact_num_input
 
 def generate_list_of_already_used_names():
     """Generates a list of already used names"""
+
     conn = db.connect_db()
+
     cur = conn.cursor()
     cur.execute("select name from contacts")
     contacts_data = cur.fetchall()
@@ -46,6 +51,7 @@ def generate_list_of_already_used_names():
             contact_names_list.append(contact_name.lower())
     
     conn.close()
+
     return contact_names_list
 
 def get_and_validate_input_name():
@@ -76,7 +82,9 @@ def get_and_validate_input_name():
         
 def get_and_validate_input_operation():
     """Gets and Validates the input operation"""
+
     user_operation_choice_validation = [0,1,2,3,4,5,6,7]
+    
     while True:
         try:
             user_choice = int(input("Select the operation by index: "))

@@ -10,14 +10,16 @@ import modules.encryption as en
 
 def create_contact():
     """Creates an entry of contact"""
+
     name_input = get_and_validate.get_and_validate_input_name()
     contact_num_input = get_and_validate.get_and_validate_input_number()
     email_input = get_and_validate.get_and_validate_input_email()
     null1 ='NULL'
     null2 ='NULL'
+    
     conn = db.connect_db()
+    
     cur = conn.cursor()
-
     cur.execute("insert into contacts VALUES (?,?,?)", \
                 (name_input,null1, null2))
     conn.commit()
@@ -26,14 +28,17 @@ def create_contact():
     contact_num_input = str(contact_num_input)
     contact_num_input = contact_num_input.encode('utf-8')
     encrypted_contact_number, contact_num_key = en.encrypt(contact_num_input)
+
     en.stores_encrypted_contact_num_in_db(encrypted_contact_number, name_input)
     en.stores_contact_num_key_in_env_file(contact_num_key, name_input)
 
     # Encrypts and stores the email in the db and its key in the .env file
     email_input = email_input.encode('utf-8')
     encrypted_email, email_key = en.encrypt(email_input)
+    
     en.stores_encrypted_email_in_db(encrypted_email, name_input)
     en.stores_email_key_in_env_file(email_key, name_input)
+    
     conn.close()
     print(f"Contact for {name_input} created successfully!")
 
@@ -41,8 +46,8 @@ def view_contact():
     """View existing contacts"""
 
     conn = db.connect_db()
-    cur = conn.cursor()
 
+    cur = conn.cursor()
     cur.execute("select * from contacts")
     contacts_data = cur.fetchall()
     
@@ -57,18 +62,23 @@ def view_contact():
         print(f"    Contact Number: {original_contact_num}")
         print(f"    Email: {original_email}")
         index += 1
+
     conn.close()
+
+    # Checks for the already existing names in the database
     already_existing_names_list = get_and_validate.generate_list_of_already_used_names()
     if len(already_existing_names_list) == 0:
         print("No Entries!")
 
 def update_contact():
     """Updates the contact information"""
-    conn = db.connect_db() # connects to database
-    cur = conn.cursor()
 
+    conn = db.connect_db()
+
+    cur = conn.cursor()
     cur.execute("select * from contacts")
     contacts_data = cur.fetchall()
+
     index = 1
     for contact_data in contacts_data:
         print(f"\n({index})", end='')
@@ -88,13 +98,14 @@ def update_contact():
     contact_num_input = get_and_validate.get_and_validate_input_number()
     email_input = get_and_validate.get_and_validate_input_email()
 
-    conn = db.connect_db() # connects to database
-    cur = conn.cursor()
+    conn = db.connect_db()
 
+    cur = conn.cursor()
     cur.execute("update contacts set name = ? where name = ?", \
                 (name_input, update_name_input))
     conn.commit()
     conn.close()
+
     # Encrypts and stores the contact number in the db and its key in the .env file
     contact_num_input = str(contact_num_input)
     contact_num_input = contact_num_input.encode('utf-8')
@@ -116,9 +127,10 @@ def update_contact():
 
 def delete_contact():
     """Deletes the contact entry"""
-    conn = db.connect_db() # connects to database
-    cur = conn.cursor()
 
+    conn = db.connect_db() 
+
+    cur = conn.cursor()
     cur.execute("select * from contacts")
     contacts_data = cur.fetchall()
     
@@ -187,10 +199,13 @@ def search_name():
 
 def remove_unwanted_env_entries(name_input):
     """Removing the keys from .env file""" 
+
     name_of_email_key = f"KEY_OF_EMAIL_{name_input.upper()}"
     name_of_key = f"KEY_OF_{name_input.upper()}"
+    
     command_to_remove_email_key = f"dotenv unset {name_of_email_key}"
     command_to_remove_key = f"dotenv unset {name_of_key}"
+    
     res1 = subprocess.run(command_to_remove_email_key, shell=True, capture_output=True)
     res1 = subprocess.run(command_to_remove_key, shell=True, capture_output=True)
 
@@ -198,9 +213,9 @@ def export_contacts_data():
     """Exports all the data to a json file"""
 
     contacts_data_json = [] # list which will contain all the contacts info
+    
     conn = db.connect_db()
     cur = conn.cursor()
-
     cur.execute("select * from contacts")
     contacts_data = cur.fetchall()
 
@@ -214,6 +229,7 @@ def export_contacts_data():
                                    'Email': original_email})
 
     conn.close()
+
     already_existing_names_list = get_and_validate.generate_list_of_already_used_names()
     if len(already_existing_names_list) == 0:
         print("No Entries!")

@@ -19,6 +19,7 @@ def encrypt(contact_info):
 
 def decrypt(encrypted_contact_info, key):
     """Decrypts the contact number using fernet a symmmetric cipher"""
+
     f = Fernet(key)
     original_contact_number = f.decrypt(encrypted_contact_info)
 
@@ -26,6 +27,7 @@ def decrypt(encrypted_contact_info, key):
 
 def stores_encrypted_contact_num_in_db(encrypted_contact_info, name):
     """Stores the encrypted_contact_info in the sqlite3 db"""
+
     conn = db.connect_db()
 
     cur = conn.cursor()
@@ -36,6 +38,7 @@ def stores_encrypted_contact_num_in_db(encrypted_contact_info, name):
 
 def stores_encrypted_email_in_db(encrypted_contact_info, name):
     """Stores the encrypted_contact_info in the sqlite3 db"""
+
     conn = db.connect_db()
 
     cur = conn.cursor()
@@ -46,6 +49,7 @@ def stores_encrypted_email_in_db(encrypted_contact_info, name):
 
 def stores_contact_num_key_in_env_file(key, name):
     """Stores the Contact Number key in the .env file"""
+
     name_of_key = f"KEY_OF_{name.upper()}" # Turning to upper case to maintain the format
     
     # decoding the key as would store along with the 'b' as prefix in the database
@@ -55,6 +59,7 @@ def stores_contact_num_key_in_env_file(key, name):
 
 def stores_email_key_in_env_file(key, name):
     """Stores the Email key in the .env file"""
+
     name_of_key = f"KEY_OF_EMAIL_{name.upper()}"
     
     # decoding the key as would store along with the 'b' as prefix in the database
@@ -64,9 +69,10 @@ def stores_email_key_in_env_file(key, name):
 
 def retrieve_encrypted_number_from_db(name):
     """Retrieves the encrypted_contact_number from the sqlite3 db"""
-    conn = db.connect_db()
-    cur = conn.cursor()
 
+    conn = db.connect_db()
+
+    cur = conn.cursor()
     cur.execute("select contact_number from contacts where name = ?", (name,))
     encrypted_contact_number = cur.fetchone()
 
@@ -77,9 +83,10 @@ def retrieve_encrypted_number_from_db(name):
 
 def retrieve_encrypted_email_from_db(name):
     """Retrieves the encrypted_email from the sqlite3 db"""
-    conn = db.connect_db()
-    cur = conn.cursor()
 
+    conn = db.connect_db()
+
+    cur = conn.cursor()
     cur.execute("select email from contacts where name = ?", (name,))
     encrypted_email = cur.fetchone()
 
@@ -90,6 +97,7 @@ def retrieve_encrypted_email_from_db(name):
 
 def retrieve_contact_num_key_from_env_file(name):
     """Retrieves the Contact Number key from the .env file"""
+
     name_of_key = f"KEY_OF_{name.upper()}"
     dict_of_keys = dotenv_values(".env")
 
@@ -105,6 +113,7 @@ def retrieve_contact_num_key_from_env_file(name):
 
 def retrieve_email_key_from_env_file(name):
     """Retrieves th Email key from the .env file"""
+
     name_of_key = f"KEY_OF_EMAIL_{name.upper()}"
     dict_of_keys = dotenv_values(".env")
 
@@ -120,6 +129,7 @@ def retrieve_email_key_from_env_file(name):
 
 def recreate_original_contact_num(name):
     """Takes the key and encrypted contact number and returns the decrypted contact number"""
+
     #Retrieves the contact number and decrypts it via its key in .env file
     key_for_contact_num = retrieve_contact_num_key_from_env_file(name)
 
@@ -133,6 +143,7 @@ def recreate_original_contact_num(name):
 
 def recreate_original_email(name):
     """Takes the key and encrypted email and returns the decrypted email"""
+    
     #Retrieves the email and decrypts it via its key in .env file
     key_for_email = retrieve_email_key_from_env_file(name)
 
