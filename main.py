@@ -9,9 +9,7 @@ def main():
     """Main function"""
 
     print(Fore.LIGHTGREEN_EX)
-    print("╔═╗┌─┐┌┐┌┌─┐┌─┐┌┬┐ ╔╦╗┌─┐┌┐┌┌─┐┌─┐┌─┐┬─┐")   
-    print("║  │ ││││├─┤│   │  ║║║├─┤│││├─┤│ ┬├┤ ├┬┘")
-    print("╚═╝└─┘┘└┘┴ ┴└─┘ ┴  ╩ ╩┴ ┴┘└┘┴ ┴└─┘└─┘┴└─")
+
 
     while True:
         
