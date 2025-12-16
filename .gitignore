@@ -3,4 +3,5 @@
 __pycache__/
 .venv/
 txt.py
+txt1.py
 .env

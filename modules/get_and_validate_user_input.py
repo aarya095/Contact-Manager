@@ -4,37 +4,25 @@ import validators as val
 # User-defined modules
 import modules.database as db
 
-def get_and_validate_input_email():
-    """Gets and Validates the input Email"""
-    
-    while True:
-        email_input = input("Enter Email: ")
-        if val.email(email_input):
-            break
-        if email_input == '':
-            print("The email field can't be empty.")
-        else:
-            print(f"'{email_input}' is not a valid a valid email.")
-
-    return email_input
-
-def get_and_validate_input_number():
+def get_and_validate_input_email(email_input):
     """Gets and Validates the input Email"""
 
-    while True:
-        try:
-            contact_num_input = int(input("Enter Contact Number: "))
-            contact_num_input = str(contact_num_input)
-            if len(contact_num_input) == len(range(10)):
-                break
-            elif len(contact_num_input) != len(range(10)):
-                print("Contact number should be 10 integers long.")
-        except ValueError:
-            print("Please provide an integer.")
+    if val.email(email_input):
+        return True
+    if email_input == '':
+        print("The email field can't be empty.")
+    else:
+        print(f"'{email_input}' is not a valid a valid email.")
+        return False
 
-    contact_num_input = int(contact_num_input)
+def get_and_validate_input_number(contact_num_input):
+    """Gets and Validates the input Email"""
 
-    return contact_num_input
+    if len(contact_num_input) == len(range(10)):
+        return True
+    elif len(contact_num_input) != len(range(10)):
+        print("Contact number should be 10 integers long.")
+        return False
 
 def generate_list_of_already_used_names():
     """Generates a list of already used names"""
@@ -54,49 +42,32 @@ def generate_list_of_already_used_names():
 
     return contact_names_list
 
-def get_and_validate_input_name():
+def get_and_validate_input_name(name_input):
     """Gets and Validates the input Name"""
 
     already_existing_names_list = generate_list_of_already_used_names()
     
     while True:
         #Keeps looping till the below conitions are satisfied
-        name_input = input("Enter Name: ").strip().lower()
+        name_input = f"{name_input.strip().lower()}"
 
         if name_input in already_existing_names_list: # checks if the user name already exists
             print(f"Contact by name '{name_input}' already exists.")
+            return False
 
         if len(name_input) > 50:
             print("Length of Name should be under 50 characters.")
+            return False
 
         if len(name_input) == 0:
             print("Name is required.")
+            return False
 
         elif (name_input not in already_existing_names_list) and \
         (len(name_input) < 50) and (len(name_input) != 0):
             """Exit loop when name_input is not in already_existing_names_list 
             and length of the name_input is less then 50 and can't be empty"""
-            break
-
-    return name_input
-        
-def get_and_validate_input_operation():
-    """Gets and Validates the input operation"""
-
-    user_operation_choice_validation = [0,1,2,3,4,5,6,7]
-    
-    while True:
-        try:
-            user_choice = int(input("Select the operation by index: "))
-            if user_choice in user_operation_choice_validation:
-                break
-            if user_choice not in user_operation_choice_validation:
-                print("Please input either 0, 1, 2, 3, 4, 5, 6, or 7.")
-
-        except ValueError:
-            print("Invalid Input! Please provide an integer.")
-
-    return user_choice
+            return True
 
 if __name__ == '__main__':
     get_and_validate_input_name()

@@ -3,25 +3,37 @@ import re
 import subprocess
 import json
 
+# Third Party Modules
+import click
+
 # User-defined modules
 import modules.database as db
 import modules.get_and_validate_user_input as get_and_validate
 import modules.encryption as en
 
-def create_contact():
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+@click.argument('name_input')
+@click.argument('contact_num_input', type = int)
+@click.argument('email_input')
+def create_contact(name_input, contact_num_input, email_input):
     """Creates an entry of contact"""
 
     name_input = get_and_validate.get_and_validate_input_name()
     contact_num_input = get_and_validate.get_and_validate_input_number()
     email_input = get_and_validate.get_and_validate_input_email()
     null1 ='NULL'
-    null2 ='NULL'
     
     conn = db.connect_db()
     
+    # First name is stored in the db, as the contact num and email after being \
+    # encrypted would be stored into db taking the name as the reference
     cur = conn.cursor()
     cur.execute("insert into contacts VALUES (?,?,?)", \
-                (name_input,null1, null2))
+                (name_input,null1, null1))
     conn.commit()
     
     # Encrypts and stores the contact number in the db and its key in the .env file
