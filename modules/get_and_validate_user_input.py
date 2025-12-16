@@ -17,7 +17,7 @@ def get_and_validate_input_email(email_input):
 
 def get_and_validate_input_number(contact_num_input):
     """Gets and Validates the input Email"""
-
+    contact_num_input = str(contact_num_input)
     if len(contact_num_input) == len(range(10)):
         return True
     elif len(contact_num_input) != len(range(10)):
@@ -47,27 +47,25 @@ def get_and_validate_input_name(name_input):
 
     already_existing_names_list = generate_list_of_already_used_names()
     
-    while True:
-        #Keeps looping till the below conitions are satisfied
-        name_input = f"{name_input.strip().lower()}"
+    name_input = f"{name_input.strip().lower()}"
 
-        if name_input in already_existing_names_list: # checks if the user name already exists
-            print(f"Contact by name '{name_input}' already exists.")
-            return False
+    if name_input in already_existing_names_list: # checks if the user name already exists
+        print(f"Contact by name '{name_input}' already exists.")
+        return False
 
-        if len(name_input) > 50:
-            print("Length of Name should be under 50 characters.")
-            return False
+    if len(name_input) > 50:
+        print("Length of Name should be under 50 characters.")
+        return False
 
-        if len(name_input) == 0:
-            print("Name is required.")
-            return False
+    if len(name_input) == 0:
+        print("Name is required.")
+        return False
 
-        elif (name_input not in already_existing_names_list) and \
-        (len(name_input) < 50) and (len(name_input) != 0):
-            """Exit loop when name_input is not in already_existing_names_list 
-            and length of the name_input is less then 50 and can't be empty"""
-            return True
+    elif (name_input not in already_existing_names_list) and \
+    (len(name_input) < 50) and (len(name_input) != 0):
+        """Exit loop when name_input is not in already_existing_names_list 
+        and length of the name_input is less then 50 and can't be empty"""
+        return True
 
 if __name__ == '__main__':
     get_and_validate_input_name()

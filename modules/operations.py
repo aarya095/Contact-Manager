@@ -22,38 +22,44 @@ def cli():
 def create_contact(name_input, contact_num_input, email_input):
     """Creates an entry of contact"""
 
-    name_input = get_and_validate.get_and_validate_input_name()
-    contact_num_input = get_and_validate.get_and_validate_input_number()
-    email_input = get_and_validate.get_and_validate_input_email()
-    null1 ='NULL'
+    name_input = name_input.strip().lower()
     
-    conn = db.connect_db()
-    
-    # First name is stored in the db, as the contact num and email after being \
-    # encrypted would be stored into db taking the name as the reference
-    cur = conn.cursor()
-    cur.execute("insert into contacts VALUES (?,?,?)", \
-                (name_input,null1, null1))
-    conn.commit()
-    
-    # Encrypts and stores the contact number in the db and its key in the .env file
-    contact_num_input = str(contact_num_input)
-    contact_num_input = contact_num_input.encode('utf-8')
-    encrypted_contact_number, contact_num_key = en.encrypt(contact_num_input)
+    if get_and_validate.get_and_validate_input_name(name_input) == False or \
+    get_and_validate.get_and_validate_input_number(contact_num_input) == False or \
+    get_and_validate.get_and_validate_input_email(email_input) == False:
+        exit()
 
-    en.stores_encrypted_contact_num_in_db(encrypted_contact_number, name_input)
-    en.stores_contact_num_key_in_env_file(contact_num_key, name_input)
+    else:
+        null1 ='NULL'
+        
+        conn = db.connect_db()
+        
+        # First name is stored in the db, as the contact num and email after being \
+        # encrypted would be stored into db taking the name as the reference
+        cur = conn.cursor()
+        cur.execute("insert into contacts VALUES (?,?,?)", \
+                    (name_input,null1, null1))
+        conn.commit()
+        
+        # Encrypts and stores the contact number in the db and its key in the .env file
+        contact_num_input = str(contact_num_input)
+        contact_num_input = contact_num_input.encode('utf-8')
+        encrypted_contact_number, contact_num_key = en.encrypt(contact_num_input)
 
-    # Encrypts and stores the email in the db and its key in the .env file
-    email_input = email_input.encode('utf-8')
-    encrypted_email, email_key = en.encrypt(email_input)
-    
-    en.stores_encrypted_email_in_db(encrypted_email, name_input)
-    en.stores_email_key_in_env_file(email_key, name_input)
-    
-    conn.close()
-    print(f"Contact for {name_input} created successfully!")
+        en.stores_encrypted_contact_num_in_db(encrypted_contact_number, name_input)
+        en.stores_contact_num_key_in_env_file(contact_num_key, name_input)
 
+        # Encrypts and stores the email in the db and its key in the .env file
+        email_input = email_input.encode('utf-8')
+        encrypted_email, email_key = en.encrypt(email_input)
+        
+        en.stores_encrypted_email_in_db(encrypted_email, name_input)
+        en.stores_email_key_in_env_file(email_key, name_input)
+        
+        conn.close()
+        click.echo(f"Contact for {name_input} created successfully!")
+
+@cli.command()
 def view_contact():
     """View existing contacts"""
 
@@ -70,9 +76,9 @@ def view_contact():
         original_email = en.recreate_original_email(contact_data[0])
 
         print(f"\n({index})", end='')
-        print(f" Name: {contact_data[0].title()}")
-        print(f"    Contact Number: {original_contact_num}")
-        print(f"    Email: {original_email}")
+        click.echo(f" Name: {contact_data[0].title()}")
+        click.echo(f"    Contact Number: {original_contact_num}")
+        click.echo(f"    Email: {original_email}")
         index += 1
 
     conn.close()
@@ -80,7 +86,7 @@ def view_contact():
     # Checks for the already existing names in the database
     already_existing_names_list = get_and_validate.generate_list_of_already_used_names()
     if len(already_existing_names_list) == 0:
-        print("No Entries!")
+        click.echo("No Entries!")
 
 def update_contact():
     """Updates the contact information"""
@@ -94,7 +100,7 @@ def update_contact():
     index = 1
     for contact_data in contacts_data:
         print(f"\n({index})", end='')
-        print(f" Name: {contact_data[0]}")
+        click.echo(f" Name: {contact_data[0]}")
         index += 1
 
     # Checks if the name is already existing in the list or not
@@ -104,7 +110,7 @@ def update_contact():
         if update_name_input in already_existing_names_list:
             break
         elif update_name_input not in already_existing_names_list:
-            print("Error! Enter a name which is already in the list!")
+            click.echo("Error! Enter a name which is already in the list!")
 
     name_input = get_and_validate.get_and_validate_input_name()
     contact_num_input = get_and_validate.get_and_validate_input_number()
@@ -134,7 +140,7 @@ def update_contact():
     # Removing the keys from .env file 
     remove_unwanted_env_entries(update_name_input)
 
-    print(f"Contact for {name_input} updated successfully!")
+    click.echo(f"Contact for {name_input} updated successfully!")
     conn.close()
 
 def delete_contact():
@@ -149,7 +155,7 @@ def delete_contact():
     index = 1
     for contact_data in contacts_data:
         print(f"\n({index})", end='')
-        print(f" Name: {contact_data[0]}")
+        click.echo(f" Name: {contact_data[0]}")
         index += 1
 
     # Checks if the name is already existing in the list or not
@@ -159,7 +165,7 @@ def delete_contact():
         if name_input in already_existing_names_list:
             break
         elif name_input not in already_existing_names_list:
-            print("Error! Enter a name which already exists!")
+            click.echo("Error! Enter a name which already exists!")
 
     cur.execute("delete from contacts where name = ?", (name_input,))
     conn.commit()
@@ -167,7 +173,7 @@ def delete_contact():
     # Removing the keys from .env file 
     remove_unwanted_env_entries(name_input)
 
-    print(f"\nContact for '{name_input}' deleted successfully!")
+    click.echo(f"\nContact for '{name_input}' deleted successfully!")
     conn.close()
 
 def search_name():
@@ -176,7 +182,7 @@ def search_name():
 
     already_existing_names_list = get_and_validate.generate_list_of_already_used_names()
     if len(already_existing_names_list) == 0:
-        print("No Entries!")
+        click.echo("No Entries!")
     else:
         user_input_for_search = input("Enter the name you want to search: ")
 
@@ -189,7 +195,7 @@ def search_name():
             if match_case == None:
                 pass
         if matched_cases_list == []:
-            print("No matches found.")
+            click.echo("No matches found.")
 
         conn = db.connect_db()
         cur = conn.cursor()
@@ -202,10 +208,10 @@ def search_name():
             original_contact_num = en.recreate_original_contact_num(contact_data[0])
             original_email = en.recreate_original_email(contact_data[0])
 
-            print("\nResults:")
-            print(f"\nName: {contact_data[0].title()}")
-            print(f"Contact Number: {original_contact_num}")
-            print(f"Email: {original_email}")
+            click.echo("\nResults:")
+            click.echo(f"\nName: {contact_data[0].title()}")
+            click.echo(f"Contact Number: {original_contact_num}")
+            click.echo(f"Email: {original_email}")
 
         conn.close()
 
@@ -244,48 +250,48 @@ def export_contacts_data():
 
     already_existing_names_list = get_and_validate.generate_list_of_already_used_names()
     if len(already_existing_names_list) == 0:
-        print("No Entries!")
+        click.echo("No Entries!")
 
     with open('contacts_data.json','w') as f:
         json.dump(contacts_data_json, f)
-    print("\nData exported to contacts.json file successfully!")
+    click.echo("\nData exported to contacts.json file successfully!")
         
 def help():
     """Provides the user manual"""
 
-    print("\n=== APPLICATION MANUAL ===")
-    print("This CLI application operates by selecting an option number.")
-    print("Each operation is assigned an index. Enter the index to execute it.")
-    print()
-    print("AVAILABLE OPERATIONS:")
-    print("1. Create Contact")
-    print("   Use this option to add a new contact. You will be prompted for required fields.")
-    print()
-    print("2. Update Contact")
-    print("   Use this to modify an existing contact. You must enter an existing contact name.")
-    print()
-    print("3. View Contact")
-    print("   Lists every stored contact in order.")
-    print()
-    print("4. Delete Contact")
-    print("   Removes a contact permanently. Requires the contact index.")
-    print()
-    print("5. Search Contact")
-    print("   Allows searching by name.")
-    print()
-    print("6. Export Contacts")
-    print("   Exports all the contact information to contacts_data.json file.")
-    print()
-    print("7. Help")
-    print("   Displays this manual.")
-    print()
-    print("0. Exit")
-    print("   Closes the application.")
-    print()
-    print("INSTRUCTIONS:")
-    print("- Enter only integer indices.")
-    print("- Invalid inputs will trigger an error message; re-enter a valid number.")
-    print("- Follow on-screen prompts for each operation.")
+    click.echo("\n=== APPLICATION MANUAL ===")
+    click.echo("This CLI application operates by selecting an option number.")
+    click.echo("Each operation is assigned an index. Enter the index to execute it.")
+    click.echo()
+    click.echo("AVAILABLE OPERATIONS:")
+    click.echo("1. Create Contact")
+    click.echo("   Use this option to add a new contact. You will be prompted for required fields.")
+    click.echo()
+    click.echo("2. Update Contact")
+    click.echo("   Use this to modify an existing contact. You must enter an existing contact name.")
+    click.echo()
+    click.echo("3. View Contact")
+    click.echo("   Lists every stored contact in order.")
+    click.echo()
+    click.echo("4. Delete Contact")
+    click.echo("   Removes a contact permanently. Requires the contact index.")
+    click.echo()
+    click.echo("5. Search Contact")
+    click.echo("   Allows searching by name.")
+    click.echo()
+    click.echo("6. Export Contacts")
+    click.echo("   Exports all the contact information to contacts_data.json file.")
+    click.echo()
+    click.echo("7. Help")
+    click.echo("   Displays this manual.")
+    click.echo()
+    click.echo("0. Exit")
+    click.echo("   Closes the application.")
+    click.echo()
+    click.echo("INSTRUCTIONS:")
+    click.echo("- Enter only integer indices.")
+    click.echo("- Invalid inputs will trigger an error message; re-enter a valid number.")
+    click.echo("- Follow on-screen prompts for each operation.")
 
 if __name__ == '__main__':
     search_name()
