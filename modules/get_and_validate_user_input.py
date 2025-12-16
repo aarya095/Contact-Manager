@@ -24,24 +24,6 @@ def get_and_validate_input_number(contact_num_input):
         print("Contact number should be 10 integers long.")
         return False
 
-def generate_list_of_already_used_names():
-    """Generates a list of already used names"""
-
-    conn = db.connect_db()
-
-    cur = conn.cursor()
-    cur.execute("select name from contacts")
-    contacts_data = cur.fetchall()
-
-    contact_names_list = []
-    for contact_names in contacts_data:
-        for contact_name in contact_names:
-            contact_names_list.append(contact_name.lower())
-    
-    conn.close()
-
-    return contact_names_list
-
 def get_and_validate_input_name(name_input):
     """Gets and Validates the input Name"""
 
@@ -66,6 +48,26 @@ def get_and_validate_input_name(name_input):
         """Exit loop when name_input is not in already_existing_names_list 
         and length of the name_input is less then 50 and can't be empty"""
         return True
+    
+# A utility function
+def generate_list_of_already_used_names():
+    """Generates a list of already used names"""
+
+    conn = db.connect_db()
+
+    cur = conn.cursor()
+    cur.execute("select name from contacts")
+    contacts_data = cur.fetchall()
+
+    contact_names_list = []
+    for contact_names in contacts_data:
+        for contact_name in contact_names:
+            contact_names_list.append(contact_name.lower())
+    
+    conn.close()
+
+    return contact_names_list
+
 
 if __name__ == '__main__':
     get_and_validate_input_name()
