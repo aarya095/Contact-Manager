@@ -4,7 +4,7 @@ import subprocess
 import json
 
 # User-defined modules
-import services.database as db
+import database.database as db
 import services.get_and_validate_user_input as get_and_validate
 import services.encryption as en
 

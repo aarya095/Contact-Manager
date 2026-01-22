@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 from dotenv import dotenv_values
 
 # User-defined modules
-import services.database as db
+import database.database as db
 
 def encrypt(contact_info):
     """Encrypts the contact number using fernet a symmmetric cipher"""
