@@ -2,8 +2,8 @@
 from colorama import Fore, Style
 
 # Local Modules
-import modules.operations as op
-import modules.get_and_validate_user_input as get_and_validate
+import app.operations as op
+import app.get_and_validate_user_input as get_and_validate
 
 def main():
     """Main function"""
