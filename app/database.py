@@ -1,18 +1,21 @@
-# Built-in Modules
-import sqlite3
+import psycopg
+from dotenv import dotenv_values
+
+config = dotenv_values(".env")
 
 def connect_db():
     """Connects to the SQLite3 database"""
-    conn = sqlite3.connect("contacts_data.db")
+    conn = psycopg.connect(dbname = config['DB_NAME'], user=config['DB_USER'], password=config['DB_PASS'])
     return conn
 
 def create_contacts_table():
     """To create the contacts table"""
     conn = connect_db()
     cur = conn.cursor()
-    cur.execute("CREATE TABLE contacts (    name TEXT,    contact_number INT,    email TEXT);")
+    cur.execute("CREATE TABLE contacts (contact_id SERIAL PRIMARY KEY, name VARCHAR (240) NOT NULL, number INTEGER NOT NULL, email VARCHAR (240) NULL);")
+    conn.commit()
+    cur.close()
     conn.close()
-    #cur.execute("pragma table_info(contacts)")
 
 def view_contacts_table():
     """To view the contacts table"""
@@ -25,4 +28,4 @@ def view_contacts_table():
 
 if __name__ == '__main__':
     """Using the below to execute queries in the database"""
-    pass
+    view_contacts_table()
