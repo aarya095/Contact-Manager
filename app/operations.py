@@ -8,39 +8,18 @@ import app.database as db
 import app.get_and_validate_user_input as get_and_validate
 import app.encryption as en
 
-def create_contact():
+def create_contact(name: str, number: int, email: str):
     """Creates an entry of contact"""
+    
+    encrypted_contact_number, contact_num_key = en.encrypt(number)
+    en.stores_contact_num_key_in_env_file(contact_num_key, name)
 
-    name_input = get_and_validate.get_and_validate_input_name()
-    contact_num_input = get_and_validate.get_and_validate_input_number()
-    email_input = get_and_validate.get_and_validate_input_email()
-    null1 ='NULL'
-    null2 ='NULL'
-    
-    conn = db.connect_db()
-    
-    cur = conn.cursor()
-    cur.execute("insert into contacts VALUES (?,?,?)", \
-                (name_input,null1, null2))
-    conn.commit()
-    
-    # Encrypts and stores the contact number in the db and its key in the .env file
-    contact_num_input = str(contact_num_input)
-    contact_num_input = contact_num_input.encode('utf-8')
-    encrypted_contact_number, contact_num_key = en.encrypt(contact_num_input)
+    encrypted_email, email_key = en.encrypt(email)
+    en.stores_email_key_in_env_file(email_key, name)
 
-    en.stores_encrypted_contact_num_in_db(encrypted_contact_number, name_input)
-    en.stores_contact_num_key_in_env_file(contact_num_key, name_input)
-
-    # Encrypts and stores the email in the db and its key in the .env file
-    email_input = email_input.encode('utf-8')
-    encrypted_email, email_key = en.encrypt(email_input)
+    db.create_contact_entry_in_db(name, encrypted_contact_number, encrypted_email)
     
-    en.stores_encrypted_email_in_db(encrypted_email, name_input)
-    en.stores_email_key_in_env_file(email_key, name_input)
-    
-    conn.close()
-    print(f"Contact for {name_input} created successfully!")
+    # print(f"Contact for {name_input} created successfully!")
 
 def view_contact():
     """View existing contacts"""

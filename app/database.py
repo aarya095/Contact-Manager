@@ -26,6 +26,18 @@ def view_contacts_table():
     print(data)
     conn.close()
 
+def create_contact_entry_in_db(name, encrypted_number, encrypted_email):
+    """Creates an database entry of contact"""
+    conn = connect_db()
+    cur = conn.cursor()
+
+    cur.execute("insert into contacts VALUES (?,?,?)", \
+                (name, encrypted_number, encrypted_email))    
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
 if __name__ == '__main__':
     """Using the below to execute queries in the database"""
     view_contacts_table()

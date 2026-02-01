@@ -8,9 +8,14 @@ from dotenv import dotenv_values
 # User-defined modules
 import app.database as db
 
-def encrypt(contact_info):
+def encrypt(contact_info: int | str):
     """Encrypts the contact number using fernet a symmmetric cipher"""
 
+    if type(contact_info) == int:
+        contact_info = contact_info.to_bytes()
+    else:
+        contact_info = contact_info.encode('utf-8')
+        
     key = Fernet.generate_key()
     f= Fernet(key)
     encrypted_contact_info = f.encrypt(contact_info)
@@ -31,7 +36,7 @@ def stores_encrypted_contact_num_in_db(encrypted_contact_info, name):
     conn = db.connect_db()
 
     cur = conn.cursor()
-    cur.execute("update contacts set contact_number = ? where name = ?", (encrypted_contact_info, name))
+    cur.execute("update contacts set number = ? where name = ?", (encrypted_contact_info, name))
     
     conn.commit()
     conn.close()
@@ -73,7 +78,7 @@ def retrieve_encrypted_number_from_db(name):
     conn = db.connect_db()
 
     cur = conn.cursor()
-    cur.execute("select contact_number from contacts where name = ?", (name,))
+    cur.execute("select number from contacts where name = ?", (name,))
     encrypted_contact_number = cur.fetchone()
 
     conn.commit()
