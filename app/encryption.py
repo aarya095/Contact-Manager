@@ -12,7 +12,7 @@ def encrypt(contact_info: int | str):
     """Encrypts the contact number using fernet a symmmetric cipher"""
 
     if type(contact_info) == int:
-        contact_info = contact_info.to_bytes()
+        contact_info = contact_info.to_bytes(8,'big')
     else:
         contact_info = contact_info.encode('utf-8')
         

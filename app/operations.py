@@ -255,4 +255,4 @@ def help():
     print("- Follow on-screen prompts for each operation.")
 
 if __name__ == '__main__':
-    search_name()
+    create_contact("Aarya",1231233, "aarya")

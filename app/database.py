@@ -12,7 +12,7 @@ def create_contacts_table():
     """To create the contacts table"""
     conn = connect_db()
     cur = conn.cursor()
-    cur.execute("CREATE TABLE contacts (contact_id SERIAL PRIMARY KEY, name VARCHAR (240) NOT NULL, number INTEGER NOT NULL, email VARCHAR (240) NULL);")
+    cur.execute("CREATE TABLE contacts (contact_id SERIAL PRIMARY KEY, name VARCHAR (240) NOT NULL, number VARCHAR (240) NOT NULL, email VARCHAR (240) NULL);")
     conn.commit()
     cur.close()
     conn.close()
@@ -31,7 +31,7 @@ def create_contact_entry_in_db(name, encrypted_number, encrypted_email):
     conn = connect_db()
     cur = conn.cursor()
 
-    cur.execute("insert into contacts VALUES (?,?,?)", \
+    cur.execute("insert into contacts (name, number, email) VALUES (%s, %s, %s);", \
                 (name, encrypted_number, encrypted_email))    
 
     conn.commit()
@@ -41,3 +41,10 @@ def create_contact_entry_in_db(name, encrypted_number, encrypted_email):
 if __name__ == '__main__':
     """Using the below to execute queries in the database"""
     view_contacts_table()
+"""    conn = connect_db()
+    cur = conn.cursor()
+    #cur.execute("ALTER TABLE contacts ADD COLUMN number text;")
+    #cur.execute("ALTER TABLE contacts drop COLUMN number;")
+    conn.commit()
+    cur.close()
+    conn.close()"""
