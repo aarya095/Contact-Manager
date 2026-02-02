@@ -45,11 +45,10 @@ def create_contact_entry_in_db(name, encrypted_number, encrypted_email):
 
 if __name__ == '__main__':
     """Using the below to execute queries in the database"""
-    view_contacts_table()
-"""    conn = connect_db()
+    #view_contacts_table()
+    conn = connect_db()
     cur = conn.cursor()
-    cur.execute("delete from contacts where name='Vikas';")
-    #cur.execute("ALTER TABLE contacts ADD COLUMN number text;")
+    #cur.execute("delete from contacts where name='Vikas';")
     #cur.execute("ALTER TABLE contacts ADD COLUMN number BYTEA;")
     #data = cur.fetchall()
     #my_tuple = data[0]
@@ -58,4 +57,4 @@ if __name__ == '__main__':
     #print(type(my_tuple[0]))
     conn.commit()
     cur.close()
-    conn.close()"""
+    conn.close()
