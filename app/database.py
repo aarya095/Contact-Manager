@@ -43,6 +43,7 @@ def get_users() -> list:
     cur.close()
     conn.close()
 
+    list_of_users = []
     for user_tuple in users:
         list_of_users.append(user_tuple[0])
     
@@ -63,11 +64,7 @@ def create_contact_entry_in_db(name, encrypted_number, encrypted_email):
 if __name__ == '__main__':
     """Using the below to execute queries in the database"""
 
-    users = get_users()
-    list_of_users = []
-    print(users)
-    
-
+    list_of_users = get_users()
     print(list_of_users)
 
 """    contacts_data = view_contacts_table()
