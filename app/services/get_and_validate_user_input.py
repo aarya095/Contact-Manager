@@ -2,7 +2,7 @@
 import validators as val
 
 # User-defined modules
-import app.database as db
+import app.database.database as db
 
 def get_and_validate_input_email():
     """Gets and Validates the input Email"""

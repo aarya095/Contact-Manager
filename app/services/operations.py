@@ -4,9 +4,10 @@ import subprocess
 import json
 
 # User-defined modules
-import app.database as db
+import app.database.database as db
 import app.get_and_validate_user_input as get_and_validate
 import app.encryption as en
+import app.file_operations as file_ops
 
 def create_contact(name: str, number: int, email: str = None) -> str | bytes:
     """Creates an entry of contact"""
@@ -15,11 +16,11 @@ def create_contact(name: str, number: int, email: str = None) -> str | bytes:
     if name not in list_of_users:
          
         encrypted_contact_number, contact_num_key = en.encrypt(number)
-        en.stores_contact_num_key_in_env_file(contact_num_key, name)
+        file_ops.stores_contact_num_key_in_env_file(contact_num_key, name)
 
         if email != None:
             encrypted_email, email_key = en.encrypt(email)
-            en.stores_email_key_in_env_file(email_key, name)
+            file_ops.stores_email_key_in_env_file(email_key, name)
         else:
             encrypted_email = email
 
@@ -32,8 +33,8 @@ def create_contact(name: str, number: int, email: str = None) -> str | bytes:
 def get_single_contact_data(name: str):
     """Gets a single contact data about a person from its name"""
     #Retrieves the contact number and decrypts it via its key in .env file
-    key_for_contact_num = en.retrieve_contact_num_key_from_env_file(name)
-    key_for_email = en.retrieve_email_key_from_env_file(name)
+    key_for_contact_num = file_ops.retrieve_contact_num_key_from_env_file(name)
+    key_for_email = file_ops.retrieve_email_key_from_env_file(name)
 
     encrypted_contact_data = db.get_encrypted_contact_data_from_db(name)
     encrypted_contact_num = encrypted_contact_data[1]
@@ -62,8 +63,8 @@ def view_contact():
     index = 1
     for contact_data in contacts_data:
 
-        key_for_contact_num = en.retrieve_contact_num_key_from_env_file(name)
-        key_for_email = en.retrieve_email_key_from_env_file(name)
+        key_for_contact_num = file_ops.retrieve_contact_num_key_from_env_file(name)
+        key_for_email = file_ops.retrieve_email_key_from_env_file(name)
 
         encrypted_contact_data = db.get_encrypted_contact_data_from_db(name)
         encrypted_contact_num = encrypted_contact_data[1]
@@ -121,14 +122,11 @@ def update_contact():
     contact_num_input = str(contact_num_input)
     contact_num_input = contact_num_input.encode('utf-8')
     encrypted_contact_number, contact_num_key = en.encrypt(contact_num_input)
-    en.stores_encrypted_contact_num_in_db(encrypted_contact_number, name_input)
-    en.stores_contact_num_key_in_env_file(contact_num_key, name_input)
+    db.stores_encrypted_contact_num_in_db(encrypted_contact_number, name_input)
+    db.stores_contact_num_key_in_env_file(contact_num_key, name_input)
 
     # Encrypts and stores the email in the db and its key in the .env file
     email_input = email_input.encode('utf-8')
-    encrypted_email, email_key = en.encrypt(email_input)
-    en.stores_encrypted_email_in_db(encrypted_email, name_input)
-    en.stores_email_key_in_env_file(email_key, name_input)
 
     # Removing the keys from .env file 
     remove_unwanted_env_entries(update_name_input)
