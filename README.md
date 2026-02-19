@@ -78,13 +78,13 @@
 <p>Search Demo</p>
 <img width="300" alt="Search Entry" src="https://github.com/user-attachments/assets/a27342ae-a6b7-4982-a661-d38b7f30252d" />
 <p>Exporting to JSON</p>
-<img width="400" alt="Export JSON" src="https://github.com/user-attachments/assets/f5e02ead-071a-464d-b76a-ff02fc0e220f" />
+<img width="300" alt="Export JSON" src="https://github.com/user-attachments/assets/f5e02ead-071a-464d-b76a-ff02fc0e220f" />
 <pre>[{"Name": "india", "Contact Number": "1231231231", "Email": "india@qwe.qwe"}, 
   {"Name": "kirti", "Contact Number": "6784566544", "Email": "kirti@gotmail.com"}, 
   {"Name": "omkar", "Contact Number": "9874569874", "Email": "omkar_90@hotmail.in"}, 
   {"Name": "harsh", "Contact Number": "4564564564", "Email": "harsh_01@email.com"}]</pre>
 <p>Exiting Message</p>
-<img width="515" alt="Exiting Message" src="https://github.com/user-attachments/assets/27b3575c-4d86-45dd-94c4-3a21edfc19a7" />
+<img width="415" alt="Exiting Message" src="https://github.com/user-attachments/assets/27b3575c-4d86-45dd-94c4-3a21edfc19a7" />
 
 <hr>
 
