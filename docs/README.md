@@ -162,6 +162,5 @@ python main.py
 
 <h2>Author</h2>
 <p>
-<b>Aarya Sarfare</b><br>
-IT Engineering student | Building in Full Stack Development and Cybersecurity
+<b>Aarya Sarfare</b>
 </p>
