@@ -37,17 +37,25 @@ def view_all_contacts():
     """Retrieves all the encrypted contact numbers from the Database, decrypts them all, and returns them"""
 
     contacts_data = db_ops.view_all_contacts()
+    decrypted_contacts_data = {}
 
-    for contact_data in contacts_data:
-        print(type(contact_data))
-        #print(contact_data)
-        #name = contact_data
-        #print(name)
-        """key_for_contact_number = f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+    for contact_id, contact_data in contacts_data.items():
+
+        contact_name = contact_data['Contact Name']
+        encrypted_contact_number = contact_data['Contact Number']
+
+        key_for_contact_number = f_ops.retrieve_contact_num_key_from_env_file(contact_name)
         original_contact_number = decrypt(
             encrypted_contact_number = encrypted_contact_number, 
-            key = key_for_contact_number)"""
+            key = key_for_contact_number)
+        
+        decrypted_contacts_data[contact_id] = {
+                             'Contact Name': contact_name,
+                             'Contact Number': original_contact_number
+                            }
 
+    print(decrypted_contacts_data)
+    return decrypted_contacts_data
 
 if __name__ == '__main__':
     view_all_contacts()

@@ -46,6 +46,7 @@ def view_all_contacts():
     stmt = select(Contact)
 
     results = session.execute(stmt).all()
+
     session.close()
 
     contacts_data = {}
@@ -98,7 +99,7 @@ if __name__ == '__main__':
     #create_contact_db("aarya",b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
     #results = view_contacts()
     #print(results)
-    #empty_database_tables()
-    view_all_contacts()
+    empty_database_tables()
+    #view_all_contacts()
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
