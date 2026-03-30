@@ -45,6 +45,7 @@ An Contact Manager API built in Python using FastAPI, designed for simple and ef
     │   ├── Contact Manager API testing
     │   │   ├── Create Contact.yml
     │   │   ├── Get a single contact entry by name.yml
+    │   │   ├── Get all contacts stored in the database.yml
     │   │   └── opencollection.yml
     │   ├── contact_manager_design.drawio
     │   ├── README.md
