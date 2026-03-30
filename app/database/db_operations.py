@@ -52,12 +52,10 @@ def view_all_contacts():
     # Cleaning the data
     for row in results:
         contact_data = row[0]
-        contacts_data = {contact_data.contact_id: 
-                         {
-                             'Contact Name': contact_data.contact_name,
-                             'Contact Number': contact_data.contact_number
-                         }}
-
+        contacts_data[contact_data.contact_id] = {
+                        'Contact Name': contact_data.contact_name,
+                        'Contact Number': contact_data.contact_number
+                         }
     return contacts_data
 
 def view_contact_by_name(name: str):
