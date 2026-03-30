@@ -33,7 +33,7 @@ def view_one_contact_entry(contact_name: str) -> str | int:
     elif encrypted_contact_number == "Null":
         return "Null"
     
-def view_all_contacts():
+def view_all_contacts() -> dict:
     """Retrieves all the encrypted contact numbers from the Database, decrypts them all, and returns them"""
 
     contacts_data = db_ops.view_all_contacts()
@@ -54,7 +54,6 @@ def view_all_contacts():
                              'Contact Number': original_contact_number
                             }
 
-    print(decrypted_contacts_data)
     return decrypted_contacts_data
 
 if __name__ == '__main__':

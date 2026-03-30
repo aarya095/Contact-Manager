@@ -38,7 +38,7 @@ def check_contact_exists(name_to_check: str):
     else:
         return False
 
-def view_all_contacts():
+def view_all_contacts() -> dict:
     """Retrieves all the contacts via SQLAlchemy"""
 
     Session = sessionmaker(bind=engine)
