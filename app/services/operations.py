@@ -18,6 +18,7 @@ def create_contact(contact_name: str, contact_number: int):
         return "Null"
 
 def view_one_contact_entry(contact_name: str) -> str | int:
+    """Retrieves the encrypted contact number from the Database, decrypts it, and returns it"""
 
     encrypted_contact_number = db_ops.view_contact_by_name(name = contact_name.lower())
 
@@ -32,6 +33,21 @@ def view_one_contact_entry(contact_name: str) -> str | int:
     elif encrypted_contact_number == "Null":
         return "Null"
     
+def view_all_contacts():
+    """Retrieves all the encrypted contact numbers from the Database, decrypts them all, and returns them"""
+
+    contacts_data = db_ops.view_all_contacts()
+
+    for contact_data in contacts_data:
+        print(type(contact_data))
+        #print(contact_data)
+        #name = contact_data
+        #print(name)
+        """key_for_contact_number = f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+        original_contact_number = decrypt(
+            encrypted_contact_number = encrypted_contact_number, 
+            key = key_for_contact_number)"""
+
 
 if __name__ == '__main__':
-    create_contact()
+    view_all_contacts()

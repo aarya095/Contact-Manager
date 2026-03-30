@@ -38,7 +38,7 @@ def check_contact_exists(name_to_check: str):
     else:
         return False
 
-def view_contacts():
+def view_all_contacts():
     """Retrieves all the contacts via SQLAlchemy"""
 
     Session = sessionmaker(bind=engine)
@@ -48,7 +48,17 @@ def view_contacts():
     results = session.execute(stmt).all()
     session.close()
 
-    return results
+    contacts_data = {}
+    # Cleaning the data
+    for row in results:
+        contact_data = row[0]
+        contacts_data = {contact_data.contact_id: 
+                         {
+                             'Contact Name': contact_data.contact_name,
+                             'Contact Number': contact_data.contact_number
+                         }}
+
+    return contacts_data
 
 def view_contact_by_name(name: str):
     """Retrieves one contact via SQLAlchemy"""
@@ -66,7 +76,6 @@ def view_contact_by_name(name: str):
         print(f"Result is as follows = {results}\n")
 
         for row in results:
-            # row is a Row object, you can access the User object directly
             contact_entry = row[0]
             if contact_entry.contact_name == name:
                 return contact_entry.contact_number
@@ -92,6 +101,6 @@ if __name__ == '__main__':
     #results = view_contacts()
     #print(results)
     #empty_database_tables()
-
-    name, contact_number = view_contact_by_name("vikas")
-    print(name, contact_number)
+    view_all_contacts()
+    #name, contact_number = view_contact_by_name("vikas")
+    #print(name, contact_number)
