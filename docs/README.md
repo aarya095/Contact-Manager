@@ -20,7 +20,7 @@ An Contact Manager API built in Python using FastAPI, designed for simple and ef
 
 ## Tech Stack
 
-- Language: Python
+- Programming Language: Python
 - Web Framework: FastAPI
 - Database: PostgreSQL and SQLite for development
 - ORM: SQLAlchemy
