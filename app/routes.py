@@ -9,7 +9,7 @@ router = APIRouter()
 def root():
     return "Welcome to Contact Manager"
 
-@router.get("/contacts/{contact_name}", summary="Gets the contact entry by name")
+@router.get("/contacts/{contact_name}", summary = "Gets the contact entry by name")
 def get_one_contact_entry(contact_name: str):
     contact_number = op.view_one_contact_entry(contact_name = contact_name)
 
@@ -18,6 +18,11 @@ def get_one_contact_entry(contact_name: str):
     else:
         return {"contact_name": contact_name.title(), "contact_number": contact_number}
 
+@router.get("/contacts", summary = "Gets all the contact entries stored in the database")
+def get_all_contact_entries():
+
+    contacts_data = op.view_all_contacts()
+    return contacts_data
 
 @router.post("/contacts", summary="Create a new contact")
 def create_contact(contact: ContactEntry):
