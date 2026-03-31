@@ -6,32 +6,23 @@ def create_contact(contact_name: str, contact_number: int):
     """Encrypts the contact number, sends the key to the .env file, and sends the contact data to the database"""
 
     contact_name = contact_name.lower() # Normalizing the contact name
-    contact_exists = db_ops.check_contact_exists(contact_name)
 
-    if contact_exists == False:
-        encrypted_contact_number, key = encrypt(contact_number)
-        f_ops.stores_contact_num_key_in_env_file(key, contact_name)
-        db_ops.create_contact_db(contact_name, encrypted_contact_number)
-        return contact_name
-
-    elif contact_exists == True:
-        return "Null"
+    encrypted_contact_number, key = encrypt(contact_number)
+    f_ops.stores_contact_num_key_in_env_file(key, contact_name)
+    db_ops.create_contact_db(contact_name, encrypted_contact_number)
+    return contact_name
 
 def view_one_contact_entry(contact_name: str) -> str | int:
     """Retrieves the encrypted contact number from the Database, decrypts it, and returns it"""
 
     encrypted_contact_number = db_ops.view_contact_by_name(name = contact_name.lower())
 
-    if encrypted_contact_number != "Null":
-        key_for_contact_number = f_ops.retrieve_contact_num_key_from_env_file(contact_name)
-        original_contact_number = decrypt(
-            encrypted_contact_number = encrypted_contact_number, 
-            key = key_for_contact_number)
-        
-        return original_contact_number
+    key_for_contact_number = f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+    original_contact_number = decrypt(
+        encrypted_contact_number = encrypted_contact_number, 
+        key = key_for_contact_number)
     
-    elif encrypted_contact_number == "Null":
-        return "Null"
+    return original_contact_number
     
 def view_all_contacts() -> dict:
     """Retrieves all the encrypted contact numbers from the Database, decrypts them all, and returns them"""

@@ -64,7 +64,6 @@ def view_contact_by_name(name: str):
     """Retrieves one contact via SQLAlchemy"""
 
     contact_exists = check_contact_exists(name_to_check = name)
-    print(contact_exists)
 
     if contact_exists:
 
@@ -83,7 +82,7 @@ def view_contact_by_name(name: str):
         session.close()
 
     elif not contact_exists:
-        return False
+        raise ContactNotFoundError()
 
 def empty_database_tables():
 
