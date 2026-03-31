@@ -84,7 +84,8 @@ def view_contact_by_name(name: str):
     elif contact_exists == False:
         return "Null"
     
-def update_contact_entry(old_name: str, updated_encrypted_contact_number: bytes = b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==', updated_name: str = "unchanged"):
+def update_contact_entry(old_name: str, updated_encrypted_contact_number: bytes | None = None, 
+                         updated_name: str | None = None):
 
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -93,11 +94,22 @@ def update_contact_entry(old_name: str, updated_encrypted_contact_number: bytes 
     user_to_update_tuple = session.execute(statement=stmt).one()
     user_to_update = user_to_update_tuple[0]
     
-    if updated_name == "unchanged":
+    if updated_name == "unchanged" and \
+        updated_encrypted_contact_number != b'0':
         user_to_update.contact_number = updated_encrypted_contact_number
-    elif updated_name != "unchanged":
+
+    elif updated_name != "unchanged" and \
+        updated_encrypted_contact_number == b'0':
+        user_to_update.contact_name = updated_name
+
+    elif updated_name != "unchanged" and \
+        updated_encrypted_contact_number != b'0':
         user_to_update.contact_name = updated_name
         user_to_update.contact_number = updated_encrypted_contact_number
+
+    elif updated_name == "unchanged" and \
+        updated_encrypted_contact_number == b'0':
+        pass
 
     print(user_to_update.contact_name)
 
@@ -123,4 +135,6 @@ if __name__ == '__main__':
     #view_all_contacts()
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
-    update_contact_entry("india")
+    #update_contact_entry("india")
+    my_cat = b'0'
+    print(type(my_cat))
