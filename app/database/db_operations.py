@@ -8,13 +8,16 @@ from sqlalchemy import select, delete
 def create_contact_db(contact_name: str, encrypted_contact_number: bytes):
     """Create an entry in the database"""
 
-    with Session(engine) as session:
+    contact_exists = check_contact_exists(name_to_check = contact_name)
 
-        contact_data = Contact(contact_name = contact_name, contact_number = encrypted_contact_number)
-        session.add(contact_data)
-        session.commit()
+    if not contact_exists:
+        with Session(engine) as session:
+            contact_data = Contact(contact_name = contact_name, contact_number = encrypted_contact_number)
+            session.add(contact_data)
+            session.commit()
 
-    print("Entry created")
+    if contact_exists:
+        raise ContactNotFoundError()
 
 def check_contact_exists(name_to_check: str):
     """Retrieves all the contact names via SQLAlchemy and checks if the contact entry exists"""
@@ -81,7 +84,7 @@ def view_contact_by_name(name: str):
 
         session.close()
 
-    elif not contact_exists:
+    if not contact_exists:
         raise ContactNotFoundError()
 
 def empty_database_tables():
