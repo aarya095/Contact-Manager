@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
+from app.exceptions import ContactNotFoundError
 from app.schemas import ContactEntry
 from app.services import operations as op
 
@@ -11,12 +12,11 @@ def root():
 
 @router.get("/contacts/{contact_name}", summary = "Gets the contact entry by name")
 def get_one_contact_entry(contact_name: str):
-    contact_number = op.view_one_contact_entry(contact_name = contact_name)
-
-    if contact_number == "Null":
-        return {"Error": f"The entry for {contact_name} doesn't exist!"}
-    else:
+    try:
+        contact_number = op.view_one_contact_entry(contact_name = contact_name)
         return {"contact_name": contact_name.title(), "contact_number": contact_number}
+    except ContactNotFoundError:
+        raise HTTPException(status_code = 404, detail = "Contact Not Found!")
 
 @router.get("/contacts", summary = "Gets all the contact entries stored in the database")
 def get_all_contact_entries() -> dict:
@@ -26,10 +26,9 @@ def get_all_contact_entries() -> dict:
 
 @router.post("/contacts", summary="Create a new contact")
 def create_contact(contact: ContactEntry):
-    contact_name = op.create_contact(contact_name=contact.contact_name, 
-                      contact_number=contact.contact_number)
-    
-    if contact_name == "Null":
-        return {"Error": f"The entry for {contact.contact_name} already exist!"}
-    else:
+    try:
+        contact_name = op.create_contact(contact_name=contact.contact_name, 
+                        contact_number=contact.contact_number)
         return {"Message": f"The entry for {contact_name} created successfully!"}
+    except ContactNotFoundError:
+        raise HTTPException(status_code = 404, detail = "Contact name already exists!")
