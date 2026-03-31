@@ -86,6 +86,17 @@ def view_contact_by_name(name: str):
 
     if not contact_exists:
         raise ContactNotFoundError()
+    
+def update_contact_entry(old_name: str, updated_encrypted_contact_number: bytes = b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==', updated_name: str = "unchanged"):
+
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    stmt = select(Contact).where(Contact.contact_name == old_name)
+    user_to_update_tuple = session.execute(statement=stmt).one()
+    user_to_update = user_to_update_tuple[0]
+    print(user_to_update.contact_name)
+
+    session.close()
 
 def empty_database_tables():
 
@@ -102,7 +113,8 @@ if __name__ == '__main__':
     #create_contact_db("aarya",b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
     #results = view_contacts()
     #print(results)
-    empty_database_tables()
+    #empty_database_tables()
     #view_all_contacts()
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
+    update_contact_entry("india")
