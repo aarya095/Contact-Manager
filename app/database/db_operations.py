@@ -87,8 +87,11 @@ def view_contact_by_name(name: str):
     if not contact_exists:
         raise ContactNotFoundError()
     
-def update_contact_entry(old_name: str, updated_encrypted_contact_number: bytes | None = None, 
-                         updated_name: str | None = None):
+def update_contact_entry(
+        old_name: str, 
+        updated_name: str | None = None,
+        updated_encrypted_contact_number: bytes | None = None
+    ):
 
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -97,22 +100,15 @@ def update_contact_entry(old_name: str, updated_encrypted_contact_number: bytes 
     user_to_update_tuple = session.execute(statement=stmt).one()
     user_to_update = user_to_update_tuple[0]
     
-    if updated_name == "unchanged" and \
-        updated_encrypted_contact_number != b'0':
+    if updated_encrypted_contact_number is not None:
         user_to_update.contact_number = updated_encrypted_contact_number
 
-    elif updated_name != "unchanged" and \
-        updated_encrypted_contact_number == b'0':
+    if updated_name is not None:
         user_to_update.contact_name = updated_name
 
-    elif updated_name != "unchanged" and \
-        updated_encrypted_contact_number != b'0':
-        user_to_update.contact_name = updated_name
-        user_to_update.contact_number = updated_encrypted_contact_number
-
-    elif updated_name == "unchanged" and \
-        updated_encrypted_contact_number == b'0':
-        pass
+    if updated_name is None and \
+        updated_encrypted_contact_number is None:
+        raise ValueError("No information is provided to be updated in the database")
 
     print(user_to_update.contact_name)
 
