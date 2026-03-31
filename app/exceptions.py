@@ -1,0 +1,2 @@
+class ContactNotFoundError(Exception):
+    pass

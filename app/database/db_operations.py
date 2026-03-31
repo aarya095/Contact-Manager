@@ -1,5 +1,6 @@
 from app.database.database import engine
 from app.database.models import Contact
+from app.exceptions import ContactNotFoundError
 
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import select, delete
@@ -34,9 +35,9 @@ def check_contact_exists(name_to_check: str):
     session.close()
 
     if name_to_check in list_of_contact_names:
-        return True
-    else:
-        return False
+        return name_to_check
+    if name_to_check not in list_of_contact_names:
+        raise ContactNotFoundError()
 
 def view_all_contacts() -> dict:
     """Retrieves all the contacts via SQLAlchemy"""
@@ -81,8 +82,8 @@ def view_contact_by_name(name: str):
 
         session.close()
 
-    elif contact_exists == False:
-        return "Null"
+    elif not contact_exists:
+        return False
 
 def empty_database_tables():
 
