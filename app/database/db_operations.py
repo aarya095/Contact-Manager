@@ -91,9 +91,17 @@ def update_contact_entry(old_name: str, updated_encrypted_contact_number: bytes 
 
     Session = sessionmaker(bind=engine)
     session = Session()
+
     stmt = select(Contact).where(Contact.contact_name == old_name)
     user_to_update_tuple = session.execute(statement=stmt).one()
     user_to_update = user_to_update_tuple[0]
+    
+    if updated_name == "unchanged":
+        user_to_update.contact_number = updated_encrypted_contact_number
+    elif updated_name != "unchanged":
+        user_to_update.contact_name = updated_name
+        user_to_update.contact_number = updated_encrypted_contact_number
+
     print(user_to_update.contact_name)
 
     session.close()
