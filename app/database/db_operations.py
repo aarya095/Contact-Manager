@@ -5,14 +5,22 @@ from app.exceptions import ContactNotFoundError
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import select, delete
 
-def create_contact_db(contact_name: str, encrypted_contact_number: bytes):
+def create_contact_db(
+        contact_name: str, 
+        encrypted_contact_number: bytes
+        ):
     """Create an entry in the database"""
 
-    contact_exists = check_contact_exists(name_to_check = contact_name)
+    contact_exists = check_contact_exists(
+                    name_to_check = contact_name
+                    )
 
     if not contact_exists:
         with Session(engine) as session:
-            contact_data = Contact(contact_name = contact_name, contact_number = encrypted_contact_number)
+            contact_data = Contact(
+                contact_name = contact_name, 
+                contact_number = encrypted_contact_number
+                )
             session.add(contact_data)
             session.commit()
 
@@ -20,7 +28,8 @@ def create_contact_db(contact_name: str, encrypted_contact_number: bytes):
         raise ContactNotFoundError()
 
 def check_contact_exists(name_to_check: str):
-    """Retrieves all the contact names via SQLAlchemy and checks if the contact entry exists"""
+    """Retrieves all the contact names via 
+    SQLAlchemy and checks if the contact entry exists"""
 
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -97,7 +106,9 @@ def update_contact_entry(
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    stmt = select(Contact).where(Contact.contact_name == old_contact_name)
+    stmt = select(Contact).where(
+        Contact.contact_name == old_contact_name
+        )
     user_to_update_tuple = session.execute(statement=stmt).one()
     user_to_update = user_to_update_tuple[0]
     
@@ -109,7 +120,8 @@ def update_contact_entry(
 
     if updated_name is None and \
         updated_encrypted_contact_number is None:
-        raise ValueError("No information is provided to be updated in the database")
+        raise ValueError("No information is provided " \
+        "to be updated in the database")
 
     session.close()
 
@@ -125,7 +137,9 @@ def empty_database_tables():
     session.commit()
     
 if __name__ == '__main__':
-    #create_contact_db("aarya",b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
+    #create_contact_db(
+    # "aarya",
+    # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
     #results = view_contacts()
     #print(results)
     #empty_database_tables()

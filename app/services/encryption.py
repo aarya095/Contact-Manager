@@ -23,7 +23,9 @@ def decrypt(encrypted_contact_number: bytes, key: bytes) -> int:
 
     f = Fernet(key)
     original_contact_number_bytes = f.decrypt(encrypted_contact_number)
-    original_contact_number = int.from_bytes(original_contact_number_bytes, 'big')
+    original_contact_number = (
+        int.from_bytes(original_contact_number_bytes, 'big')
+        )
 
     return original_contact_number
 
