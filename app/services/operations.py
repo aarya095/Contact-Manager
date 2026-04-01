@@ -2,11 +2,15 @@ from app.services.encryption import encrypt, decrypt
 from app.services import file_operations as f_ops
 from app.database import db_operations as db_ops
 
-def create_contact(contact_name: str, contact_number: int):
+def create_contact(
+        contact_name: str, 
+        contact_number: int
+        ):
     """Encrypts the contact number, sends the key to the .env file, and 
     sends the contact data to the database"""
 
-    contact_name = contact_name.lower() # Normalizing the contact name
+    # Normalizing the updated contact name
+    contact_name = contact_name.lower()
 
     encrypted_contact_number, key = encrypt(contact_number)
     f_ops.stores_contact_num_key_in_env_file(key, contact_name)
@@ -21,7 +25,9 @@ def view_one_contact_entry(contact_name: str) -> str | int:
     encrypted_contact_number = db_ops.view_contact_by_name(
                                         name = contact_name.lower())
 
-    key_for_contact_number = f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+    key_for_contact_number = (
+        f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+        )
     original_contact_number = decrypt(
         encrypted_contact_number = encrypted_contact_number, 
         key = key_for_contact_number)
@@ -40,7 +46,9 @@ def view_all_contacts() -> dict:
         contact_name = contact_data['Contact Name']
         encrypted_contact_number = contact_data['Contact Number']
 
-        key_for_contact_number = f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+        key_for_contact_number = (
+            f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+            )
         original_contact_number = decrypt(
             encrypted_contact_number = encrypted_contact_number, 
             key = key_for_contact_number)
@@ -54,15 +62,29 @@ def view_all_contacts() -> dict:
 
 def update_contact_entry(
         old_contact_name: str, 
-        updated_contact_name: str, 
-        updated_contact_number: int
+        updated_contact_name: str | None, 
+        updated_contact_number: int | None
         ):
     """Seeks out the old contact info to be updated,
     Encrypts the new contact number, sends the key to the .env file, 
     deletes the old key, and sends the contact data to the database"""
 
+    # Normalizing the updated contact name
+    updated_contact_name = updated_contact_name.lower()
     
+    if updated_contact_name is not None:
+        f_ops.deletes_contact_num_key_in_env_file(old_contact_name)
 
+    updated_encrypted_contact_number, key = (
+        encrypt(updated_contact_number)
+        )
+    f_ops.stores_contact_num_key_in_env_file(key, updated_contact_name)
+    db_ops.create_contact_db(
+        updated_contact_name, 
+        updated_encrypted_contact_number
+        )
+
+    return updated_contact_name
 
 if __name__ == '__main__':
     view_all_contacts()
