@@ -86,6 +86,7 @@ def view_contact_by_name(name: str):
 
     if not contact_exists:
         raise ContactNotFoundError()
+
     
 def update_contact_entry(
         old_name: str, 
