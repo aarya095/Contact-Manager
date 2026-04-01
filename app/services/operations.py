@@ -13,8 +13,8 @@ def create_contact(
     contact_name = contact_name.lower()
 
     encrypted_contact_number, key = encrypt(contact_number)
-    f_ops.stores_contact_num_key_in_env_file(key, contact_name)
     db_ops.create_contact_db(contact_name, encrypted_contact_number)
+    f_ops.stores_contact_num_key_in_env_file(key, contact_name)
 
     return contact_name
 
@@ -87,4 +87,7 @@ def update_contact_entry(
     return updated_contact_name
 
 if __name__ == '__main__':
-    view_all_contacts()
+    #view_all_contacts()
+    my_var = False
+    if not my_var:
+        print("Nice")

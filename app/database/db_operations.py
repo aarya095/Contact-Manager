@@ -95,8 +95,6 @@ def view_contact_by_name(name: str):
 
     if not contact_exists:
         raise ContactNotFoundError()
-
-    
 def update_contact_entry(
         old_contact_name: str, 
         updated_name: str | None = None,
@@ -140,12 +138,11 @@ if __name__ == '__main__':
     #create_contact_db(
     # "aarya",
     # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
-    #results = view_contacts()
+    #results = view_all_contacts()
     #print(results)
     #empty_database_tables()
     #view_all_contacts()
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
     #update_contact_entry("india")
-    my_cat = b'0'
-    print(type(my_cat))
+    pass
