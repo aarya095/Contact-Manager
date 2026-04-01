@@ -89,7 +89,7 @@ def view_contact_by_name(name: str):
 
     
 def update_contact_entry(
-        old_name: str, 
+        old_contact_name: str, 
         updated_name: str | None = None,
         updated_encrypted_contact_number: bytes | None = None
     ):
@@ -97,7 +97,7 @@ def update_contact_entry(
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    stmt = select(Contact).where(Contact.contact_name == old_name)
+    stmt = select(Contact).where(Contact.contact_name == old_contact_name)
     user_to_update_tuple = session.execute(statement=stmt).one()
     user_to_update = user_to_update_tuple[0]
     
@@ -110,8 +110,6 @@ def update_contact_entry(
     if updated_name is None and \
         updated_encrypted_contact_number is None:
         raise ValueError("No information is provided to be updated in the database")
-
-    print(user_to_update.contact_name)
 
     session.close()
 
