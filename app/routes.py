@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from app.exceptions import ContactNotFoundError
-from app.schemas import ContactEntry
+from app.schemas import ContactEntry, UpdateContactEntry
 from app.services import operations as op
 
 router = APIRouter()
@@ -32,3 +32,22 @@ def create_contact(contact: ContactEntry):
         return {"Message": f"The entry for {contact_name} created successfully!"}
     except ContactNotFoundError:
         raise HTTPException(status_code = 404, detail = "Contact name already exists!")
+    
+@router.put("/contacts", summary="Updates an existing contact")
+def update_contact(contact: UpdateContactEntry):
+    try:
+        updated_contact_name = op.update_contact_entry(
+            old_contact_name = contact.old_contact_name,
+            updated_contact_name = contact.new_contact_name,
+            updated_contact_number = contact.new_contact_number
+        )
+        return {
+            "Message": f"The contact entry for \
+            {updated_contact_name} has been updated successfully!"}
+    
+    except ContactNotFoundError:
+        raise HTTPException(
+            status_code = 404, 
+            detail = "Contact name already exists! " \
+            "Please provide a different name."
+            )
