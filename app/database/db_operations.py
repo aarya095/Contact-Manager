@@ -1,6 +1,6 @@
 from app.database.database import engine
 from app.database.models import Contact
-from app.exceptions import ContactNotFoundError
+from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import select, delete
@@ -25,7 +25,7 @@ def create_contact_db(
             session.commit()
 
     if contact_exists:
-        raise ContactNotFoundError()
+        raise UserAlreadyExistsError()
 
 def check_contact_exists(name_to_check: str):
     """Retrieves all the contact names via 
@@ -47,10 +47,10 @@ def check_contact_exists(name_to_check: str):
     session.close()
 
     if name_to_check in list_of_contact_names:
-        return name_to_check
+        return True
     if name_to_check not in list_of_contact_names:
-        raise ContactNotFoundError()
-
+        return False
+    
 def view_all_contacts() -> dict:
     """Retrieves all the contacts via SQLAlchemy"""
 
