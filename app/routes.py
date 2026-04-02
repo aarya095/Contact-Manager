@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from app.exceptions import ContactNotFoundError
+from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 from app.schemas import ContactEntry, UpdateContactEntry
 from app.services import operations as op
 
@@ -17,10 +17,10 @@ def get_one_contact_entry(contact_name: str):
         contact_number = op.view_one_contact_entry(contact_name = contact_name)
         return {"contact_name": contact_name.title(), 
                 "contact_number": contact_number}
-    except ContactNotFoundError:
+    except UserAlreadyExistsError:
         raise HTTPException(
-            status_code = 404, 
-            detail = "Contact Not Found!"
+            status_code = 400, 
+            detail = "Contact already exists!"
             )
 
 @router.get("/contacts", 
