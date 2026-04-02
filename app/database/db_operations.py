@@ -47,10 +47,10 @@ def check_contact_exists(name_to_check: str):
     session.close()
 
     if name_to_check in list_of_contact_names:
-        return name_to_check
+        return True
     if name_to_check not in list_of_contact_names:
-        raise ContactNotFoundError()
-
+        return False
+    
 def view_all_contacts() -> dict:
     """Retrieves all the contacts via SQLAlchemy"""
 
