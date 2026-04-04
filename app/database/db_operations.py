@@ -108,27 +108,22 @@ def update_contact_entry(
 
     if contact_exists:
 
-        Session = sessionmaker(bind=engine)
-        session = Session()
+        with Session(engine) as session:
 
-        stmt = select(Contact).where(
-            Contact.contact_name == old_contact_name
-            )
-        user_to_update_tuple = session.execute(statement=stmt).one()
-        user_to_update = user_to_update_tuple[0]
-        
-        if updated_encrypted_contact_number is not None:
-            user_to_update.contact_number = updated_encrypted_contact_number
+            user_to_update = session.query(Contact).filter_by(contact_name = old_contact_name)
 
-        if updated_name is not None:
-            user_to_update.contact_name = updated_name
+            if user_to_update:
+                
+                if updated_encrypted_contact_number is not None:
+                    user_to_update.contact_number = updated_encrypted_contact_number
 
-        if updated_name is None and \
-            updated_encrypted_contact_number is None:
-            raise ValueError("No information is provided " \
-            "to be updated in the database")
+                if updated_name is not None:
+                    user_to_update.contact_name = updated_name
 
-        session.close()
+                if updated_name is None and \
+                    updated_encrypted_contact_number is None:
+                    raise ValueError("No information is provided " \
+                    "to be updated in the database")
 
     if not contact_exists:
         return ContactNotFoundError
@@ -148,11 +143,11 @@ if __name__ == '__main__':
     #create_contact_db(
     # "aarya",
     # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
-    #results = view_all_contacts()
-    #print(results)
-    #empty_database_tables()
+    results = view_all_contacts()
+    print(results)
+    empty_database_tables()
     #view_all_contacts()
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
     #update_contact_entry("india")
-    pass
+    #pass
