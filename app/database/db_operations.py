@@ -36,7 +36,6 @@ def check_contact_exists(name_to_check: str):
     stmt = select(Contact)
 
     results = session.execute(stmt).all()
-    print(f"Result is as follows = {results}\n")
     list_of_contact_names = []
 
     for row in results:
@@ -84,7 +83,6 @@ def view_contact_by_name(name: str):
         stmt = select(Contact)
 
         results = session.execute(stmt).all()
-        print(f"Result is as follows = {results}\n")
 
         for row in results:
             contact_entry = row[0]
