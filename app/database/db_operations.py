@@ -151,9 +151,9 @@ if __name__ == '__main__':
     # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
     #results = view_all_contacts()
     #rint(results)
-    #empty_database_tables()
+    empty_database_tables()
     #view_all_contacts()
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
-    update_contact_entry("string","india")
+    #update_contact_entry("string","india")
     #pass

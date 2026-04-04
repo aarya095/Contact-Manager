@@ -85,7 +85,7 @@ def update_contact_entry(
     db_ops.update_contact_entry(
         old_contact_name = old_contact_name,
         updated_name = updated_contact_name,
-        updated_encrypted_contact_number = updated_contact_number
+        updated_encrypted_contact_number = updated_encrypted_contact_number
     )
 
     return updated_contact_name
