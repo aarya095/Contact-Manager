@@ -24,8 +24,7 @@ def get_one_contact_entry(contact_name: str):
             )
 
 @router.get("/contacts", 
-            summary = "Gets all the contact " \
-            "entries stored in the database")
+            summary = "Gets all the contact entries stored in the database")
 def get_all_contact_entries() -> dict:
 
     contacts_data = op.view_all_contacts()
@@ -40,9 +39,9 @@ def create_contact(contact: ContactEntry):
                         )
         return {"Message": 
                 f"The entry for {contact_name} created successfully!"}
-    except ContactNotFoundError:
+    except UserAlreadyExistsError:
         raise HTTPException(
-            status_code = 404, 
+            status_code = 400, 
             detail = "Contact name already exists!"
             )
     
