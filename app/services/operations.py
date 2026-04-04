@@ -10,7 +10,8 @@ def create_contact(
     sends the contact data to the database"""
 
     # Normalizing the updated contact name
-    contact_name = contact_name.lower().strip()
+    contact_name = contact_name.lower()
+    contact_name = contact_name.replace(" ", "")
 
     encrypted_contact_number, key = encrypt(contact_number)
     db_ops.create_contact_db(contact_name, encrypted_contact_number)
@@ -70,7 +71,8 @@ def update_contact_entry(
     deletes the old key, and sends the contact data to the database"""
 
     # Normalizing the updated contact name
-    updated_contact_name = updated_contact_name.lower().strip()
+    updated_contact_name = updated_contact_name.lower()
+    updated_contact_name = updated_contact_name.replace(" ", "")
     
     if updated_contact_name is not None:
         f_ops.deletes_contact_num_key_in_env_file(old_contact_name)
