@@ -78,11 +78,15 @@ def update_contact_entry(
     updated_encrypted_contact_number, key = (
         encrypt(updated_contact_number)
         )
-    f_ops.stores_contact_num_key_in_env_file(key, updated_contact_name)
-    db_ops.create_contact_db(
-        updated_contact_name, 
-        updated_encrypted_contact_number
+    f_ops.stores_contact_num_key_in_env_file(
+        key = key, 
+        name = updated_contact_name
         )
+    db_ops.update_contact_entry(
+        old_contact_name = old_contact_name,
+        updated_name = updated_contact_name,
+        updated_encrypted_contact_number = updated_contact_number
+    )
 
     return updated_contact_name
 
