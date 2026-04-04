@@ -54,12 +54,10 @@ def update_contact(contact: UpdateContactEntry):
             updated_contact_number = contact.new_contact_number
         )
         return {
-            "Message": f"The contact entry for \
-            {updated_contact_name} has been updated successfully!"}
+            "Message": f"The contact entry for {updated_contact_name} has been updated successfully!"}
     
     except ContactNotFoundError:
         raise HTTPException(
             status_code = 404, 
-            detail = "Contact name already exists! " \
-            "Please provide a different name."
+            detail = "Contact name already exists! Please provide a different name."
             )
