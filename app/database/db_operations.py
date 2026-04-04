@@ -114,7 +114,8 @@ def update_contact_entry(
 
             if user_to_update:
                 
-                if updated_encrypted_contact_number is not None:
+                if updated_encrypted_contact_number is not None \
+                    and updated_encrypted_contact_number != user_to_update.contact_number:
                     user_to_update.contact_number = updated_encrypted_contact_number
 
                 if updated_name is not None and \
