@@ -117,13 +117,15 @@ def update_contact_entry(
                 if updated_encrypted_contact_number is not None:
                     user_to_update.contact_number = updated_encrypted_contact_number
 
-                if updated_name is not None:
+                if updated_name is not None and \
+                    updated_name != user_to_update.contact_name:
                     user_to_update.contact_name = updated_name
 
                 if updated_name is None and \
                     updated_encrypted_contact_number is None:
-                    raise ValueError("No information is provided " \
-                    "to be updated in the database")
+                    raise ValueError(
+                        "No information is provided to be updated in the database"
+                        )
 
     if not contact_exists:
         return ContactNotFoundError
