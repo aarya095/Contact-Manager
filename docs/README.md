@@ -69,7 +69,7 @@ A Contact Manager API built in Python using FastAPI.
 - `pip install -r docs/requirements.txt`
 
 4. Create .env file:
-- 
+- add `'sqlite:///dev.db'`
 
 5. Run the server:    
 - `uvicorn app.main:app --reload`
