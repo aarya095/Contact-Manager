@@ -1,6 +1,6 @@
 # 🗂️ Contact Manager API
 
-An Contact Manager API built in Python using FastAPI, designed for simple and efficient CRUD operations.
+A Contact Manager API built in Python using FastAPI.
 
 ## 🚧 Project Status: In Progress
 
