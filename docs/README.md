@@ -68,7 +68,7 @@ A Contact Manager API built in Python using FastAPI.
 3. Install dependencies:    
 - `pip install -r docs/requirements.txt`
 
-4. Create .env file:
+4. Create .env.dev file:
 - add `DATABASE_URL = 'sqlite:///dev.db'`
 
 5. Run the server:    
