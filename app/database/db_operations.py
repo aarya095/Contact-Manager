@@ -133,6 +133,32 @@ def update_contact_entry(
 
     if not contact_exists:
         return ContactNotFoundError
+    
+def delete_contact_db(
+        contact_name: str, 
+        ):
+    """Create an entry in the database"""
+
+    contact_exists = check_contact_exists(
+                    name_to_check = contact_name
+                    )
+
+    if contact_exists:
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        stmt = session.query(Contact).filter_by(
+        contact_name = contact_name
+            )
+        user_to_delete_tuple = session.execute(statement = stmt).one()
+        user_to_delete = user_to_delete_tuple[0]
+
+        if user_to_delete:
+            session.delete(user_to_delete)
+            session.commit()
+
+    if not contact_exists:
+        raise ContactNotFoundError()
 
 def empty_database_tables():
 
