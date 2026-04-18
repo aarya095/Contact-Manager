@@ -92,6 +92,18 @@ def update_contact_entry(
 
     return updated_contact_name
 
+def delete_contact(
+        contact_name: str, 
+        ):
+    """Deletes the contact entry from the database, also the key in the .env file"""
+
+    # Normalizing the updated contact name
+    contact_name = contact_name.lower()
+    contact_name = contact_name.replace(" ", "")
+
+    db_ops.delete_contact_db(contact_name)
+    f_ops.deletes_contact_num_key_in_env_file(contact_name)
+    
 if __name__ == '__main__':
     #view_all_contacts()
     my_var = False
