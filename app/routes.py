@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
-from app.schemas import ContactEntry, UpdateContactEntry
+from app.schemas import ContactEntry, UpdateContactEntry, DeleteContactEntry
 from app.services import operations as op
 
 router = APIRouter()
@@ -61,6 +61,20 @@ def update_contact(contact: UpdateContactEntry):
         return {
             "Message": f"The contact entry for {updated_contact_name} has been updated successfully!"}
     
+    except ContactNotFoundError:
+        raise HTTPException(
+            status_code = 404, 
+            detail = "Contact Not Found!"
+            )
+    
+@router.delete("/contacts", summary="Deletes an existing contact")
+def delete_contact(contact: DeleteContactEntry):
+    try:
+        contact_name = op.delete_contact(
+                        contact_name = contact.contact_name
+                        )
+        return {"Message": 
+                f"The entry for {contact_name} deleted successfully!"}
     except ContactNotFoundError:
         raise HTTPException(
             status_code = 404, 
