@@ -1,6 +1,6 @@
 # 🗂️ Contact Manager API
 
-An Contact Manager API built in Python using FastAPI, designed for simple and efficient CRUD operations.
+A Contact Manager API built in Python using FastAPI.
 
 ## 🚧 Project Status: In Progress
 
@@ -67,6 +67,9 @@ An Contact Manager API built in Python using FastAPI, designed for simple and ef
 
 3. Install dependencies:    
 - `pip install -r docs/requirements.txt`
+
+4. Create `.env.dev` file:
+- add `DATABASE_URL = 'sqlite:///dev.db'`
 
 5. Run the server:    
 - `uvicorn app.main:app --reload`
