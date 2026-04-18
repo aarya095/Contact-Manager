@@ -10,7 +10,8 @@ router = APIRouter()
 def root():
     return "Welcome to Contact Manager API"
 
-@router.get("/contacts/{contact_name}", 
+@router.get("/contacts/{contact_name}",
+            status_code=200, 
             summary = "Gets the contact entry by name")
 def get_one_contact_entry(contact_name: str):
     try:
@@ -29,13 +30,16 @@ def get_one_contact_entry(contact_name: str):
             )
 
 @router.get("/contacts", 
+            status_code=200,
             summary = "Gets all the contact entries stored in the database")
 def get_all_contact_entries() -> dict:
 
     contacts_data = op.view_all_contacts()
     return contacts_data
 
-@router.post("/contacts", summary="Create a new contact")
+@router.post("/contacts", 
+             status_code=201,
+             summary="Create a new contact")
 def create_contact(contact: ContactEntry):
     try:
         contact_name = op.create_contact(
@@ -50,7 +54,9 @@ def create_contact(contact: ContactEntry):
             detail = "Contact name already exists!"
             )
     
-@router.put("/contacts", summary="Updates an existing contact")
+@router.put("/contacts", 
+            status_code=200,
+            summary="Updates an existing contact")
 def update_contact(contact: UpdateContactEntry):
     try:
         updated_contact_name = op.update_contact_entry(
@@ -67,7 +73,9 @@ def update_contact(contact: UpdateContactEntry):
             detail = "Contact Not Found!"
             )
     
-@router.delete("/contacts", summary="Deletes an existing contact")
+@router.delete("/contacts", 
+               status_code=200,
+               summary="Deletes an existing contact")
 def delete_contact(contact: DeleteContactEntry):
     try:
         contact_name = op.delete_contact(
