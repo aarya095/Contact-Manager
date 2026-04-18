@@ -104,6 +104,8 @@ def delete_contact(
     db_ops.delete_contact_db(contact_name)
     f_ops.deletes_contact_num_key_in_env_file(contact_name)
     
+    return contact_name
+
 if __name__ == '__main__':
     #view_all_contacts()
     my_var = False
