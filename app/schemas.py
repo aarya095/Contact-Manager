@@ -8,3 +8,6 @@ class UpdateContactEntry(BaseModel):
     old_contact_name : str
     new_contact_name : str | None
     new_contact_number : int | None
+
+class DeleteContactEntry(BaseModel):
+    contact_name : str
