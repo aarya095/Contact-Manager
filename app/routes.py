@@ -22,6 +22,11 @@ def get_one_contact_entry(contact_name: str):
             status_code = 400, 
             detail = "Contact already exists!"
             )
+    except ContactNotFoundError:
+        raise HTTPException(
+            status_code = 404, 
+            detail = "Contact Not Found!"
+            )
 
 @router.get("/contacts", 
             summary = "Gets all the contact entries stored in the database")
@@ -59,5 +64,5 @@ def update_contact(contact: UpdateContactEntry):
     except ContactNotFoundError:
         raise HTTPException(
             status_code = 404, 
-            detail = "Contact name already exists! Please provide a different name."
+            detail = "Contact Not Found!"
             )
