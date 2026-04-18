@@ -3,7 +3,7 @@ from app.database.models import Contact
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 
 from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete 
 
 def create_contact_db(
         contact_name: str, 
@@ -170,6 +170,15 @@ def empty_database_tables():
     print(f"Cleared table: {Contact.__tablename__}")
 
     session.commit()
+
+def get_db():
+    """Dependency to get the database session for testing the API"""
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    try:
+        yield session
+    finally:
+        session.close()
     
 if __name__ == '__main__':
     #create_contact_db(
