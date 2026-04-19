@@ -13,19 +13,41 @@ A Contact Manager API built in Python using FastAPI.
 - [`Project Evolution`](#project-evolution)
 
 ## Features
-
-- Create Contact: Adds a new contact
-- Get a single contact: Retrieves the contact number of a single contact by name
-- Get all contacts data: Retrieves all the encrypted contact numbers from the Database, decrypts them all, and returns them
-- Update contact entry: Updates an existing contact in the database, updates the encryption key
-- Delete contact entry: Deletes an existing contact in the database, cleans the encryption key
+- CRUD API
+    - Create Contact: Adds a new contact
+        - `POST /contacts`
+    - Get a single contact: Retrieves the contact number of a single contact by name
+        - `GET /contacts/{name}`
+    - Get all contacts data: Retrieves all the encrypted contact numbers from the Database, decrypts them all, and returns them
+        - `GET /contacts`
+    - Update contact entry: Updates an existing contact in the database, updates the encryption key
+        - `PUT /contacts/`
+    - Delete contact entry: Deletes an existing contact in the database, cleans the encryption key
+        - `DELETE /contacts/`
+- 🔐 Field-Level Encryption
+    - Contact numbers are encrypted using Fernet (symmetric encryption)
+    - Key securely stored in .env file
+    - Keys are generated, updated, and deleted as per the operation
+- ⚙️ Architecture
+    - Database layer
+    - Business logic layer
+    - API layer
+- 📄 API Documentation
+    - Documented using Bruno (local-first API client)
+- 🌿 Git Workflow
+    - Feature-based branching
+    - Separate branches for debugging and enhancements 
 
 ## Tech Stack
 
 - Programming Language: Python
 - Web Framework: FastAPI
-- Database: PostgreSQL and SQLite for development
+- Database: PostgreSQL and SQLite for development/testing
 - ORM: SQLAlchemy
+- Encryption: Fernet (cryptography)
+- Validation: Pydantic
+- Version Control: Git
+- API Testing: Bruno
 
 ## Project Structure
     
