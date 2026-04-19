@@ -24,7 +24,7 @@ A Contact Manager API built in Python using FastAPI.
         - `PUT /contacts/`
     - Delete contact entry: Deletes an existing contact in the database, cleans the encryption key
         - `DELETE /contacts/`
-- 🔐 Field-Level Encryption
+- 🔐 Encryption
     - Contact numbers are encrypted using Fernet (symmetric encryption)
     - Key securely stored in .env file
     - Keys are generated, updated, and deleted as per the operation
