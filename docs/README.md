@@ -1,6 +1,6 @@
 # 🗂️ Contact Manager API
 
-A Contact Manager API built in Python using FastAPI.
+FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and encrypted data handling.
 
 ## 🚧 Project Status: In Progress
 
