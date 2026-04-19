@@ -17,6 +17,8 @@ A Contact Manager API built in Python using FastAPI.
 - Create Contact: Adds a new contact
 - Get a single contact: Retrieves the contact number of a single contact by name
 - Get all contacts data: Retrieves all the encrypted contact numbers from the Database, decrypts them all, and returns them
+- Update contact entry: Updates an existing contact in the database, updates the encryption key
+- Delete contact entry: Deletes an existing contact in the database, cleans the encryption key
 
 ## Tech Stack
 
