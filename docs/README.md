@@ -57,6 +57,7 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
     │   │   ├── database.py
     │   │   ├── db_operations.py
     │   │   ├── models.py
+    │   ├── exceptions.py
     │   ├── __init__.py
     │   ├── main.py
     │   ├── routes.py
@@ -65,18 +66,23 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
     │       ├── encryption.py
     │       ├── file_operations.py
     │       ├── operations.py
+    ├── dev.db
     ├── docs
+    │   ├── contact_manager_api(1).png
     │   ├── Contact Manager API testing
     │   │   ├── Create Contact.yml
-    │   │   ├── Get a single contact entry by name.yml
+    │   │   ├── Delete contact entry.yml
     │   │   ├── Get all contacts stored in the database.yml
-    │   │   └── opencollection.yml
+    │   │   ├── Get a single contact entry by name.yml
+    │   │   ├── opencollection.yml
+    │   │   └── Update contact entry.yml
     │   ├── contact_manager_design.drawio
     │   ├── README.md
     │   └── requirements.txt
+    ├── modules
     └── tests
+        ├── test_api.py
         └── test_encryption.py
-
 
 ## Setup Instructions
 
