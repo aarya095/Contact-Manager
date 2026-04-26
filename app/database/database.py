@@ -16,11 +16,11 @@ SessionLocal = sessionmaker(
                             )
 
 def get_db():
-    """Dependency to get the database session for testing the API"""
+    """Dependency to get the database session"""
     
-    session = SessionLocal()
+    db = SessionLocal()
     try:
-        yield session
+        yield db
     finally:
-        session.close()
+        db.close()
 

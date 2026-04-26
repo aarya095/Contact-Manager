@@ -1,22 +1,25 @@
-from app.database.database import engine
 from app.database.models import Contact
+
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 
-from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import select, delete 
+from sqlalchemy.orm import Session
+
 
 def create_contact_db(
         contact_name: str, 
-        encrypted_contact_number: bytes
+        encrypted_contact_number: bytes,
+        db: Session
         ):
     """Create an entry in the database"""
 
     contact_exists = check_contact_exists(
-                    name_to_check = contact_name
+                    name_to_check = contact_name,
+                    db = db
                     )
 
     if not contact_exists:
-        with Session(engine) as session:
+        with db as session:
             contact_data = Contact(
                 contact_name = contact_name, 
                 contact_number = encrypted_contact_number
@@ -26,40 +29,14 @@ def create_contact_db(
 
     if contact_exists:
         raise UserAlreadyExistsError()
-
-def check_contact_exists(name_to_check: str):
-    """Retrieves all the contact names via 
-    SQLAlchemy and checks if the contact entry exists"""
-
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    stmt = select(Contact)
-
-    results = session.execute(stmt).all()
-    list_of_contact_names = []
-
-    for row in results:
-        # row is a Row object, you can access the User object directly
-        contact_entry = row[0]
-        list_of_contact_names.append(contact_entry.contact_name)
-
-    session.close()
-
-    if name_to_check in list_of_contact_names:
-        return True
-    if name_to_check not in list_of_contact_names:
-        return False
     
-def view_all_contacts() -> dict:
+    
+def view_all_contacts(db: Session) -> dict:
     """Retrieves all the contacts via SQLAlchemy"""
 
-    Session = sessionmaker(bind=engine)
-    session = Session()
     stmt = select(Contact)
 
-    results = session.execute(stmt).all()
-
-    session.close()
+    results = db.execute(stmt).all()
 
     contacts_data = {}
     # Cleaning the data
@@ -71,47 +48,49 @@ def view_all_contacts() -> dict:
                          }
     return contacts_data
 
-def view_contact_by_name(name: str):
+
+def view_contact_by_name(
+                        name: str, 
+                        db: Session
+                        ):
     """Retrieves one contact via SQLAlchemy"""
 
-    contact_exists = check_contact_exists(name_to_check = name)
+    contact_exists = check_contact_exists(name_to_check = name, 
+                                          db = db)
 
     if contact_exists:
 
-        Session = sessionmaker(bind=engine)
-        session = Session()
         stmt = select(Contact)
 
-        results = session.execute(stmt).all()
+        results = db.execute(stmt).all()
 
         for row in results:
             contact_entry = row[0]
             if contact_entry.contact_name == name:
                 return contact_entry.contact_number
 
-        session.close()
-
     if not contact_exists:
         raise ContactNotFoundError()
     
+    
 def update_contact_entry(
-        old_contact_name: str, 
-        updated_name: str | None = None,
-        updated_encrypted_contact_number: bytes | None = None
-    ):
+                    old_contact_name: str, 
+                    db: Session,
+                    updated_name: str | None = None,
+                    updated_encrypted_contact_number: bytes | None = None
+                ):
 
     contact_exists = check_contact_exists(
-                        name_to_check = old_contact_name
+                        name_to_check = old_contact_name,
+                        db = db
                         )
 
     if contact_exists:
-        Session = sessionmaker(bind=engine)
-        session = Session()
 
-        stmt = session.query(Contact).filter_by(
+        stmt = db.query(Contact).filter_by(
             contact_name = old_contact_name
             )
-        user_to_update_tuple = session.execute(statement = stmt).one()
+        user_to_update_tuple = db.execute(statement = stmt).one()
         user_to_update = user_to_update_tuple[0]
         
         if user_to_update:
@@ -129,56 +108,68 @@ def update_contact_entry(
                 raise ValueError(
                     "No information is provided to be updated in the database"
                     )
-            session.commit()
+            db.commit()
 
     if not contact_exists:
         return ContactNotFoundError
     
+    
 def delete_contact_db(
         contact_name: str, 
+        db: Session
         ):
     """Create an entry in the database"""
 
     contact_exists = check_contact_exists(
-                    name_to_check = contact_name
+                    name_to_check = contact_name,
+                    db = db
                     )
 
     if contact_exists:
-        Session = sessionmaker(bind=engine)
-        session = Session()
 
-        stmt = session.query(Contact).filter_by(
+        stmt = db.query(Contact).filter_by(
         contact_name = contact_name
             )
-        user_to_delete_tuple = session.execute(statement = stmt).one()
+        user_to_delete_tuple = db.execute(statement = stmt).one()
         user_to_delete = user_to_delete_tuple[0]
 
         if user_to_delete:
-            session.delete(user_to_delete)
-            session.commit()
+            db.delete(user_to_delete)
+            db.commit()
 
     if not contact_exists:
         raise ContactNotFoundError()
+    
 
-def empty_database_tables():
+def empty_database_tables(db: Session):
 
-    Session = sessionmaker(bind=engine)
-    session = Session() 
     stmt = delete(Contact)
 
-    session.execute(stmt.execution_options(synchronize_session="fetch"))
+    db.execute(stmt.execution_options(synchronize_session="fetch"))
     print(f"Cleared table: {Contact.__tablename__}")
 
-    session.commit()
+    db.commit()
 
-def get_db():
-    """Dependency to get the database session for testing the API"""
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    try:
-        yield session
-    finally:
-        session.close()
+
+def check_contact_exists(name_to_check: str, db: Session):
+    """Retrieves all the contact names via 
+    SQLAlchemy and checks if the contact entry exists"""
+
+    stmt = select(Contact)
+
+    results = db.execute(stmt).all()
+    list_of_contact_names = []
+
+    for row in results:
+        # row is a Row object, you can access the User object directly
+        contact_entry = row[0]
+        list_of_contact_names.append(contact_entry.contact_name)
+
+    if name_to_check in list_of_contact_names:
+        return True
+    if name_to_check not in list_of_contact_names:
+        return False
+    
     
 if __name__ == '__main__':
     #create_contact_db(

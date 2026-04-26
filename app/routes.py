@@ -1,21 +1,32 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 from app.schemas import ContactEntry, UpdateContactEntry, DeleteContactEntry
 from app.services import operations as op
 
+from sqlalchemy.orm import Session
+
+from app.database.database import get_db
+
 router = APIRouter()
+
 
 @router.get("/")
 def root():
     return "Welcome to Contact Manager API"
 
+
 @router.get("/contacts/{contact_name}",
             status_code=200, 
             summary = "Gets the contact entry by name")
-def get_one_contact_entry(contact_name: str):
+def get_one_contact_entry(
+                        contact_name: str,
+                        db: Session = Depends(get_db)):
     try:
-        contact_number = op.view_one_contact_entry(contact_name = contact_name)
+        contact_number = op.view_one_contact_entry(
+                                contact_name = contact_name,
+                                db = db
+                                )
         return {"contact_name": contact_name.title(), 
                 "contact_number": contact_number}
     except UserAlreadyExistsError:
@@ -29,22 +40,28 @@ def get_one_contact_entry(contact_name: str):
             detail = "Contact Not Found!"
             )
 
+
 @router.get("/contacts", 
             status_code=200,
             summary = "Gets all the contact entries stored in the database")
-def get_all_contact_entries() -> dict:
+def get_all_contact_entries(db: Session = Depends(get_db)) -> dict:
 
-    contacts_data = op.view_all_contacts()
+    contacts_data = op.view_all_contacts(db)
     return contacts_data
+
 
 @router.post("/contacts", 
              status_code=201,
              summary="Create a new contact")
-def create_contact(contact: ContactEntry):
+def create_contact(
+                    contact: ContactEntry,
+                    db: Session = Depends(get_db)
+                    ):
     try:
         contact_name = op.create_contact(
                         contact_name = contact.contact_name, 
-                        contact_number=contact.contact_number
+                        contact_number=contact.contact_number,
+                        db = db
                         )
         return {"Message": 
                 f"The entry for {contact_name} created successfully!"}
@@ -54,15 +71,20 @@ def create_contact(contact: ContactEntry):
             detail = "Contact name already exists!"
             )
     
+
 @router.put("/contacts", 
             status_code=200,
             summary="Updates an existing contact")
-def update_contact(contact: UpdateContactEntry):
+def update_contact(
+                   contact: UpdateContactEntry,
+                   db: Session = Depends(get_db)
+                   ):
     try:
         updated_contact_name = op.update_contact_entry(
             old_contact_name = contact.old_contact_name,
             updated_contact_name = contact.new_contact_name,
-            updated_contact_number = contact.new_contact_number
+            updated_contact_number = contact.new_contact_number,
+            db = db
         )
         return {
             "Message": f"The contact entry for {updated_contact_name} has been updated successfully!"}
@@ -73,13 +95,18 @@ def update_contact(contact: UpdateContactEntry):
             detail = "Contact Not Found!"
             )
     
+    
 @router.delete("/contacts", 
                status_code=200,
                summary="Deletes an existing contact")
-def delete_contact(contact: DeleteContactEntry):
+def delete_contact(
+                    contact: DeleteContactEntry,
+                    db: Session = Depends(get_db)
+                    ):
     try:
         contact_name = op.delete_contact(
-                        contact_name = contact.contact_name
+                        contact_name = contact.contact_name,
+                        db = db
                         )
         return {"Message": 
                 f"The entry for {contact_name} deleted successfully!"}
