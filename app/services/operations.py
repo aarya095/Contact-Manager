@@ -1,10 +1,15 @@
 from app.services.encryption import encrypt, decrypt
 from app.services import file_operations as f_ops
+
 from app.database import db_operations as db_ops
+
+from sqlalchemy.orm import Session
+
 
 def create_contact(
         contact_name: str, 
-        contact_number: int
+        contact_number: int,
+        db: Session
         ):
     """Encrypts the contact number, sends the key to the .env file, and 
     sends the contact data to the database"""
@@ -14,17 +19,26 @@ def create_contact(
     contact_name = contact_name.replace(" ", "")
 
     encrypted_contact_number, key = encrypt(contact_number)
-    db_ops.create_contact_db(contact_name, encrypted_contact_number)
+    db_ops.create_contact_db(
+                    contact_name, 
+                    encrypted_contact_number,
+                    db)
     f_ops.stores_contact_num_key_in_env_file(key, contact_name)
 
     return contact_name
 
-def view_one_contact_entry(contact_name: str) -> str | int:
+
+def view_one_contact_entry(
+                           contact_name: str, 
+                           db: Session
+                           ) -> str | int:
     """Retrieves the encrypted contact number from the Database, 
     decrypts it, and returns it"""
 
     encrypted_contact_number = db_ops.view_contact_by_name(
-                                        name = contact_name.lower())
+                                        name = contact_name.lower(),
+                                        db = db
+                                        )
 
     key_for_contact_number = (
         f_ops.retrieve_contact_num_key_from_env_file(contact_name)
@@ -34,12 +48,13 @@ def view_one_contact_entry(contact_name: str) -> str | int:
         key = key_for_contact_number)
     
     return original_contact_number
+
     
-def view_all_contacts() -> dict:
+def view_all_contacts(db: Session) -> dict:
     """Retrieves all the encrypted contact numbers from the Database, 
     decrypts them all, and returns them"""
 
-    contacts_data = db_ops.view_all_contacts()
+    contacts_data = db_ops.view_all_contacts(db)
     decrypted_contacts_data = {}
 
     for contact_id, contact_data in contacts_data.items():
@@ -61,10 +76,12 @@ def view_all_contacts() -> dict:
 
     return decrypted_contacts_data
 
+
 def update_contact_entry(
         old_contact_name: str, 
         updated_contact_name: str | None, 
-        updated_contact_number: int | None
+        updated_contact_number: int | None,
+        db: Session
         ):
     """Seeks out the old contact info to be updated,
     Encrypts the new contact number, sends the key to the .env file, 
@@ -87,13 +104,16 @@ def update_contact_entry(
     db_ops.update_contact_entry(
         old_contact_name = old_contact_name,
         updated_name = updated_contact_name,
-        updated_encrypted_contact_number = updated_encrypted_contact_number
+        updated_encrypted_contact_number = updated_encrypted_contact_number,
+        db = db
     )
 
     return updated_contact_name
 
+
 def delete_contact(
-        contact_name: str, 
+        contact_name: str,
+        db: Session 
         ):
     """Deletes the contact entry from the database, also the key in the .env file"""
 
@@ -101,7 +121,7 @@ def delete_contact(
     contact_name = contact_name.lower()
     contact_name = contact_name.replace(" ", "")
 
-    db_ops.delete_contact_db(contact_name)
+    db_ops.delete_contact_db(contact_name, db = db)
     f_ops.deletes_contact_num_key_in_env_file(contact_name)
     
     return contact_name
