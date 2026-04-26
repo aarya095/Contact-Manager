@@ -104,7 +104,8 @@ def update_contact_entry(
     db_ops.update_contact_entry(
         old_contact_name = old_contact_name,
         updated_name = updated_contact_name,
-        updated_encrypted_contact_number = updated_encrypted_contact_number
+        updated_encrypted_contact_number = updated_encrypted_contact_number,
+        db = db
     )
 
     return updated_contact_name
@@ -120,7 +121,7 @@ def delete_contact(
     contact_name = contact_name.lower()
     contact_name = contact_name.replace(" ", "")
 
-    db_ops.delete_contact_db(contact_name)
+    db_ops.delete_contact_db(contact_name, db = db)
     f_ops.deletes_contact_num_key_in_env_file(contact_name)
     
     return contact_name
