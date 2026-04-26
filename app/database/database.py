@@ -9,10 +9,16 @@ load_dotenv(dotenv_path = env_file_path)
 DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL, echo=True)
 
+SessionLocal = sessionmaker(
+                            bind = engine,
+                            autoflush = False,
+                            autocommit = False
+                            )
+
 def get_db():
     """Dependency to get the database session for testing the API"""
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    
+    session = SessionLocal()
     try:
         yield session
     finally:
