@@ -19,7 +19,10 @@ def create_contact(
     contact_name = contact_name.replace(" ", "")
 
     encrypted_contact_number, key = encrypt(contact_number)
-    db_ops.create_contact_db(contact_name, encrypted_contact_number)
+    db_ops.create_contact_db(
+                    contact_name, 
+                    encrypted_contact_number,
+                    db)
     f_ops.stores_contact_num_key_in_env_file(key, contact_name)
 
     return contact_name
