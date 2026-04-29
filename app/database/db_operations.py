@@ -60,14 +60,13 @@ def view_contact_by_name(
 
     if contact_exists:
 
-        stmt = select(Contact)
+        stmt = select(Contact).where(Contact.contact_name == name)
 
-        results = db.execute(stmt).all()
-
-        for row in results:
-            contact_entry = row[0]
-            if contact_entry.contact_name == name:
-                return contact_entry.contact_number
+        contact_entry = db.execute(statement=stmt).first()
+        contact_entry = tuple(contact_entry)[0]
+        return (contact_entry.contact_id,
+                contact_entry.contact_name,
+                contact_entry.contact_number)
 
     if not contact_exists:
         raise ContactNotFoundError()
@@ -177,8 +176,26 @@ if __name__ == '__main__':
     # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
     #results = view_all_contacts()
     #rint(results)
-    empty_database_tables()
+    import os
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+    from dotenv import load_dotenv
+
+    env_file_path = ".env.dev"
+    load_dotenv(dotenv_path = env_file_path)
+
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    engine = create_engine(DATABASE_URL, echo=True)
+
+    SessionLocal = sessionmaker(
+                                bind = engine,
+                                autoflush = False,
+                                autocommit = False
+                                )
+    db = SessionLocal()
+    #empty_database_tables(db=db)"""
     #view_all_contacts()
+    view_contact_by_name(name="red",db=db)
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
     #update_contact_entry("string","india")
