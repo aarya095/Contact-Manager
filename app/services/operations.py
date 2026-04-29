@@ -1,3 +1,5 @@
+import logging
+
 from app.services.encryption import encrypt, decrypt
 from app.services import file_operations as f_ops
 
@@ -5,6 +7,7 @@ from app.database import db_operations as db_ops
 
 from sqlalchemy.orm import Session
 
+logger = logging.getLogger(__name__)
 
 def create_contact(
         contact_name: str, 
@@ -17,13 +20,20 @@ def create_contact(
     # Normalizing the updated contact name
     contact_name = contact_name.lower()
     contact_name = contact_name.replace(" ", "")
+    logger.info(f"Contact name being inserted: {contact_name}\n")
 
     encrypted_contact_number, key = encrypt(contact_number)
+    logger.info("Encrypted contact number and key generated successfully!")
+
     db_ops.create_contact_db(
                     contact_name, 
                     encrypted_contact_number,
                     db)
+    logger.info("Entry created in database")
     f_ops.stores_contact_num_key_in_env_file(key, contact_name)
+    logger.info("Key stored in the .env file")
+    
+    logger.info(f"Contact entry created successfully for {contact_name}.\n")
 
     return contact_name
 
