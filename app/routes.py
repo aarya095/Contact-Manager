@@ -10,7 +10,6 @@ from app.database.database import get_db
 
 router = APIRouter()
 
-
 @router.get("/")
 def root():
     return "Welcome to Contact Manager API"
