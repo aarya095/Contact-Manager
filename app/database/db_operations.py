@@ -39,7 +39,6 @@ def create_contact_db(
 def view_all_contacts(db: Session) -> dict:
     """Retrieves all the contacts via SQLAlchemy"""
 
-
     stmt = select(Contact)
 
     results = db.execute(stmt).all()
