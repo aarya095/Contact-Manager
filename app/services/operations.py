@@ -20,18 +20,16 @@ def create_contact(
     # Normalizing the updated contact name
     contact_name = contact_name.lower()
     contact_name = contact_name.replace(" ", "")
-    logger.info(f"Contact name being inserted: {contact_name}\n")
+    logger.info(f"Creating the contact entry for {contact_name}.\n")
 
     encrypted_contact_number, key = encrypt(contact_number)
-    logger.info("Encrypted contact number and key generated successfully!")
 
     db_ops.create_contact_db(
                     contact_name, 
                     encrypted_contact_number,
                     db)
-    logger.info("Entry created in database")
+
     f_ops.stores_contact_num_key_in_env_file(key, contact_name)
-    logger.info("Key stored in the .env file")
     
     logger.info(f"Contact entry created successfully for {contact_name}.\n")
 
@@ -53,9 +51,12 @@ def view_one_contact_entry(
     key_for_contact_number = (
         f_ops.retrieve_contact_num_key_from_env_file(contact_name)
         )
+
     original_contact_number = decrypt(
         encrypted_contact_number = encrypted_contact_number, 
         key = key_for_contact_number)
+    
+    logger.info(f"Contact number retrieved for {contact_name} successfully!")
     
     return original_contact_number
 
@@ -83,6 +84,8 @@ def view_all_contacts(db: Session) -> dict:
                              'Contact Name': contact_name,
                              'Contact Number': original_contact_number
                             }
+
+    logger.info(f"All Contact data retrieved successfully!")
 
     return decrypted_contacts_data
 
@@ -118,6 +121,8 @@ def update_contact_entry(
         db = db
     )
 
+    logger.info(f"Contact entry for {old_contact_name} updated successfully!")
+
     return updated_contact_name
 
 
@@ -133,6 +138,8 @@ def delete_contact(
 
     db_ops.delete_contact_db(contact_name, db = db)
     f_ops.deletes_contact_num_key_in_env_file(contact_name)
+
+    logger.info(f"Contact entry for {contact_name} deleted successfully!")
     
     return contact_name
 
