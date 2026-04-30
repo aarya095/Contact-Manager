@@ -5,6 +5,10 @@ from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 from sqlalchemy import select, delete 
 from sqlalchemy.orm import Session
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def create_contact_db(
         contact_name: str, 
@@ -12,6 +16,8 @@ def create_contact_db(
         db: Session
         ):
     """Create an entry in the database"""
+
+    logger.info(f"Creating the entry for {contact_name} in database.")
 
     contact_exists = check_contact_exists(
                     name_to_check = contact_name,
@@ -50,12 +56,14 @@ def view_all_contacts(db: Session) -> dict:
 
 
 def view_contact_by_name(
-                        name: str, 
+                        contact_name: str, 
                         db: Session
                         ):
     """Retrieves one contact via SQLAlchemy"""
 
-    contact_exists = check_contact_exists(name_to_check = name, 
+    logger.info(f"Retrieving the entry for {contact_name} from database.")
+
+    contact_exists = check_contact_exists(name_to_check = contact_name, 
                                           db = db)
 
     if contact_exists:
@@ -66,7 +74,7 @@ def view_contact_by_name(
 
         for row in results:
             contact_entry = row[0]
-            if contact_entry.contact_name == name:
+            if contact_entry.contact_name == contact_name:
                 return contact_entry.contact_number
 
     if not contact_exists:

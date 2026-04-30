@@ -44,7 +44,7 @@ def view_one_contact_entry(
     decrypts it, and returns it"""
 
     encrypted_contact_number = db_ops.view_contact_by_name(
-                                        name = contact_name.lower(),
+                                        contact_name = contact_name.lower(),
                                         db = db
                                         )
 
