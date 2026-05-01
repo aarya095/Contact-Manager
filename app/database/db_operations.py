@@ -32,7 +32,7 @@ def create_contact_db(
             )
         session.add(contact_data)
         session.commit()
-        session.refresh()
+        session.refresh(contact_data)
     
     return contact_data
     
@@ -116,7 +116,7 @@ def update_contact_entry(
                 "No information is provided to be updated in the database"
                 )
         db.commit()
-        db.refresh()
+        db.refresh(user_to_update)
 
     return user_to_update
     
