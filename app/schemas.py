@@ -11,3 +11,7 @@ class UpdateContactEntry(BaseModel):
 
 class DeleteContactEntry(BaseModel):
     contact_name : str
+
+class ContactResponse(BaseModel):
+    contact_id : int
+    contact_name : str
