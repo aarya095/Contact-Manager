@@ -64,22 +64,22 @@ def view_contact_by_name(
 
     contact_exists = check_contact_exists(name_to_check = contact_name, 
                                           db = db)
-
-    if contact_exists:
-
-        stmt = select(Contact).where(Contact.contact_name == contact_name)
-
-        results = db.execute(stmt).all()
-
-        for row in results:
-            contact_entry = row[0]
-            if contact_entry.contact_name == contact_name:
-                logger.info(f"Successfully retrieved the entry for {contact_name} from database.")
-                return contact_entry.contact_number
-
+    
     if not contact_exists:
         logger.exception(f"User doesn't exist: {contact_name}")
         raise ContactNotFoundError()
+
+    stmt = select(Contact).where(Contact.contact_name == contact_name)
+
+    results = db.execute(stmt).all()
+
+    for row in results:
+        contact_entry = row[0]
+        if contact_entry.contact_name == contact_name:
+            logger.info(f"Successfully retrieved the entry for {contact_name} from database.")
+            return contact_entry.contact_number
+
+
     
     
 def update_contact_entry(
@@ -93,35 +93,32 @@ def update_contact_entry(
                         name_to_check = old_contact_name,
                         db = db
                         )
-
-    if contact_exists:
-
-        stmt = db.query(Contact).filter_by(
-            contact_name = old_contact_name
-            )
-        user_to_update_tuple = db.execute(statement = stmt).one()
-        user_to_update = user_to_update_tuple[0]
-        
-        if user_to_update:
-            
-            if updated_encrypted_contact_number is not None \
-                and updated_encrypted_contact_number != user_to_update.contact_number:
-                user_to_update.contact_number = updated_encrypted_contact_number
-
-            if updated_name is not None and \
-                updated_name != user_to_update.contact_name:
-                user_to_update.contact_name = updated_name
-
-            if updated_name is None and \
-                updated_encrypted_contact_number is None:
-                raise ValueError(
-                    "No information is provided to be updated in the database"
-                    )
-            db.commit()
-
     if not contact_exists:
         logger.exception(f"User doesn't exist: {old_contact_name}")
         return ContactNotFoundError
+
+    stmt = db.query(Contact).filter_by(
+        contact_name = old_contact_name
+        )
+    user_to_update_tuple = db.execute(statement = stmt).one()
+    user_to_update = user_to_update_tuple[0]
+    
+    if user_to_update:
+        
+        if updated_encrypted_contact_number is not None \
+            and updated_encrypted_contact_number != user_to_update.contact_number:
+            user_to_update.contact_number = updated_encrypted_contact_number
+
+        if updated_name is not None and \
+            updated_name != user_to_update.contact_name:
+            user_to_update.contact_name = updated_name
+
+        if updated_name is None and \
+            updated_encrypted_contact_number is None:
+            raise ValueError(
+                "No information is provided to be updated in the database"
+                )
+        db.commit()
     
     
 def delete_contact_db(
@@ -134,22 +131,19 @@ def delete_contact_db(
                     name_to_check = contact_name,
                     db = db
                     )
-
-    if contact_exists:
-
-        stmt = db.query(Contact).filter_by(
-        contact_name = contact_name
-            )
-        user_to_delete_tuple = db.execute(statement = stmt).one()
-        user_to_delete = user_to_delete_tuple[0]
-
-        if user_to_delete:
-            db.delete(user_to_delete)
-            db.commit()
-
     if not contact_exists:
         logger.exception(f"User doesn't exist: {contact_name}")
         raise ContactNotFoundError()
+
+    stmt = db.query(Contact).filter_by(
+    contact_name = contact_name
+        )
+    user_to_delete_tuple = db.execute(statement = stmt).one()
+    user_to_delete = user_to_delete_tuple[0]
+
+    if user_to_delete:
+        db.delete(user_to_delete)
+        db.commit()
     
 
 def empty_database_tables(db: Session):
