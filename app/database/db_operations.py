@@ -21,19 +21,20 @@ def create_contact_db(
                     name_to_check = contact_name,
                     db = db
                     )
-
-    if not contact_exists:
-        with db as session:
-            contact_data = Contact(
-                contact_name = contact_name, 
-                contact_number = encrypted_contact_number
-                )
-            session.add(contact_data)
-            session.commit()
-
     if contact_exists:
         logger.exception(f"User already exists: {contact_name}")
         raise UserAlreadyExistsError()
+
+    with db as session:
+        contact_data = Contact(
+            contact_name = contact_name, 
+            contact_number = encrypted_contact_number
+            )
+        session.add(contact_data)
+        session.commit()
+        session.refresh()
+    
+    return contact_data
     
     
 def view_all_contacts(db: Session) -> dict:
@@ -66,7 +67,7 @@ def view_contact_by_name(
 
     if contact_exists:
 
-        stmt = select(Contact).where(Contact.contact_name == name)
+        stmt = select(Contact).where(Contact.contact_name == contact_name)
 
         results = db.execute(stmt).all()
 
