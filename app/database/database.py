@@ -22,6 +22,7 @@ def get_db():
     """Dependency to get the database session"""
     
     db = SessionLocal()
+    logger.debug("DB session created.")
     try:
         yield db
     finally:
