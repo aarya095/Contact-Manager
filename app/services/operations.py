@@ -2,8 +2,8 @@ import logging
 
 from app.services.encryption import encrypt, decrypt
 from app.services import file_operations as f_ops
-
 from app.database import db_operations as db_ops
+from app.schemas import ContactResponse
 
 from sqlalchemy.orm import Session
 
@@ -27,15 +27,18 @@ def create_contact(
     encrypted_contact_number, key = encrypt(contact_number)
 
     contact_data = db_ops.create_contact_db(
-                    contact_name, 
-                    encrypted_contact_number,
-                    db)
+                    contact_name = contact_name, 
+                    encrypted_contact_number = encrypted_contact_number,
+                    db = db)
 
     f_ops.stores_contact_num_key_in_env_file(key, contact_name)
     
     logger.info(f"Successfully created the entry for {contact_name} in database.")
 
-    return contact_data
+    return ContactResponse(
+        contact_id = contact_data.contact_id,
+        contact_name = contact_data.contact_name
+    )
 
 
 def view_one_contact_entry(
@@ -131,8 +134,10 @@ def update_contact_entry(
 
     logger.info(f"Successfully updated the entry for {old_contact_name} in database.")
 
-    return user_to_update
-
+    return ContactResponse(
+        contact_id = user_to_update.contact_id,
+        contact_name = user_to_update.contact_name
+    )
 
 def delete_contact(
         contact_name: str,
