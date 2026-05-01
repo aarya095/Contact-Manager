@@ -5,6 +5,10 @@ from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 from sqlalchemy import select, delete 
 from sqlalchemy.orm import Session
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def create_contact_db(
         contact_name: str, 
@@ -28,6 +32,7 @@ def create_contact_db(
             session.commit()
 
     if contact_exists:
+        logger.exception(f"User already exists: {contact_name}")
         raise UserAlreadyExistsError()
     
     
@@ -46,29 +51,33 @@ def view_all_contacts(db: Session) -> dict:
                         'Contact Name': contact_data.contact_name,
                         'Contact Number': contact_data.contact_number
                          }
+        
     return contacts_data
 
 
 def view_contact_by_name(
-                        name: str, 
+                        contact_name: str, 
                         db: Session
                         ):
     """Retrieves one contact via SQLAlchemy"""
 
-    contact_exists = check_contact_exists(name_to_check = name, 
+    contact_exists = check_contact_exists(name_to_check = contact_name, 
                                           db = db)
 
     if contact_exists:
 
         stmt = select(Contact).where(Contact.contact_name == name)
 
-        contact_entry = db.execute(statement=stmt).first()
-        contact_entry = tuple(contact_entry)[0]
-        return (contact_entry.contact_id,
-                contact_entry.contact_name,
-                contact_entry.contact_number)
+        results = db.execute(stmt).all()
+
+        for row in results:
+            contact_entry = row[0]
+            if contact_entry.contact_name == contact_name:
+                logger.info(f"Successfully retrieved the entry for {contact_name} from database.")
+                return contact_entry.contact_number
 
     if not contact_exists:
+        logger.exception(f"User doesn't exist: {contact_name}")
         raise ContactNotFoundError()
     
     
@@ -110,6 +119,7 @@ def update_contact_entry(
             db.commit()
 
     if not contact_exists:
+        logger.exception(f"User doesn't exist: {old_contact_name}")
         return ContactNotFoundError
     
     
@@ -137,17 +147,20 @@ def delete_contact_db(
             db.commit()
 
     if not contact_exists:
+        logger.exception(f"User doesn't exist: {contact_name}")
         raise ContactNotFoundError()
     
 
 def empty_database_tables(db: Session):
 
+    logger.info("Starting to empty the database.")
     stmt = delete(Contact)
 
     db.execute(stmt.execution_options(synchronize_session="fetch"))
     print(f"Cleared table: {Contact.__tablename__}")
 
     db.commit()
+    logger.info("Database has been emptied successfully.")
 
 
 def check_contact_exists(name_to_check: str, db: Session):
@@ -165,8 +178,10 @@ def check_contact_exists(name_to_check: str, db: Session):
         list_of_contact_names.append(contact_entry.contact_name)
 
     if name_to_check in list_of_contact_names:
+        logger.info(f"User found in the database: {name_to_check}")
         return True
     if name_to_check not in list_of_contact_names:
+        logger.info(f"Uesr not found in the database: {name_to_check}")
         return False
     
     

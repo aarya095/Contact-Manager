@@ -8,8 +8,11 @@ from sqlalchemy.orm import Session
 
 from app.database.database import get_db
 
-router = APIRouter()
+import logging
 
+logger = logging.getLogger(__name__)
+
+router = APIRouter()
 
 @router.get("/")
 def root():
@@ -22,11 +25,13 @@ def root():
 def get_one_contact_entry(
                         contact_name: str,
                         db: Session = Depends(get_db)):
+    logger.info("GET /contacts/{contact_name} - request received")
     try:
         contact_number = op.view_one_contact_entry(
                                 contact_name = contact_name,
                                 db = db
                                 )
+        logger.info(f"GET /contacts/{contact_name} - success (status=201, name={contact_name})")
         return {"contact_name": contact_name.title(), 
                 "contact_number": contact_number}
     except UserAlreadyExistsError:
@@ -45,8 +50,10 @@ def get_one_contact_entry(
             status_code=200,
             summary = "Gets all the contact entries stored in the database")
 def get_all_contact_entries(db: Session = Depends(get_db)) -> dict:
-
+    
+    logger.info("GET /contacts - request received")
     contacts_data = op.view_all_contacts(db)
+    logger.info("GET /contacts - success (status=201)")
     return contacts_data
 
 
@@ -57,12 +64,15 @@ def create_contact(
                     contact: ContactEntry,
                     db: Session = Depends(get_db)
                     ):
+    logger.info("POST /contacts - request received")
     try:
         contact_name = op.create_contact(
                         contact_name = contact.contact_name, 
                         contact_number=contact.contact_number,
                         db = db
                         )
+        logger.info(f"POST /contacts - success (status=201, name={contact.contact_name})")
+        
         return {"Message": 
                 f"The entry for {contact_name} created successfully!"}
     except UserAlreadyExistsError:
@@ -79,6 +89,7 @@ def update_contact(
                    contact: UpdateContactEntry,
                    db: Session = Depends(get_db)
                    ):
+    logger.info("PUT /contacts - request received")
     try:
         updated_contact_name = op.update_contact_entry(
             old_contact_name = contact.old_contact_name,
@@ -86,6 +97,7 @@ def update_contact(
             updated_contact_number = contact.new_contact_number,
             db = db
         )
+        logger.info(f"PUT /contacts - success (status=201, name={contact.contact_name})")
         return {
             "Message": f"The contact entry for {updated_contact_name} has been updated successfully!"}
     
@@ -103,11 +115,13 @@ def delete_contact(
                     contact: DeleteContactEntry,
                     db: Session = Depends(get_db)
                     ):
+    logger.info("DELETE /contacts - request received")
     try:
         contact_name = op.delete_contact(
                         contact_name = contact.contact_name,
                         db = db
                         )
+        logger.info(f"DELETE /contacts - success (status=201, name={contact.contact_name})")
         return {"Message": 
                 f"The entry for {contact_name} deleted successfully!"}
     except ContactNotFoundError:
