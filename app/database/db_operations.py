@@ -94,7 +94,7 @@ def update_contact_entry(
         logger.exception(f"User doesn't exist: {old_contact_name}")
         return ContactNotFoundError
 
-    stmt = db.query(Contact).filter_by(
+    stmt = select(Contact).filter_by(
         contact_name = old_contact_name
         )
     user_to_update_tuple = db.execute(statement = stmt).one()
@@ -135,9 +135,9 @@ def delete_contact_db(
         logger.exception(f"User doesn't exist: {contact_name}")
         raise ContactNotFoundError()
 
-    stmt = db.query(Contact).filter_by(
-    contact_name = contact_name
-        )
+    stmt = select(Contact).filter_by(
+            contact_name = contact_name
+                )
     user_to_delete_tuple = db.execute(statement = stmt).one()
     user_to_delete = user_to_delete_tuple[0]
 
@@ -155,7 +155,6 @@ def empty_database_tables(db: Session):
     stmt = delete(Contact)
 
     db.execute(stmt.execution_options(synchronize_session="fetch"))
-    print(f"Cleared table: {Contact.__tablename__}")
 
     db.commit()
     logger.info("Database has been emptied successfully.")
