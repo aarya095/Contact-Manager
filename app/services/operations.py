@@ -26,7 +26,7 @@ def create_contact(
 
     encrypted_contact_number, key = encrypt(contact_number)
 
-    db_ops.create_contact_db(
+    contact_data = db_ops.create_contact_db(
                     contact_name, 
                     encrypted_contact_number,
                     db)
@@ -35,7 +35,7 @@ def create_contact(
     
     logger.info(f"Successfully created the entry for {contact_name} in database.")
 
-    return contact_name
+    return contact_data
 
 
 def view_one_contact_entry(
@@ -122,7 +122,7 @@ def update_contact_entry(
         key = key, 
         name = updated_contact_name
         )
-    db_ops.update_contact_entry(
+    user_to_update = db_ops.update_contact_entry(
         old_contact_name = old_contact_name,
         updated_name = updated_contact_name,
         updated_encrypted_contact_number = updated_encrypted_contact_number,
@@ -131,7 +131,7 @@ def update_contact_entry(
 
     logger.info(f"Successfully updated the entry for {old_contact_name} in database.")
 
-    return updated_contact_name
+    return user_to_update
 
 
 def delete_contact(
@@ -146,12 +146,15 @@ def delete_contact(
     contact_name = contact_name.lower()
     contact_name = contact_name.replace(" ", "")
 
-    db_ops.delete_contact_db(contact_name, db = db)
+    deleted_contact_data = db_ops.delete_contact_db(
+                    contact_name = contact_name, 
+                    db = db
+                    )
     f_ops.deletes_contact_num_key_in_env_file(contact_name)
 
     logger.info(f"Successfully deleted the entry for {contact_name} from database.")
     
-    return contact_name
+    return deleted_contact_data
 
 if __name__ == '__main__':
     #view_all_contacts()

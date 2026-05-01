@@ -141,7 +141,7 @@ def delete_contact_db(
     user_to_delete_tuple = db.execute(statement = stmt).one()
     user_to_delete = user_to_delete_tuple[0]
 
-    deleted_contact_entry = {
+    deleted_contact_data = {
         "id": user_to_delete.contact_id,
         "contact_name": user_to_delete.contact_name
     }
@@ -150,7 +150,7 @@ def delete_contact_db(
         db.delete(user_to_delete)
         db.commit()
 
-    return deleted_contact_entry
+    return deleted_contact_data
     
 
 def empty_database_tables(db: Session):
