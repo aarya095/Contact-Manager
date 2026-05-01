@@ -14,7 +14,7 @@ def create_contact_db(
         contact_name: str, 
         encrypted_contact_number: bytes,
         db: Session
-        ):
+        ) -> Contact:
     """Create an entry in the database"""
 
     contact_exists = check_contact_exists(
@@ -84,7 +84,7 @@ def update_contact_entry(
                     db: Session,
                     updated_name: str | None = None,
                     updated_encrypted_contact_number: bytes | None = None
-                ):
+                ) -> Contact:
 
     contact_exists = check_contact_exists(
                         name_to_check = old_contact_name,
@@ -124,7 +124,7 @@ def update_contact_entry(
 def delete_contact_db(
         contact_name: str, 
         db: Session
-        ):
+        ) -> dict:
     """Create an entry in the database"""
 
     contact_exists = check_contact_exists(
