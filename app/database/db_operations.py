@@ -76,12 +76,9 @@ def view_contact_by_name(
     for row in results:
         contact_entry = row[0]
         if contact_entry.contact_name == contact_name:
-            logger.info(f"Successfully retrieved the entry for {contact_name} from database.")
             return contact_entry.contact_number
 
-
-    
-    
+        
 def update_contact_entry(
                     old_contact_name: str, 
                     db: Session,
@@ -119,6 +116,9 @@ def update_contact_entry(
                 "No information is provided to be updated in the database"
                 )
         db.commit()
+        db.refresh()
+
+    return user_to_update
     
     
 def delete_contact_db(
@@ -141,9 +141,12 @@ def delete_contact_db(
     user_to_delete_tuple = db.execute(statement = stmt).one()
     user_to_delete = user_to_delete_tuple[0]
 
+    #print(f"User to delete = {user_to_delete}")
+
     if user_to_delete:
         db.delete(user_to_delete)
-        db.commit()
+        db.rollback()
+        #db.commit()
     
 
 def empty_database_tables(db: Session):
@@ -203,9 +206,10 @@ if __name__ == '__main__':
                                 autocommit = False
                                 )
     db = SessionLocal()
+    delete_contact_db(contact_name="aarya",db=db)
     #empty_database_tables(db=db)"""
     #view_all_contacts()
-    view_contact_by_name(name="red",db=db)
+    #view_contact_by_name(name="red",db=db)
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
     #update_contact_entry("string","india")
