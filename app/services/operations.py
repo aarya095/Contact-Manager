@@ -13,7 +13,7 @@ def create_contact(
         contact_name: str, 
         contact_number: int,
         db: Session
-        ):
+        ) -> ContactResponse:
     """Encrypts the contact number, sends the key to the .env file, and 
     sends the contact data to the database"""
 
@@ -44,7 +44,7 @@ def create_contact(
 def view_one_contact_entry(
                            contact_name: str, 
                            db: Session
-                           ) -> str | int:
+                           ) -> int:
     """Retrieves the encrypted contact number from the Database, 
     decrypts it, and returns it"""
 
@@ -104,7 +104,7 @@ def update_contact_entry(
         updated_contact_name: str | None, 
         updated_contact_number: int | None,
         db: Session
-        ):
+        ) -> ContactResponse:
     """Seeks out the old contact info to be updated,
     Encrypts the new contact number, sends the key to the .env file, 
     deletes the old key, and sends the contact data to the database"""
@@ -142,7 +142,7 @@ def update_contact_entry(
 def delete_contact(
         contact_name: str,
         db: Session 
-        ):
+        ) -> dict:
     """Deletes the contact entry from the database, also the key in the .env file"""
 
     logger.info(f"Deleting the entry for {contact_name} from database.")
