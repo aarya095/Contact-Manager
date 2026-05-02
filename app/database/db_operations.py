@@ -36,25 +36,6 @@ def create_contact_db(
     
     return contact_data
     
-    
-def view_all_contacts(db: Session) -> dict:
-    """Retrieves all the contacts via SQLAlchemy"""
-
-    stmt = select(Contact)
-
-    results = db.execute(stmt).all()
-
-    contacts_data = {}
-    # Cleaning the data
-    for row in results:
-        contact_data = row[0]
-        contacts_data[contact_data.contact_id] = {
-                        'Contact Name': contact_data.contact_name,
-                        'Contact Number': contact_data.contact_number
-                         }
-        
-    return contacts_data
-
 
 def view_contact_by_name(
                         contact_name: str, 
@@ -77,6 +58,25 @@ def view_contact_by_name(
         contact_entry = row[0]
         if contact_entry.contact_name == contact_name:
             return contact_entry.contact_number
+        
+    
+def view_all_contacts(db: Session) -> dict:
+    """Retrieves all the contacts via SQLAlchemy"""
+
+    stmt = select(Contact)
+
+    results = db.execute(stmt).all()
+
+    contacts_data = {}
+    # Cleaning the data
+    for row in results:
+        contact_data = row[0]
+        contacts_data[contact_data.contact_id] = {
+                        'Contact Name': contact_data.contact_name,
+                        'Contact Number': contact_data.contact_number
+                         }
+        
+    return contacts_data
 
         
 def update_contact_entry(
