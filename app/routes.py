@@ -37,10 +37,11 @@ def create_contact(
         
         return {"Message": "Contact created successfully",
                 "contact": {
-                    "contact_id": contact_data.contact_id,
-                    "contact_name": contact_data.contact_name
+                    "Contact id": contact_data.contact_id,
+                    "Contact Name": contact_data.contact_name
                     }
                 }
+    
     except UserAlreadyExistsError:
         raise HTTPException(
             status_code = 400, 
@@ -97,15 +98,20 @@ def update_contact(
                    ):
     logger.info("PUT /contacts - request received")
     try:
-        updated_contact_name = op.update_contact_entry(
+        updated_contact_data = op.update_contact_entry(
             old_contact_name = contact.old_contact_name,
             updated_contact_name = contact.new_contact_name,
             updated_contact_number = contact.new_contact_number,
             db = db
         )
         logger.info(f"PUT /contacts - success (status=201, name={contact.contact_name})")
-        return {
-            "Message": f"The contact entry for {updated_contact_name} has been updated successfully!"}
+        
+        return {"Message": "Contact updated successfully",
+                "contact": {
+                    "Contact id": updated_contact_data.contact_id,
+                    "Contact Name": updated_contact_data.contact_name
+                    }
+                }
     
     except ContactNotFoundError:
         raise HTTPException(
