@@ -118,8 +118,6 @@ def update_contact_entry(
                 )
         db.commit()
         db.refresh(user_to_update)
-        logger.debug(f"user_to_update: {user_to_update}")
-        logger.debug(f"Type of user_to_update object: {(user_to_update)}")
 
     return user_to_update
     
