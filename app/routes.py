@@ -37,8 +37,8 @@ def create_contact(
         
         return {"Message": "Contact created successfully",
                 "contact": {
-                    "Contact id": contact_data.contact_id,
-                    "Contact Name": contact_data.contact_name
+                    "contact_id": contact_data.contact_id,
+                    "contact_name": contact_data.contact_name
                     }
                 }
     
@@ -108,8 +108,8 @@ def update_contact(
         
         return {"Message": "Contact updated successfully",
                 "contact": {
-                    "Contact id": updated_contact_data.contact_id,
-                    "Contact Name": updated_contact_data.contact_name
+                    "contact_id": updated_contact_data.contact_id,
+                    "contact_name": updated_contact_data.contact_name
                     }
                 }
     
@@ -137,8 +137,8 @@ def delete_contact(
 
         return {"Message": "Contact deleted successfully",
                 "contact": {
-                    "Contact id": deleted_contact_data["id"],
-                    "Contact Name": deleted_contact_data["contact_name"]
+                    "contact_id": deleted_contact_data["id"],
+                    "contact_name": deleted_contact_data["contact_name"]
                     }
                 }
     
