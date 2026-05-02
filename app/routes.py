@@ -129,13 +129,19 @@ def delete_contact(
                     ):
     logger.info("DELETE /contacts - request received")
     try:
-        contact_name = op.delete_contact(
+        deleted_contact_data = op.delete_contact(
                         contact_name = contact.contact_name,
                         db = db
                         )
         logger.info(f"DELETE /contacts - success (status=201, name={contact.contact_name})")
-        return {"Message": 
-                f"The entry for {contact_name} deleted successfully!"}
+
+        return {"Message": "Contact deleted successfully",
+                "contact": {
+                    "Contact id": deleted_contact_data["id"],
+                    "Contact Name": deleted_contact_data["contact_name"]
+                    }
+                }
+    
     except ContactNotFoundError:
         raise HTTPException(
             status_code = 404, 
