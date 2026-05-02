@@ -19,6 +19,30 @@ def root():
     return "Welcome to Contact Manager API"
 
 
+@router.post("/contacts", 
+             status_code=201,
+             summary="Create a new contact")
+def create_contact(
+                    contact: ContactEntry,
+                    db: Session = Depends(get_db)
+                    ):
+    logger.info("POST /contacts - request received")
+    try:
+        contact_name = op.create_contact(
+                        contact_name = contact.contact_name, 
+                        contact_number=contact.contact_number,
+                        db = db
+                        )
+        logger.info(f"POST /contacts - success (status=201, name={contact.contact_name})")
+        
+        return {"Message": 
+                f"The entry for {contact_name} created successfully!"}
+    except UserAlreadyExistsError:
+        raise HTTPException(
+            status_code = 400, 
+            detail = "Contact name already exists!"
+            )
+    
 @router.get("/contacts/{contact_name}",
             status_code=200, 
             summary = "Gets the contact entry by name")
@@ -55,31 +79,6 @@ def get_all_contact_entries(db: Session = Depends(get_db)) -> dict:
     contacts_data = op.view_all_contacts(db)
     logger.info("GET /contacts - success (status=201)")
     return contacts_data
-
-
-@router.post("/contacts", 
-             status_code=201,
-             summary="Create a new contact")
-def create_contact(
-                    contact: ContactEntry,
-                    db: Session = Depends(get_db)
-                    ):
-    logger.info("POST /contacts - request received")
-    try:
-        contact_name = op.create_contact(
-                        contact_name = contact.contact_name, 
-                        contact_number=contact.contact_number,
-                        db = db
-                        )
-        logger.info(f"POST /contacts - success (status=201, name={contact.contact_name})")
-        
-        return {"Message": 
-                f"The entry for {contact_name} created successfully!"}
-    except UserAlreadyExistsError:
-        raise HTTPException(
-            status_code = 400, 
-            detail = "Contact name already exists!"
-            )
     
 
 @router.put("/contacts", 
