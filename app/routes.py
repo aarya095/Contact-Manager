@@ -28,15 +28,19 @@ def create_contact(
                     ):
     logger.info("POST /contacts - request received")
     try:
-        contact_name = op.create_contact(
+        contact_data = op.create_contact(
                         contact_name = contact.contact_name, 
                         contact_number=contact.contact_number,
                         db = db
                         )
         logger.info(f"POST /contacts - success (status=201, name={contact.contact_name})")
         
-        return {"Message": 
-                f"The entry for {contact_name} created successfully!"}
+        return {"Message": "Contact created successfully",
+                "contact": {
+                    "contact_id": contact_data.contact_id,
+                    "contact_name": contact_data.contact_name
+                    }
+                }
     except UserAlreadyExistsError:
         raise HTTPException(
             status_code = 400, 
@@ -76,8 +80,11 @@ def get_one_contact_entry(
 def get_all_contact_entries(db: Session = Depends(get_db)) -> dict:
     
     logger.info("GET /contacts - request received")
+    
     contacts_data = op.view_all_contacts(db)
+    
     logger.info("GET /contacts - success (status=201)")
+
     return contacts_data
     
 

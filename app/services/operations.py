@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
+
 def create_contact(
         contact_name: str, 
         contact_number: int,
