@@ -36,7 +36,27 @@ def test_root():
     assert response.json() == "Welcome to Contact Manager API"
 
 
+def test_create_contact():
+    """Tests the POST /contacts endpoint"""
+
+    #teardown()
+    contact_name = "Aarya"
+    contact_number = 9876543210
+
+    response = client.post(
+        "/contacts/", json = {
+            "contact_name": contact_name,
+            "contact_number": contact_number
+            }
+    )
+    assert response.status_code == 201
+    teardown()
+
+
 def test_get_one_contact_entry():
+    """Tests the GET /contacts/{contact_name} endpoint"""
+
+    #teardown()
     setup()
     contact_name = "Aarya"
     response = client.get(f"/contacts/{contact_name}")    
