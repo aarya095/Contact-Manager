@@ -1,10 +1,6 @@
 from fastapi.testclient import TestClient
-from fastapi import Depends
 
-from sqlalchemy.orm import Session
-from sqlalchemy import select, delete 
-
-from app.database.models import Contact, Base
+from sqlalchemy import delete 
 
 import os
 from sqlalchemy import create_engine
@@ -13,6 +9,12 @@ from dotenv import load_dotenv
 
 from app.main import app
 from app.services.operations import create_contact
+from app.services.file_operations import deletes_contact_num_key_in_env_file
+from app.database.models import Contact, Base
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Set up test client 
 client = TestClient(app)
@@ -39,7 +41,7 @@ def test_root():
 def test_create_contact():
     """Tests the POST /contacts endpoint"""
 
-    #teardown()
+    teardown()
     contact_name = "Aarya"
     contact_number = 9876543210
 
@@ -49,21 +51,30 @@ def test_create_contact():
             "contact_number": contact_number
             }
     )
+    
     assert response.status_code == 201
+    data = response.json()
+
+    logger.debug(data)
+    
+    assert data['Message'] == "Contact created successfully"
+    assert data['contact']['contact_name'] == "aarya"
+    assert 'contact_id' in data['contact']
+    
     teardown()
 
 
 def test_get_one_contact_entry():
     """Tests the GET /contacts/{contact_name} endpoint"""
 
-    #teardown()
+    teardown()
     setup()
     contact_name = "Aarya"
     response = client.get(f"/contacts/{contact_name}")    
     assert response.status_code == 200
     data = response.json()
     assert data['contact_name'] == "Aarya"
-    assert data['contact_number'] == 5635634634
+    assert data['contact_number'] == 9876543210
     print(data)
     teardown()
 
@@ -72,7 +83,7 @@ def setup():
     Base.metadata.create_all(engine)
     db = SessionLocal()
     create_contact(contact_name="Aarya",
-                   contact_number=5635634634,
+                   contact_number=9876543210,
                    db=db)
 
 
@@ -86,5 +97,7 @@ def teardown():
     db.commit()
     db.close()
 
+    deletes_contact_num_key_in_env_file(name="aarya")
+
 if __name__ == "__main__":
-    test_get_one_contact_entry()
+    test_create_contact()
