@@ -41,7 +41,7 @@ def test_root():
 def test_create_contact():
     """Tests the POST /contacts endpoint"""
 
-    teardown()
+    #teardown()
     contact_name = "Aarya"
     contact_number = 9876543210
 
@@ -51,7 +51,7 @@ def test_create_contact():
             "contact_number": contact_number
             }
     )
-    
+
     assert response.status_code == 201
     data = response.json()
 
@@ -67,7 +67,7 @@ def test_create_contact():
 def test_get_one_contact_entry():
     """Tests the GET /contacts/{contact_name} endpoint"""
 
-    teardown()
+    #teardown()
     setup()
     contact_name = "Aarya"
     response = client.get(f"/contacts/{contact_name}")    
@@ -85,6 +85,20 @@ def setup():
     create_contact(contact_name="Aarya",
                    contact_number=9876543210,
                    db=db)
+    
+def setup_for_testing_get_all_contact_entries():
+    Base.metadata.create_all(engine)
+    db = SessionLocal()
+    create_contact(contact_name="Aarya",
+                   contact_number=9876543210,
+                   db=db)
+    create_contact(contact_name="Yash",
+                   contact_number=1234567890,
+                   db=db)
+    create_contact(contact_name="Omkar",
+                   contact_number=5432167890,
+                   db=db)
+
 
 
 def teardown():
