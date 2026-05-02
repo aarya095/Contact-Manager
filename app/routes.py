@@ -104,7 +104,7 @@ def update_contact(
             updated_contact_number = contact.new_contact_number,
             db = db
         )
-        logger.info(f"PUT /contacts - success (status=201, name={contact.contact_name})")
+        logger.info(f"PUT /contacts - success (status=201, name={contact.new_contact_name})")
         
         return {"Message": "Contact updated successfully",
                 "contact": {

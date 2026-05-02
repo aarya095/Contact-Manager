@@ -90,6 +90,7 @@ def update_contact_entry(
                         name_to_check = old_contact_name,
                         db = db
                         )
+    
     if not contact_exists:
         logger.exception(f"User doesn't exist: {old_contact_name}")
         return ContactNotFoundError
@@ -117,6 +118,8 @@ def update_contact_entry(
                 )
         db.commit()
         db.refresh(user_to_update)
+        logger.debug(f"user_to_update: {user_to_update}")
+        logger.debug(f"Type of user_to_update object: {(user_to_update)}")
 
     return user_to_update
     
@@ -209,8 +212,8 @@ if __name__ == '__main__':
                                 autocommit = False
                                 )
     db = SessionLocal()
-    delete_contact_db(contact_name="aarya",db=db)
-    #empty_database_tables(db=db)"""
+    #delete_contact_db(contact_name="aarya",db=db)
+    #empty_database_tables(db=db)
     #view_all_contacts()
     #view_contact_by_name(name="red",db=db)
     #name, contact_number = view_contact_by_name("vikas")

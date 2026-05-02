@@ -133,6 +133,8 @@ def update_contact_entry(
         db = db
     )
 
+    logger.debug(user_to_update)
+
     logger.info(f"Successfully updated the entry for {old_contact_name} in database.")
 
     return ContactResponse(
