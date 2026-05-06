@@ -17,14 +17,6 @@ def insert_contact(
         ) -> Contact:
     """Create an entry in the database"""
 
-    contact_exists = check_contact_exists(
-                    name_to_check = contact_name,
-                    db = db
-                    )
-    if contact_exists:
-        logger.exception(f"User already exists: {contact_name}")
-        raise UserAlreadyExistsError()
-
     with db as session:
         contact_data = Contact(
             contact_name = contact_name, 
