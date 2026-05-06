@@ -45,7 +45,7 @@ def create_contact(
 def get_contact(
                 contact_id: str, 
                 db: Session
-                ) -> int:
+                ) -> dict:
     """Retrieves the encrypted contact number from the Database, 
     decrypts it, and returns it"""
 
@@ -64,9 +64,15 @@ def get_contact(
         encrypted_contact_number = contact_data.contact_number, 
         key = key_for_contact_number)
     
+    contact_data_dict = {
+        'contact_id': contact_data.contact_id,
+        'contact_name': contact_data.contact_name,
+        'contact_number': original_contact_number
+    }
+    
     logger.info(f"Contact number retrieved for {contact_id} successfully!")
     
-    return original_contact_number
+    return contact_data_dict
 
     
 def list_contacts(db: Session) -> dict:
