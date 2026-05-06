@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
-from app.schemas import ContactEntry, UpdateContactEntry, DeleteContactEntry
+from app.schemas import ContactEntry, UpdateContactEntry, Contact
 from app.services import operations as op
 
 from sqlalchemy.orm import Session
@@ -123,7 +123,7 @@ def update_contact(
                status_code = 200,
                summary = "Deletes an existing contact")
 def delete_contact(
-                    contact: DeleteContactEntry,
+                    contact: Contact,
                     db: Session = Depends(get_db)
                     ):
     logger.info("DELETE /contacts - request received")
