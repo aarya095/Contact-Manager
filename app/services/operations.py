@@ -32,7 +32,7 @@ def create_contact(
                     encrypted_contact_number = encrypted_contact_number,
                     db = db)
 
-    f_ops.stores_contact_num_key_in_env_file(key, contact_name)
+    f_ops.stores_contact_num_key_in_env_file(key, contact_data.contact_id)
     
     logger.info(f"Successfully created the entry for {contact_name} in database.")
 
@@ -43,28 +43,28 @@ def create_contact(
 
 
 def get_contact(
-                           contact_name: str, 
-                           db: Session
-                           ) -> int:
+                contact_id: str, 
+                db: Session
+                ) -> int:
     """Retrieves the encrypted contact number from the Database, 
     decrypts it, and returns it"""
 
-    logger.info(f"Retrieving the entry for {contact_name} from database.")
+    logger.info(f"Retrieving the entry for {contact_id} from database.")
 
     contact_data = db_ops.retrieve_contact_by_id(
-                                        contact_name = contact_name.lower(),
+                                        contact_id = contact_id,
                                         db = db
                                         )
 
     key_for_contact_number = (
-        f_ops.retrieve_contact_num_key_from_env_file(contact_data.contact_name)
+        f_ops.retrieve_contact_num_key_from_env_file(contact_data.contact_id)
         )
 
     original_contact_number = decrypt(
         encrypted_contact_number = contact_data.contact_number, 
         key = key_for_contact_number)
     
-    logger.info(f"Contact number retrieved for {contact_name} successfully!")
+    logger.info(f"Contact number retrieved for {contact_id} successfully!")
     
     return original_contact_number
 
@@ -84,7 +84,7 @@ def list_contacts(db: Session) -> dict:
         encrypted_contact_number = contact_data['Contact Number']
 
         key_for_contact_number = (
-            f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+            f_ops.retrieve_contact_num_key_from_env_file(contact_id)
             )
         original_contact_number = decrypt(
             encrypted_contact_number = encrypted_contact_number, 
@@ -101,7 +101,7 @@ def list_contacts(db: Session) -> dict:
 
 
 def update_contact(
-        old_contact_name: str, 
+        contact_id: int, 
         updated_contact_name: str | None, 
         updated_contact_number: int | None,
         db: Session
@@ -110,30 +110,30 @@ def update_contact(
     Encrypts the new contact number, sends the key to the .env file, 
     deletes the old key, and sends the contact data to the database"""
 
-    logger.info(f"Updating the entry for {old_contact_name} in database.")
+    logger.info(f"Updating the entry for {contact_id} in database.")
 
     # Normalizing the updated contact name
     updated_contact_name = updated_contact_name.lower()
     updated_contact_name = updated_contact_name.replace(" ", "")
     
     if updated_contact_name is not None:
-        f_ops.deletes_contact_num_key_in_env_file(old_contact_name)
+        f_ops.deletes_contact_num_key_in_env_file(contact_id)
 
     updated_encrypted_contact_number, key = (
         encrypt(updated_contact_number)
         )
     f_ops.stores_contact_num_key_in_env_file(
         key = key, 
-        name = updated_contact_name
+        contact_id = contact_id
         )
     user_to_update = db_ops.update_contact_by_id(
-        old_contact_name = old_contact_name,
+        contact_id = contact_id,
         updated_name = updated_contact_name,
         updated_encrypted_contact_number = updated_encrypted_contact_number,
         db = db
     )
 
-    logger.info(f"Successfully updated the entry for {old_contact_name} in database.")
+    logger.info(f"Successfully updated the entry for {contact_id} in database.")
 
     return ContactResponse(
         contact_id = user_to_update.contact_id,
@@ -141,24 +141,20 @@ def update_contact(
     )
 
 def delete_contact(
-        contact_name: str,
+        contact_id: str,
         db: Session 
         ) -> dict:
     """Deletes the contact entry from the database, also the key in the .env file"""
 
-    logger.info(f"Deleting the entry for {contact_name} from database.")
-
-    # Normalizing the updated contact name
-    contact_name = contact_name.lower()
-    contact_name = contact_name.replace(" ", "")
+    logger.info(f"Deleting the entry for {contact_id} from database.")
 
     deleted_contact_data = db_ops.delete_contact_by_id(
-                    contact_name = contact_name, 
+                    contact_id = contact_id, 
                     db = db
                     )
-    f_ops.deletes_contact_num_key_in_env_file(contact_name)
+    f_ops.deletes_contact_num_key_in_env_file(contact_id)
 
-    logger.info(f"Successfully deleted the entry for {contact_name} from database.")
+    logger.info(f"Successfully deleted the entry for {contact_id} from database.")
     
     return deleted_contact_data
 
