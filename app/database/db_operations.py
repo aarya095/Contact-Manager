@@ -154,26 +154,18 @@ def empty_database_tables(db: Session):
     logger.info("Database has been emptied successfully.")
 
 
-def check_contact_exists(name_to_check: str, db: Session):
+def check_contact_exists(id_to_check: int, db: Session):
     """Retrieves all the contact names via 
     SQLAlchemy and checks if the contact entry exists"""
 
-    stmt = select(Contact)
+    stmt = select(Contact).filter_by(contact_id = id_to_check)
 
-    results = db.execute(stmt).all()
-    list_of_contact_names = []
+    user_to_find = db.execute(stmt).first()
 
-    for row in results:
-        # row is a Row object, you can access the User object directly
-        contact_entry = row[0]
-        list_of_contact_names.append(contact_entry.contact_name)
-
-    if name_to_check in list_of_contact_names:
-        logger.info(f"User found in the database: {name_to_check}")
+    if user_to_find:
+        logger.info(f"User found in the database: {id_to_check}")
         return True
-    if name_to_check not in list_of_contact_names:
-        logger.info(f"Uesr not found in the database: {name_to_check}")
-        return False
+    return False
     
     
 if __name__ == '__main__':
