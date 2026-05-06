@@ -30,19 +30,19 @@ def insert_contact(
     
 
 def retrieve_contact_by_id(
-                        contact_name: str, 
+                        contact_id: str, 
                         db: Session
                         ) -> Contact:
     """Retrieves one contact via SQLAlchemy"""
 
-    contact_exists = check_contact_exists(name_to_check = contact_name, 
+    contact_exists = check_contact_exists(id_to_check = contact_id, 
                                           db = db)
     
     if not contact_exists:
-        logger.exception(f"User doesn't exist: {contact_name}")
+        logger.exception(f"User doesn't exist")
         raise ContactNotFoundError()
 
-    stmt = select(Contact).where(Contact.contact_name == contact_name)
+    stmt = select(Contact).filter_by(contact_id = contact_id)
 
     user_to_view = db.execute(stmt).first()
     user_to_view = user_to_view[0]
@@ -61,25 +61,25 @@ def retrieve_all_contacts(db: Session) -> list[tuple[Contact]]:
 
         
 def update_contact_by_id(
-                    old_contact_name: str, 
+                    contact_id: str, 
                     db: Session,
                     updated_name: str | None = None,
                     updated_encrypted_contact_number: bytes | None = None
                 ) -> Contact:
 
     contact_exists = check_contact_exists(
-                        name_to_check = old_contact_name,
+                        id_to_check = contact_id,
                         db = db
                         )
     
     if not contact_exists:
-        logger.exception(f"User doesn't exist: {old_contact_name}")
+        logger.exception(f"User doesn't exist")
         return ContactNotFoundError
 
     stmt = select(Contact).filter_by(
-        contact_name = old_contact_name
+        contact_id = contact_id
         )
-    user_to_update_tuple = db.execute(statement = stmt).one()
+    user_to_update_tuple = db.execute(statement = stmt).first()
     user_to_update = user_to_update_tuple[0]
     
     if user_to_update:
@@ -104,22 +104,23 @@ def update_contact_by_id(
     
     
 def delete_contact_by_id(
-        contact_name: str, 
+        contact_id: str, 
         db: Session
         ) -> dict:
     """Create an entry in the database"""
 
     contact_exists = check_contact_exists(
-                    name_to_check = contact_name,
+                    id_to_check = contact_id,
                     db = db
                     )
     if not contact_exists:
-        logger.exception(f"User doesn't exist: {contact_name}")
+        logger.exception(f"User doesn't exist")
         raise ContactNotFoundError()
 
     stmt = select(Contact).filter_by(
-            contact_name = contact_name
+            contact_id = contact_id
                 )
+    
     user_to_delete_tuple = db.execute(statement = stmt).one()
     user_to_delete = user_to_delete_tuple[0]
 
@@ -190,7 +191,8 @@ if __name__ == '__main__':
     # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
     # db)
     #result = retrieve_all_contacts(db=db)
-    #print(result)
+    result = retrieve_contact_by_id(contact_id=1, db=db)
+    print(result)
     #logger.debug(f"{result}")
     #user = view_contact_by_name(contact_name="aarya",db=db)
     #name, contact_number = view_contact_by_name("vikas")
