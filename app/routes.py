@@ -129,7 +129,7 @@ def delete_contact(
     logger.info("DELETE /contacts - request received")
     try:
         deleted_contact_data = op.delete_contact(
-                        contact_name = contact.contact_name,
+                        contact_id = Contact.contact_id,
                         db = db
                         )
         logger.info(f"DELETE /contacts - success (status=201, name={contact.contact_name})")
