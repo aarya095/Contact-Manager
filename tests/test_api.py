@@ -64,7 +64,7 @@ def test_create_contact():
     teardown()
 
 
-def test_retrieve_contact_by_id():
+def test_get_contact():
     """Tests the GET /contacts/{contact_name} endpoint"""
 
     teardown()
@@ -119,4 +119,4 @@ def teardown():
     deletes_contact_num_key_in_env_file(contact_id=1)
 
 if __name__ == "__main__":
-    test_retrieve_contact_by_id()
+    test_get_contact()
