@@ -51,17 +51,17 @@ def view_one_contact_entry(
 
     logger.info(f"Retrieving the entry for {contact_name} from database.")
 
-    encrypted_contact_number = db_ops.view_contact_by_name(
+    contact_data = db_ops.view_contact_by_name(
                                         contact_name = contact_name.lower(),
                                         db = db
                                         )
 
     key_for_contact_number = (
-        f_ops.retrieve_contact_num_key_from_env_file(contact_name)
+        f_ops.retrieve_contact_num_key_from_env_file(contact_data.contact_name)
         )
 
     original_contact_number = decrypt(
-        encrypted_contact_number = encrypted_contact_number, 
+        encrypted_contact_number = contact_data.contact_number, 
         key = key_for_contact_number)
     
     logger.info(f"Contact number retrieved for {contact_name} successfully!")

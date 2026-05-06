@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 
-env_file_path = ".env.dev"
+env_file_path = ".env.test"
 load_dotenv(dotenv_path = env_file_path)
 
 DATABASE_URL = os.getenv("DATABASE_URL")

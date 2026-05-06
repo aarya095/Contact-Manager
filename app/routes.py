@@ -20,8 +20,8 @@ def root():
 
 
 @router.post("/contacts", 
-             status_code=201,
-             summary="Create a new contact")
+             status_code = 201,
+             summary = "Create a new contact")
 def create_contact(
                     contact: ContactEntry,
                     db: Session = Depends(get_db)
@@ -37,8 +37,8 @@ def create_contact(
         
         return {"Message": "Contact created successfully",
                 "contact": {
-                    "Contact id": contact_data.contact_id,
-                    "Contact Name": contact_data.contact_name
+                    "contact_id": contact_data.contact_id,
+                    "contact_name": contact_data.contact_name
                     }
                 }
     
@@ -49,7 +49,7 @@ def create_contact(
             )
     
 @router.get("/contacts/{contact_name}",
-            status_code=200, 
+            status_code = 200, 
             summary = "Gets the contact entry by name")
 def get_one_contact_entry(
                         contact_name: str,
@@ -76,7 +76,7 @@ def get_one_contact_entry(
 
 
 @router.get("/contacts", 
-            status_code=200,
+            status_code = 200,
             summary = "Gets all the contact entries stored in the database")
 def get_all_contact_entries(db: Session = Depends(get_db)) -> dict:
     
@@ -90,8 +90,8 @@ def get_all_contact_entries(db: Session = Depends(get_db)) -> dict:
     
 
 @router.put("/contacts", 
-            status_code=200,
-            summary="Updates an existing contact")
+            status_code = 200,
+            summary = "Updates an existing contact")
 def update_contact(
                    contact: UpdateContactEntry,
                    db: Session = Depends(get_db)
@@ -108,8 +108,8 @@ def update_contact(
         
         return {"Message": "Contact updated successfully",
                 "contact": {
-                    "Contact id": updated_contact_data.contact_id,
-                    "Contact Name": updated_contact_data.contact_name
+                    "contact_id": updated_contact_data.contact_id,
+                    "contact_name": updated_contact_data.contact_name
                     }
                 }
     
@@ -121,8 +121,8 @@ def update_contact(
     
     
 @router.delete("/contacts", 
-               status_code=200,
-               summary="Deletes an existing contact")
+               status_code = 200,
+               summary = "Deletes an existing contact")
 def delete_contact(
                     contact: DeleteContactEntry,
                     db: Session = Depends(get_db)
@@ -137,8 +137,8 @@ def delete_contact(
 
         return {"Message": "Contact deleted successfully",
                 "contact": {
-                    "Contact id": deleted_contact_data["id"],
-                    "Contact Name": deleted_contact_data["contact_name"]
+                    "contact_id": deleted_contact_data["id"],
+                    "contact_name": deleted_contact_data["contact_name"]
                     }
                 }
     

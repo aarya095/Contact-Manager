@@ -40,7 +40,7 @@ def create_contact_db(
 def view_contact_by_name(
                         contact_name: str, 
                         db: Session
-                        ):
+                        ) -> Contact:
     """Retrieves one contact via SQLAlchemy"""
 
     contact_exists = check_contact_exists(name_to_check = contact_name, 
@@ -52,30 +52,19 @@ def view_contact_by_name(
 
     stmt = select(Contact).where(Contact.contact_name == contact_name)
 
-    results = db.execute(stmt).all()
+    user_to_view = db.execute(stmt).first()
+    user_to_view = user_to_view[0]
 
-    for row in results:
-        contact_entry = row[0]
-        if contact_entry.contact_name == contact_name:
-            return contact_entry.contact_number
+    return user_to_view
         
     
-def view_all_contacts(db: Session) -> dict:
+def view_all_contacts(db: Session) -> list[tuple[Contact]]:
     """Retrieves all the contacts via SQLAlchemy"""
 
     stmt = select(Contact)
 
-    results = db.execute(stmt).all()
+    contacts_data = db.execute(stmt).all()
 
-    contacts_data = {}
-    # Cleaning the data
-    for row in results:
-        contact_data = row[0]
-        contacts_data[contact_data.contact_id] = {
-                        'Contact Name': contact_data.contact_name,
-                        'Contact Number': contact_data.contact_number
-                         }
-        
     return contacts_data
 
         
@@ -188,9 +177,7 @@ def check_contact_exists(name_to_check: str, db: Session):
     
     
 if __name__ == '__main__':
-    #create_contact_db(
-    # "aarya",
-    # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==')
+
     #results = view_all_contacts()
     #rint(results)
     import os
@@ -212,8 +199,15 @@ if __name__ == '__main__':
     db = SessionLocal()
     #delete_contact_db(contact_name="aarya",db=db)
     #empty_database_tables(db=db)
-    #view_all_contacts()
-    #view_contact_by_name(name="red",db=db)
+    
+    #create_contact_db(
+    # "umeko",
+    # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
+    # db)
+    #result = view_all_contacts(db=db)
+    #print(result)
+    #logger.debug(f"{result}")
+    #user = view_contact_by_name(contact_name="aarya",db=db)
     #name, contact_number = view_contact_by_name("vikas")
     #print(name, contact_number)
     #update_contact_entry("string","india")
