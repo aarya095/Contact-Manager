@@ -41,7 +41,7 @@ def test_root():
 def test_create_contact():
     """Tests the POST /contacts endpoint"""
 
-    #teardown()
+    teardown()
     contact_name = "Aarya"
     contact_number = 9876543210
 
