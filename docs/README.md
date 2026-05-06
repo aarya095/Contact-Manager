@@ -30,8 +30,8 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
     - Keys are generated, updated, and deleted as per the operation
 - ⚙️ Architecture
     - Database layer
-    - Business logic layer
-    - API layer
+    - Service layer
+    - Endpoint layer
 - 📄 API Documentation
     - Documented using Bruno (local-first API client)
 - 🌿 Git Workflow
