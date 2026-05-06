@@ -6,11 +6,11 @@ from app.database.database import env_file_path
 from dotenv import dotenv_values
 from dotenv import set_key, unset_key
 
-def stores_contact_num_key_in_env_file(key: bytes, name: str):
+def stores_contact_num_key_in_env_file(key: bytes, contact_id: int):
     """Stores the Contact Number key in the .env file"""
 
     # Turning to upper case to maintain the format
-    name_of_key = f"KEY_OF_{name.upper()}"
+    name_of_key = f"KEY_{contact_id}"
     
     """decoding the key as would store along 
     with the 'b' as prefix in the database"""
@@ -21,10 +21,10 @@ def stores_contact_num_key_in_env_file(key: bytes, name: str):
         value_to_set = key_str
         )
 
-def retrieve_contact_num_key_from_env_file(name: str) -> bytes:
+def retrieve_contact_num_key_from_env_file(contact_id: int) -> bytes:
     """Retrieves the Contact Number key from the .env file"""
 
-    name_of_key = f"KEY_OF_{name.upper()}"
+    name_of_key = f"KEY_{contact_id}"
     dict_of_keys = dotenv_values(env_file_path)
 
     for key,value in dict_of_keys.items():
@@ -37,11 +37,11 @@ def retrieve_contact_num_key_from_env_file(name: str) -> bytes:
 
     return key_for_contact_number
 
-def deletes_contact_num_key_in_env_file(name: str):
+def deletes_contact_num_key_in_env_file(contact_id: str):
     """Deletes the Contact Number key in the 
     .env file which is no longer required"""
 
-    name_of_key_to_delete = f"KEY_OF_{name.upper()}"
+    name_of_key_to_delete = f"KEY_{contact_id}"
     unset_key(
         dotenv_path = env_file_path, 
         key_to_unset = name_of_key_to_delete
