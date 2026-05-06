@@ -56,12 +56,14 @@ def get_contact(
                 db: Session = Depends(get_db)):
     logger.info("GET /contacts/{contact_id} - request received")
     try:
-        contact_number = op.get_contact(
+        contact_data = op.get_contact(
                                 contact_id = contact_id,
                                 db = db
                                 )
+        
         logger.info(f"GET /contacts/{contact_id} - success (status=201, id={contact_id})")
-        return {"contact_number": contact_number}
+        return contact_data
+    
     except UserAlreadyExistsError:
         raise HTTPException(
             status_code = 400, 
