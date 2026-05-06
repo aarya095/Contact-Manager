@@ -51,12 +51,12 @@ def create_contact(
 @router.get("/contacts/{contact_name}",
             status_code = 200, 
             summary = "Gets the contact entry by name")
-def get_one_contact_entry(
+def get_contact(
                         contact_name: str,
                         db: Session = Depends(get_db)):
     logger.info("GET /contacts/{contact_name} - request received")
     try:
-        contact_number = op.view_one_contact_entry(
+        contact_number = op.get_contact(
                                 contact_name = contact_name,
                                 db = db
                                 )
@@ -78,11 +78,11 @@ def get_one_contact_entry(
 @router.get("/contacts", 
             status_code = 200,
             summary = "Gets all the contact entries stored in the database")
-def get_all_contact_entries(db: Session = Depends(get_db)) -> dict:
+def list_contacts(db: Session = Depends(get_db)) -> dict:
     
     logger.info("GET /contacts - request received")
     
-    contacts_data = op.view_all_contacts(db)
+    contacts_data = op.list_contacts(db)
     
     logger.info("GET /contacts - success (status=201)")
 
@@ -98,7 +98,7 @@ def update_contact(
                    ):
     logger.info("PUT /contacts - request received")
     try:
-        updated_contact_data = op.update_contact_entry(
+        updated_contact_data = op.update_contact(
             old_contact_name = contact.old_contact_name,
             updated_contact_name = contact.new_contact_name,
             updated_contact_number = contact.new_contact_number,

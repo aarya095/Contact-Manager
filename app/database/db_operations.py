@@ -10,7 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def create_contact_db(
+def insert_contact(
         contact_name: str, 
         encrypted_contact_number: bytes,
         db: Session
@@ -37,7 +37,7 @@ def create_contact_db(
     return contact_data
     
 
-def view_contact_by_name(
+def retrieve_contact_by_id(
                         contact_name: str, 
                         db: Session
                         ) -> Contact:
@@ -58,7 +58,7 @@ def view_contact_by_name(
     return user_to_view
         
     
-def view_all_contacts(db: Session) -> list[tuple[Contact]]:
+def retrieve_all_contacts(db: Session) -> list[tuple[Contact]]:
     """Retrieves all the contacts via SQLAlchemy"""
 
     stmt = select(Contact)
@@ -68,7 +68,7 @@ def view_all_contacts(db: Session) -> list[tuple[Contact]]:
     return contacts_data
 
         
-def update_contact_entry(
+def update_contact_by_id(
                     old_contact_name: str, 
                     db: Session,
                     updated_name: str | None = None,
@@ -111,7 +111,7 @@ def update_contact_entry(
     return user_to_update
     
     
-def delete_contact_db(
+def delete_contact_by_id(
         contact_name: str, 
         db: Session
         ) -> dict:

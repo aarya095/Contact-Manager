@@ -27,7 +27,7 @@ def create_contact(
 
     encrypted_contact_number, key = encrypt(contact_number)
 
-    contact_data = db_ops.create_contact_db(
+    contact_data = db_ops.insert_contact(
                     contact_name = contact_name, 
                     encrypted_contact_number = encrypted_contact_number,
                     db = db)
@@ -42,7 +42,7 @@ def create_contact(
     )
 
 
-def view_one_contact_entry(
+def get_contact(
                            contact_name: str, 
                            db: Session
                            ) -> int:
@@ -51,7 +51,7 @@ def view_one_contact_entry(
 
     logger.info(f"Retrieving the entry for {contact_name} from database.")
 
-    contact_data = db_ops.view_contact_by_name(
+    contact_data = db_ops.retrieve_contact_by_id(
                                         contact_name = contact_name.lower(),
                                         db = db
                                         )
@@ -69,13 +69,13 @@ def view_one_contact_entry(
     return original_contact_number
 
     
-def view_all_contacts(db: Session) -> dict:
+def list_contacts(db: Session) -> dict:
     """Retrieves all the encrypted contact numbers from the Database, 
     decrypts them all, and returns them"""
 
     logger.info("Retrieving all contact entries from database.")
 
-    contacts_data = db_ops.view_all_contacts(db)
+    contacts_data = db_ops.retrieve_all_contacts(db)
     decrypted_contacts_data = {}
 
     for contact_id, contact_data in contacts_data.items():
@@ -100,7 +100,7 @@ def view_all_contacts(db: Session) -> dict:
     return decrypted_contacts_data
 
 
-def update_contact_entry(
+def update_contact(
         old_contact_name: str, 
         updated_contact_name: str | None, 
         updated_contact_number: int | None,
@@ -126,7 +126,7 @@ def update_contact_entry(
         key = key, 
         name = updated_contact_name
         )
-    user_to_update = db_ops.update_contact_entry(
+    user_to_update = db_ops.update_contact_by_id(
         old_contact_name = old_contact_name,
         updated_name = updated_contact_name,
         updated_encrypted_contact_number = updated_encrypted_contact_number,
@@ -152,7 +152,7 @@ def delete_contact(
     contact_name = contact_name.lower()
     contact_name = contact_name.replace(" ", "")
 
-    deleted_contact_data = db_ops.delete_contact_db(
+    deleted_contact_data = db_ops.delete_contact_by_id(
                     contact_name = contact_name, 
                     db = db
                     )

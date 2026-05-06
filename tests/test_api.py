@@ -64,7 +64,7 @@ def test_create_contact():
     teardown()
 
 
-def test_get_one_contact_entry():
+def test_retrieve_contact_by_id():
     """Tests the GET /contacts/{contact_name} endpoint"""
 
     teardown()
