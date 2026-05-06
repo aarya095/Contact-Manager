@@ -48,21 +48,20 @@ def create_contact(
             detail = "Contact name already exists!"
             )
     
-@router.get("/contacts/{contact_name}",
+@router.get("/contacts/{contact_id}",
             status_code = 200, 
             summary = "Gets the contact entry by name")
 def get_contact(
-                contact_name: str,
+                contact_id: int,
                 db: Session = Depends(get_db)):
-    logger.info("GET /contacts/{contact_name} - request received")
+    logger.info("GET /contacts/{contact_id} - request received")
     try:
         contact_number = op.get_contact(
-                                contact_name = contact_name,
+                                contact_id = contact_id,
                                 db = db
                                 )
-        logger.info(f"GET /contacts/{contact_name} - success (status=201, name={contact_name})")
-        return {"contact_name": contact_name.title(), 
-                "contact_number": contact_number}
+        logger.info(f"GET /contacts/{contact_id} - success (status=201, id={contact_id})")
+        return {"contact_number": contact_number}
     except UserAlreadyExistsError:
         raise HTTPException(
             status_code = 400, 
