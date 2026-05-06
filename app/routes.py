@@ -52,8 +52,8 @@ def create_contact(
             status_code = 200, 
             summary = "Gets the contact entry by name")
 def get_contact(
-                        contact_name: str,
-                        db: Session = Depends(get_db)):
+                contact_name: str,
+                db: Session = Depends(get_db)):
     logger.info("GET /contacts/{contact_name} - request received")
     try:
         contact_number = op.get_contact(
