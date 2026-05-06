@@ -67,15 +67,18 @@ def test_create_contact():
 def test_get_one_contact_entry():
     """Tests the GET /contacts/{contact_name} endpoint"""
 
-    #teardown()
+    teardown()
     setup()
     contact_name = "Aarya"
+
     response = client.get(f"/contacts/{contact_name}")    
     assert response.status_code == 200
+
     data = response.json()
+
     assert data['contact_name'] == "Aarya"
     assert data['contact_number'] == 9876543210
-    print(data)
+
     teardown()
 
 
@@ -85,6 +88,7 @@ def setup():
     create_contact(contact_name="Aarya",
                    contact_number=9876543210,
                    db=db)
+    
     
 def setup_for_testing_get_all_contact_entries():
     Base.metadata.create_all(engine)
@@ -100,7 +104,6 @@ def setup_for_testing_get_all_contact_entries():
                    db=db)
 
 
-
 def teardown():
     db = SessionLocal()
     stmt = delete(Contact)
@@ -114,4 +117,4 @@ def teardown():
     deletes_contact_num_key_in_env_file(name="aarya")
 
 if __name__ == "__main__":
-    test_create_contact()
+    pass
