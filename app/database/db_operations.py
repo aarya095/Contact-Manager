@@ -181,14 +181,15 @@ if __name__ == '__main__':
                                 autocommit = False
                                 )
     db = SessionLocal()
+    #result = check_contact_exists(id_to_check=2, db=db)
     #delete_contact_db(contact_name="aarya",db=db)
     #empty_database_tables(db=db)
     
-    #create_contact_db(
+    #insert_contact(
     # "umeko",
     # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
     # db)
-    #result = view_all_contacts(db=db)
+    #result = retrieve_all_contacts(db=db)
     #print(result)
     #logger.debug(f"{result}")
     #user = view_contact_by_name(contact_name="aarya",db=db)
