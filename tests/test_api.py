@@ -69,14 +69,16 @@ def test_retrieve_contact_by_id():
 
     teardown()
     setup()
-    contact_name = "Aarya"
+    contact_id = 1
 
-    response = client.get(f"/contacts/{contact_name}")    
+    response = client.get(f"/contacts/{contact_id}")    
     assert response.status_code == 200
 
     data = response.json()
+    print(f"Data: {data}")
 
-    assert data['contact_name'] == "Aarya"
+    assert 'contact_id' in data
+    assert data['contact_name'] == "aarya"
     assert data['contact_number'] == 9876543210
 
     teardown()
@@ -114,7 +116,7 @@ def teardown():
     db.commit()
     db.close()
 
-    deletes_contact_num_key_in_env_file(name="aarya")
+    deletes_contact_num_key_in_env_file(contact_id=1)
 
 if __name__ == "__main__":
-    pass
+    test_retrieve_contact_by_id()
