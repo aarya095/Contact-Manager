@@ -139,6 +139,26 @@ def test_update_contact():
     teardown()
 
 
+def test_delete_contact():
+    """Tests the DELETE /contacts/{contact_id} endpoint"""
+
+    teardown()
+    setup()
+
+    contact_id = 1
+
+    response = client.delete(f"/contacts/{contact_id}")
+
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data['Message'] == "Contact deleted successfully"
+    assert data['contact']['contact_name'] == "aarya"
+    assert 'contact_id' in data['contact']
+    
+    teardown()
+
+
 def setup():
     Base.metadata.create_all(engine)
     db = SessionLocal()
@@ -188,4 +208,4 @@ def teardown_for_testing_list_contacts():
     deletes_contact_num_key_in_env_file(contact_id=3)
 
 if __name__ == "__main__":
-    test_update_contact()
+    test_delete_contact()
