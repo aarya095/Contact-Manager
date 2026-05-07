@@ -2,8 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 from app.schemas import (
-    ContactBase, ContactCreate,
-    ContactResponse, ContactUpdate
+    ContactCreate, ContactUpdate
 )
 from app.services import operations as op
 
