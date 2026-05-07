@@ -99,7 +99,7 @@ def list_contacts(db: Session) -> dict:
         current_contact_data_dictionary = {
                             'contact_id' : contact_data.contact_id,
                             'contact_name': contact_data.contact_name,
-                            'Contact_number': original_contact_number
+                            'contact_number': original_contact_number
                             }
         decrypted_contacts_data.append(current_contact_data_dictionary)
 
