@@ -82,7 +82,7 @@ def get_contact(
 @router.get("/contacts", 
             status_code = 200,
             summary = "Gets all the contact entries stored in the database")
-def list_contacts(db: Session = Depends(get_db)) -> dict:
+def list_contacts(db: Session = Depends(get_db)) -> list[dict[str, str | int]]:
     
     logger.info("GET /contacts - request received")
     
