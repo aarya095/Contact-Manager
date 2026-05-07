@@ -111,6 +111,34 @@ def test_list_contacts():
 
     teardown_for_testing_list_contacts()
 
+
+def test_update_contact():
+    """Tests the PUT /contacts/{contact_id} endpoint"""
+
+    teardown()
+    setup()
+
+    contact_id = 1
+
+    response = client.put(
+        f"/contacts/{contact_id}",
+        json = {
+            "contact_name": "Omkar",
+            "contact_number": 8575975683
+        }
+    )
+
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data['Message'] == "Contact updated successfully"
+    assert data['contact']['contact_name'] == "omkar"
+    assert data['contact']['contact_number'] == 8575975683
+    assert 'contact_id' in data['contact']
+    
+    teardown()
+
+
 def setup():
     Base.metadata.create_all(engine)
     db = SessionLocal()
@@ -160,4 +188,4 @@ def teardown_for_testing_list_contacts():
     deletes_contact_num_key_in_env_file(contact_id=3)
 
 if __name__ == "__main__":
-    test_list_contacts()
+    test_update_contact()
