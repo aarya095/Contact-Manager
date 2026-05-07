@@ -53,7 +53,7 @@ def create_contact(
     
 @router.get("/contacts/{contact_id}",
             status_code = 200, 
-            summary = "Gets the contact entry by name")
+            summary = "Gets the contact entry by id")
 def get_contact(
                 contact_id: int,
                 db: Session = Depends(get_db)):
