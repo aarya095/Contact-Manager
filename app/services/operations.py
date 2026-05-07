@@ -83,24 +83,25 @@ def list_contacts(db: Session) -> dict:
     logger.info("Retrieving all contact entries from database.")
 
     contacts_data = db_ops.retrieve_all_contacts(db)
-    decrypted_contacts_data = {}
+    decrypted_contacts_data = []
 
-    for contact_id, contact_data in contacts_data.items():
+    for tuple_of_contact_data in contacts_data:
 
-        contact_name = contact_data['Contact Name']
-        encrypted_contact_number = contact_data['Contact Number']
+        contact_data = tuple_of_contact_data[0]
 
         key_for_contact_number = (
-            f_ops.retrieve_contact_num_key_from_env_file(contact_id)
+            f_ops.retrieve_contact_num_key_from_env_file(contact_data.contact_id)
             )
         original_contact_number = decrypt(
-            encrypted_contact_number = encrypted_contact_number, 
-            key = key_for_contact_number)
+            encrypted_contact_number = contact_data.contact_number, 
+            key = key_for_contact_number)        
         
-        decrypted_contacts_data[contact_id] = {
-                             'Contact Name': contact_name,
-                             'Contact Number': original_contact_number
+        current_contact_data_dictionary = {
+                            'contact_id' : contact_data.contact_id,
+                            'contact_name': contact_data.contact_name,
+                            'Contact_number': original_contact_number
                             }
+        decrypted_contacts_data.append(current_contact_data_dictionary)
 
     logger.info("Successfully retrieved all contact entries from database.")
 
