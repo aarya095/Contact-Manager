@@ -5,13 +5,10 @@ info:
 
 http:
   method: DELETE
-  url: http://127.0.0.1:8000/contacts
+  url: http://127.0.0.1:8000/contacts/{contact_id}
   body:
     type: json
-    data: |-
-      {
-        "contact_name": "Bharat"
-      }
+    data: ""
   auth: inherit
 
 settings:

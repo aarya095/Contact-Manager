@@ -5,14 +5,13 @@ info:
 
 http:
   method: PUT
-  url: http://127.0.0.1:8000/contacts
+  url: http://127.0.0.1:8000/contacts/{contact_id}
   body:
     type: json
     data: |-
       {
-        "old_contact_name" = "india"
-        new_contact_name : "Bharat"
-        new_contact_number : 24234
+        "contact_name": "string",
+        "contact_number": 0
       }
   auth: inherit
 
