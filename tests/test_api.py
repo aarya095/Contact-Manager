@@ -83,6 +83,33 @@ def test_get_contact():
 
     teardown()
 
+def test_list_contacts():
+    """Tests the GET /contacts endpoint,
+    which fetches all the existing contacts in the db"""
+
+    teardown()
+
+    setup_for_testing_list_contacts()
+
+    response = client.get("/contacts")
+    assert response.status_code == 200
+
+    data = response.json()
+    print(f"All Data: {data}")
+
+    for contact_data in data:
+        assert "contact_id" in contact_data
+    
+    assert data[0]["contact_name"] == 'aarya'
+    assert data[0]["contact_number"] == 9876543210
+
+    assert data[1]["contact_name"] == 'yash'
+    assert data[1]["contact_number"] == 1234567890
+
+    assert data[2]["contact_name"] == 'omkar'
+    assert data[2]["contact_number"] == 5432167890
+
+    teardown_for_testing_list_contacts()
 
 def setup():
     Base.metadata.create_all(engine)
@@ -92,7 +119,7 @@ def setup():
                    db=db)
     
     
-def setup_for_testing_get_all_contact_entries():
+def setup_for_testing_list_contacts():
     Base.metadata.create_all(engine)
     db = SessionLocal()
     create_contact(contact_name="Aarya",
@@ -118,5 +145,19 @@ def teardown():
 
     deletes_contact_num_key_in_env_file(contact_id=1)
 
+def teardown_for_testing_list_contacts():
+    db = SessionLocal()
+    stmt = delete(Contact)
+
+    db.execute(stmt.execution_options(synchronize_session="fetch"))
+    print(f"Cleared table: {Contact.__tablename__}")
+
+    db.commit()
+    db.close()
+
+    deletes_contact_num_key_in_env_file(contact_id=1)
+    deletes_contact_num_key_in_env_file(contact_id=2)
+    deletes_contact_num_key_in_env_file(contact_id=3)
+
 if __name__ == "__main__":
-    test_get_contact()
+    test_list_contacts()
