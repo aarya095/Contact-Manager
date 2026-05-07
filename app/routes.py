@@ -93,27 +93,29 @@ def list_contacts(db: Session = Depends(get_db)) -> list[dict[str, str | int]]:
     return contacts_data
     
 
-@router.put("/contacts", 
+@router.put("/contacts/{contact_id}", 
             status_code = 200,
             summary = "Updates an existing contact")
 def update_contact(
+                   contact_id: int,
                    contact: ContactUpdate,
                    db: Session = Depends(get_db)
                    ):
     logger.info("PUT /contacts - request received")
     try:
         updated_contact_data = op.update_contact(
-            old_contact_name = contact.old_contact_name,
-            updated_contact_name = contact.new_contact_name,
-            updated_contact_number = contact.new_contact_number,
+            contact_id = contact_id,
+            updated_contact_name = contact.contact_name,
+            updated_contact_number = contact.contact_number,
             db = db
         )
-        logger.info(f"PUT /contacts - success (status=201, name={contact.new_contact_name})")
+        logger.info(f"PUT /contacts - success (status=201, name={contact.contact_name})")
         
         return {"Message": "Contact updated successfully",
                 "contact": {
                     "contact_id": updated_contact_data.contact_id,
-                    "contact_name": updated_contact_data.contact_name
+                    "contact_name": updated_contact_data.contact_name,
+                    "contact_number": updated_contact_data.contact_number
                     }
                 }
     
