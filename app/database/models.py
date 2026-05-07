@@ -1,7 +1,3 @@
-from sqlalchemy import ForeignKey
-from typing import List
-
-from sqlalchemy.schema import CreateTable
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from app.database.database import engine
