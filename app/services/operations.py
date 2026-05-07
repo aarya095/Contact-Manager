@@ -110,8 +110,8 @@ def list_contacts(db: Session) -> dict:
 
 def update_contact(
         contact_id: int, 
-        updated_contact_name: str | None, 
-        updated_contact_number: int | None,
+        updated_contact_name: str, 
+        updated_contact_number: int,
         db: Session
         ) -> ContactResponse:
     """Seeks out the old contact info to be updated,
@@ -144,9 +144,10 @@ def update_contact(
     logger.info(f"Successfully updated the entry for {contact_id} in database.")
 
     return ContactResponse(
-        contact_id = user_to_update.contact_id,
-        contact_name = user_to_update.contact_name
-    )
+        contact_id = user_to_update.contact_id, 
+        contact_name = user_to_update.contact_name, 
+        contact_number = updated_contact_number
+        )
 
 def delete_contact(
         contact_id: str,
