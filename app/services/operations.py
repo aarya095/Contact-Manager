@@ -38,7 +38,8 @@ def create_contact(
 
     return ContactResponse(
         contact_id = contact_data.contact_id,
-        contact_name = contact_data.contact_name
+        contact_name = contact_data.contact_name,
+        contact_number = contact_number,
     )
 
 

@@ -40,7 +40,8 @@ def create_contact(
         return {"Message": "Contact created successfully",
                 "contact": {
                     "contact_id": contact_data.contact_id,
-                    "contact_name": contact_data.contact_name
+                    "contact_name": contact_data.contact_name,
+                    "contact_number": contact_data.contact_number
                     }
                 }
     
