@@ -1,7 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends
 
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
-from app.schemas import ContactEntry, UpdateContactEntry, Contact
+from app.schemas import (
+    ContactBase, ContactCreate,
+    ContactResponse, ContactUpdate
+)
 from app.services import operations as op
 
 from sqlalchemy.orm import Session
