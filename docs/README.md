@@ -13,7 +13,7 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 - [`Project Evolution`](#project-evolution)
 
 ## Features
-- CRUD API
+- 🗂️ CRUD API
     - Create Contact: Adds a new contact
         - `POST /contacts`
     - Get a single contact: Retrieves the contact number of a single contact by name
@@ -36,7 +36,10 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
     - Documented using Bruno (local-first API client)
 - 🌿 Git Workflow
     - Feature-based branching
-    - Separate branches for debugging and enhancements 
+    - Separate branches for debugging and enhancements
+- 📜 Logging
+    - Used python's in-built logging module for adding logging to my codebase
+    - Logs capture key events across all layers
 
 ## Tech Stack
 
