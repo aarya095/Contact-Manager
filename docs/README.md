@@ -7,6 +7,7 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 ## 📌 Navigate
 
 - [`Features`](#features)
+- ['Architecture](#architecture)
 - [`Tech Stack`](#tech-stack)
 - [`Project Structure`](#project-structure)
 - [`Setup Instructions`](#setup-instructions)
