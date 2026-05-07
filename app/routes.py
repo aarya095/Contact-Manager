@@ -26,7 +26,7 @@ def root():
              status_code = 201,
              summary = "Create a new contact")
 def create_contact(
-                    contact: ContactEntry,
+                    contact: ContactCreate,
                     db: Session = Depends(get_db)
                     ):
     logger.info("POST /contacts - request received")
@@ -97,7 +97,7 @@ def list_contacts(db: Session = Depends(get_db)) -> dict:
             status_code = 200,
             summary = "Updates an existing contact")
 def update_contact(
-                   contact: UpdateContactEntry,
+                   contact: ContactUpdate,
                    db: Session = Depends(get_db)
                    ):
     logger.info("PUT /contacts - request received")
