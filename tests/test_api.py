@@ -41,7 +41,6 @@ def test_root():
 def test_create_contact():
     """Tests the POST /contacts endpoint"""
 
-    teardown()
     contact_name = "Aarya"
     contact_number = 9876543210
 
@@ -67,7 +66,6 @@ def test_create_contact():
 def test_get_contact():
     """Tests the GET /contacts/{contact_name} endpoint"""
 
-    teardown()
     setup()
     contact_id = 1
 
@@ -86,8 +84,6 @@ def test_get_contact():
 def test_list_contacts():
     """Tests the GET /contacts endpoint,
     which fetches all the existing contacts in the db"""
-
-    teardown()
 
     setup_for_testing_list_contacts()
 
@@ -115,7 +111,6 @@ def test_list_contacts():
 def test_update_contact():
     """Tests the PUT /contacts/{contact_id} endpoint"""
 
-    teardown()
     setup()
 
     contact_id = 1
@@ -142,7 +137,6 @@ def test_update_contact():
 def test_delete_contact():
     """Tests the DELETE /contacts/{contact_id} endpoint"""
 
-    teardown()
     setup()
 
     contact_id = 1
