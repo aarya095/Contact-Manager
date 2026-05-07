@@ -123,20 +123,20 @@ def update_contact(
             )
     
     
-@router.delete("/contacts", 
+@router.delete("/contacts/{contact_id}", 
                status_code = 200,
                summary = "Deletes an existing contact")
 def delete_contact(
-                    contact: Contact,
+                    contact_id: int,
                     db: Session = Depends(get_db)
                     ):
     logger.info("DELETE /contacts - request received")
     try:
         deleted_contact_data = op.delete_contact(
-                        contact_id = Contact.contact_id,
+                        contact_id = contact_id,
                         db = db
                         )
-        logger.info(f"DELETE /contacts - success (status=201, name={contact.contact_name})")
+        logger.info(f"DELETE /contacts - success (status=201, name={deleted_contact_data["contact_name"]})")
 
         return {"Message": "Contact deleted successfully",
                 "contact": {
