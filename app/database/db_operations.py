@@ -191,8 +191,8 @@ if __name__ == '__main__':
     # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
     # db)
     #result = retrieve_all_contacts(db=db)
-    result = retrieve_contact_by_id(contact_id=1, db=db)
-    print(result)
+    #result = retrieve_contact_by_id(contact_id=1, db=db)
+    #print(result)
     #logger.debug(f"{result}")
     #user = view_contact_by_name(contact_name="aarya",db=db)
     #name, contact_number = view_contact_by_name("vikas")
