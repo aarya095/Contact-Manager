@@ -7,3 +7,4 @@ txt.py
 contacts_data.db
 contacts_data.json
 *.db
+.pytest_cache/
