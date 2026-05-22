@@ -118,7 +118,7 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 - `venv\Scripts\activate`      # Windows    
 
 3. Install dependencies:    
-- `pip install -r docs/requirements.txt`
+- `pip install -r requirements.txt`
 
 4. Create `.env.dev` file:
 - add `DATABASE_URL = 'sqlite:///dev.db'`
