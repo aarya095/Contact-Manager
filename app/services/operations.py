@@ -1,7 +1,6 @@
 import logging
 
 from app.services.encryption import encrypt, decrypt
-from app.services import file_operations as f_ops
 from app.database import db_operations as db_ops
 from app.schemas import ContactResponse
 
