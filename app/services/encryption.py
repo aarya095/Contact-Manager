@@ -1,9 +1,6 @@
 # Third Party Modules
 from cryptography.fernet import Fernet
 
-# User-defined modules
-import app.database.database as db
-
 def encrypt(contact_number: int, key) -> bytes:
     """Encrypts the contact number using fernet a symmmetric cipher"""
 
