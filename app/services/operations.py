@@ -24,14 +24,12 @@ def create_contact(
     contact_name = contact_name.replace(" ", "")
     logger.info(f"Creating the contact entry for {contact_name}.\n")
 
-    encrypted_contact_number, key = encrypt(contact_number)
+    encrypted_contact_number = encrypt(contact_number)
 
     contact_data = db_ops.insert_contact(
                     contact_name = contact_name, 
                     encrypted_contact_number = encrypted_contact_number,
                     db = db)
-
-    f_ops.stores_contact_num_key_in_env_file(key, contact_data.contact_id)
     
     logger.info(f"Successfully created the entry for {contact_name} in database.")
 
@@ -56,13 +54,9 @@ def get_contact(
                                         db = db
                                         )
 
-    key_for_contact_number = (
-        f_ops.retrieve_contact_num_key_from_env_file(contact_data.contact_id)
-        )
-
     original_contact_number = decrypt(
-        encrypted_contact_number = contact_data.contact_number, 
-        key = key_for_contact_number)
+        encrypted_contact_number = contact_data.contact_number
+        )
     
     contact_data_dict = {
         'contact_id': contact_data.contact_id,
@@ -88,12 +82,9 @@ def list_contacts(db: Session) -> dict:
 
         contact_data = tuple_of_contact_data[0]
 
-        key_for_contact_number = (
-            f_ops.retrieve_contact_num_key_from_env_file(contact_data.contact_id)
-            )
         original_contact_number = decrypt(
-            encrypted_contact_number = contact_data.contact_number, 
-            key = key_for_contact_number)        
+            encrypted_contact_number = contact_data.contact_number 
+    )        
         
         current_contact_data_dictionary = {
                             'contact_id' : contact_data.contact_id,
@@ -122,17 +113,11 @@ def update_contact(
     # Normalizing the updated contact name
     updated_contact_name = updated_contact_name.lower()
     updated_contact_name = updated_contact_name.replace(" ", "")
-    
-    if updated_contact_name is not None:
-        f_ops.deletes_contact_num_key_in_env_file(contact_id)
 
     updated_encrypted_contact_number, key = (
         encrypt(updated_contact_number)
         )
-    f_ops.stores_contact_num_key_in_env_file(
-        key = key, 
-        contact_id = contact_id
-        )
+    
     user_to_update = db_ops.update_contact_by_id(
         contact_id = contact_id,
         updated_name = updated_contact_name,
@@ -160,7 +145,6 @@ def delete_contact(
                     contact_id = contact_id, 
                     db = db
                     )
-    f_ops.deletes_contact_num_key_in_env_file(contact_id)
 
     logger.info(f"Successfully deleted the entry for {contact_id} from database.")
     
