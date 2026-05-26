@@ -114,7 +114,7 @@ def update_contact(
     updated_contact_name = updated_contact_name.lower()
     updated_contact_name = updated_contact_name.replace(" ", "")
 
-    updated_encrypted_contact_number, key = (
+    updated_encrypted_contact_number = (
         encrypt(updated_contact_number)
         )
     
