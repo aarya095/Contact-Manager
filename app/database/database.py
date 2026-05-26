@@ -6,7 +6,7 @@ from config.config import config
 
 logger = logging.getLogger(__name__)
 
-engine = create_engine(config.DATABASE_URL, echo=True)
+engine = create_engine(config.DATABASE_URL)
 
 SessionLocal = sessionmaker(
                             bind = engine,
