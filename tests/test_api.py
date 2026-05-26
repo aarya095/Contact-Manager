@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 
 from app.main import app
 from app.services.operations import create_contact
-from app.services.file_operations import deletes_contact_num_key_in_env_file
 from app.database.models import Contact, Base
 
 import logging
@@ -186,8 +185,6 @@ def teardown():
     db.commit()
     db.close()
 
-    deletes_contact_num_key_in_env_file(contact_id=1)
-
 def teardown_for_testing_list_contacts():
     db = SessionLocal()
     stmt = delete(Contact)
@@ -197,10 +194,6 @@ def teardown_for_testing_list_contacts():
 
     db.commit()
     db.close()
-
-    deletes_contact_num_key_in_env_file(contact_id=1)
-    deletes_contact_num_key_in_env_file(contact_id=2)
-    deletes_contact_num_key_in_env_file(contact_id=3)
 
 if __name__ == "__main__":
     test_delete_contact()
