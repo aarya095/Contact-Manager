@@ -1,7 +1,15 @@
+import os
+
+from app.database.database import env_file_path
+
 # Third Party Modules
 from cryptography.fernet import Fernet
+from dotenv import load_dotenv
 
-def encrypt(contact_number: int, key) -> bytes:
+load_dotenv(dotenv_path = env_file_path)
+MASTER_KEY = os.getenv("MASTER_KEY")
+
+def encrypt(contact_number: int, key = MASTER_KEY) -> bytes:
     """Encrypts the contact number using fernet a symmmetric cipher"""
 
     contact_number = contact_number.to_bytes(8,'big')   
@@ -11,7 +19,7 @@ def encrypt(contact_number: int, key) -> bytes:
 
     return encrypted_contact_number, key
 
-def decrypt(encrypted_contact_number: bytes, key: bytes) -> int:
+def decrypt(encrypted_contact_number: bytes, key: bytes = MASTER_KEY) -> int:
     """Decrypts the contact number using fernet a symmmetric cipher"""
 
     f = Fernet(key)
