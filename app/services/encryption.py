@@ -1,13 +1,6 @@
-import os
-
-from app.database.database import env_file_path
-
 # Third Party Modules
 from cryptography.fernet import Fernet
 from dotenv import load_dotenv
-
-load_dotenv(dotenv_path = env_file_path)
-MASTER_KEY = os.getenv("MASTER_KEY")
 
 def encrypt(contact_number: int, key = MASTER_KEY) -> bytes:
     """Encrypts the contact number using fernet a symmmetric cipher"""
