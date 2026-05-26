@@ -57,7 +57,7 @@ def create_contact(
 def get_contact(
                 contact_id: int,
                 db: Session = Depends(get_db)):
-    logger.info("GET /contacts/{contact_id} - request received")
+    logger.info(f"GET /contacts/{contact_id} - request received")
     try:
         contact_data = op.get_contact(
                                 contact_id = contact_id,
