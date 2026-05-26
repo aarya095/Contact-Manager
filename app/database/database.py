@@ -2,9 +2,11 @@ import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from config.config import config
+
 logger = logging.getLogger(__name__)
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(config.DATABASE_URL, echo=True)
 
 SessionLocal = sessionmaker(
                             bind = engine,

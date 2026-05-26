@@ -1,8 +1,9 @@
+from config.config import config
+
 # Third Party Modules
 from cryptography.fernet import Fernet
-from dotenv import load_dotenv
 
-def encrypt(contact_number: int, key = MASTER_KEY) -> bytes:
+def encrypt(contact_number: int, key = config.MASTER_KEY) -> bytes:
     """Encrypts the contact number using fernet a symmmetric cipher"""
 
     contact_number = contact_number.to_bytes(8,'big')   
@@ -12,7 +13,7 @@ def encrypt(contact_number: int, key = MASTER_KEY) -> bytes:
 
     return encrypted_contact_number, key
 
-def decrypt(encrypted_contact_number: bytes, key: bytes = MASTER_KEY) -> int:
+def decrypt(encrypted_contact_number: bytes, key: bytes = config.MASTER_KEY) -> int:
     """Decrypts the contact number using fernet a symmmetric cipher"""
 
     f = Fernet(key)
