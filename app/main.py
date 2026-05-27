@@ -8,5 +8,6 @@ logger = logging.getLogger(__name__)
 
 setup_logging()
 logger.info("logger initialized")
+
 app = FastAPI()
 app.include_router(router)
