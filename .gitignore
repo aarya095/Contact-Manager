@@ -1,5 +1,4 @@
-*.drawio
-*.drawio.bkp
+*.graphml
 __pycache__/
 .venv/
 txt.py

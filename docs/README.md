@@ -48,7 +48,7 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 
 ## Architecture
 
-![Architecture Diagram](/docs/contact-manager-architecture.png)
+![Architecture Diagram](/docs/Diagrams/Data%20flow%20diagram.png)
 
 ## Tech Stack
 
