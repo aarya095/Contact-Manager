@@ -66,41 +66,28 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 ## Project Structure
     
     .
+    ├── Dockerfile
     ├── alembic
-    │   ├── env.py
-    │   ├── README
-    │   ├── script.py.mako
-    │   └── versions
-    ├── alembic.ini
     ├── app
-    │   ├── database
-    │   │   ├── database.py
-    │   │   ├── db_operations.py
-    │   │   ├── models.py
-    │   ├── exceptions.py
-    │   ├── __init__.py
-    │   ├── logging_config.py
-    │   ├── main.py
-    │   ├── routes.py
-    │   ├── schemas.py
-    │   └── services
-    │       ├── encryption.py
-    │       ├── file_operations.py
-    │       ├── operations.py
-    ├── dev.db
+    │   ├── database
+    │   │   ├── database.py
+    │   │   ├── db_operations.py
+    │   │   └── models.py
+    │   ├── exceptions.py
+    │   ├── logging_config.py
+    │   ├── main.py
+    │   ├── routes.py
+    │   ├── schemas.py
+    │   └── services
+    │       ├── encryption.py
+    │       └── operations.py
+    ├── config
+    │   └── config.py
     ├── docs
-    │   ├── contact_manager_api(1).png
-    │   ├── contact_manager_api.drawio.png
-    │   ├── Contact Manager API testing
-    │   │   ├── Create Contact.yml
-    │   │   ├── Delete contact entry.yml
-    │   │   ├── Get all contacts stored in the database.yml
-    │   │   ├── Get a single contact entry by name.yml
-    │   │   ├── opencollection.yml
-    │   │   └── Update contact entry.yml
-    │   ├── contact_manager_design.drawio
-    │   ├── README.md
-    │   └── requirements.txt
+    │   ├── Contact Manager API testing
+    │   ├── Diagrams
+    │   └── README.md
+    ├── requirements.txt
     ├── test.db
     └── tests
         ├── test_api.py
