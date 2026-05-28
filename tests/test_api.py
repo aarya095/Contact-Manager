@@ -157,7 +157,7 @@ def setup():
     Base.metadata.create_all(engine)
 
     db = SessionLocal()
-    
+
     logger.info("Inserting data into database")
     create_contact(contact_name="Aarya",
                    contact_number=9876543210,
@@ -184,21 +184,23 @@ def setup_for_testing_list_contacts():
 
 
 def teardown():
+
     db = SessionLocal()
     stmt = delete(Contact)
 
     db.execute(stmt.execution_options(synchronize_session="fetch"))
-    print(f"Cleared table: {Contact.__tablename__}")
+    logger.info(f"Cleared table: {Contact.__tablename__}")
 
     db.commit()
     db.close()
 
 def teardown_for_testing_list_contacts():
+
     db = SessionLocal()
     stmt = delete(Contact)
 
     db.execute(stmt.execution_options(synchronize_session="fetch"))
-    print(f"Cleared table: {Contact.__tablename__}")
+    logger.info(f"Cleared table: {Contact.__tablename__}")
 
     db.commit()
     db.close()
