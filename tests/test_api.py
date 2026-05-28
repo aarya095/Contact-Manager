@@ -152,16 +152,26 @@ def test_delete_contact():
 
 
 def setup():
+    
+    logger.info("Creating tables for testing.")
     Base.metadata.create_all(engine)
+
     db = SessionLocal()
+    
+    logger.info("Inserting data into database")
     create_contact(contact_name="Aarya",
                    contact_number=9876543210,
                    db=db)
     
     
 def setup_for_testing_list_contacts():
+
+    logger.info("Creating tables for testing.")
     Base.metadata.create_all(engine)
+
     db = SessionLocal()
+
+    logger.info("Inserting data into database")
     create_contact(contact_name="Aarya",
                    contact_number=9876543210,
                    db=db)
