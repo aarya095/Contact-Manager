@@ -1,11 +1,8 @@
 *.graphml
 __pycache__/
 .venv/
-txt.py
 .env.dev
 .env.main
 .env.test
-contacts_data.db
-contacts_data.json
 *.db
 .pytest_cache/
