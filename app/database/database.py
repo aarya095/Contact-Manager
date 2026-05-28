@@ -21,5 +21,8 @@ def get_db():
     logger.debug("DB session created.")
     try:
         yield db
+    except:
+        db.rollback()
+        raise
     finally:
         db.close()
