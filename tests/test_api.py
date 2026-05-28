@@ -44,6 +44,7 @@ def test_create_contact():
     contact_name = "Aarya"
     contact_number = 9876543210
 
+    logger.info(f"Sending request for creating the entry for {contact_name} in database.")
     response = client.post(
         "/contacts/", json = {
             "contact_name": contact_name,
@@ -68,6 +69,7 @@ def test_get_contact():
     setup()
     contact_id = 1
 
+    logger.info(f"Sending request for retrieving the entry for {contact_id} from database.")
     response = client.get(f"/contacts/{contact_id}")    
     assert response.status_code == 200
 
@@ -85,6 +87,7 @@ def test_list_contacts():
 
     setup_for_testing_list_contacts()
 
+    logger.info("Sending request for retrieving all contact entries from database.")
     response = client.get("/contacts")
     assert response.status_code == 200
 
@@ -113,6 +116,7 @@ def test_update_contact():
 
     contact_id = 1
 
+    logger.info(f"Sending request for updating the entry for {contact_id} in database.")
     response = client.put(
         f"/contacts/{contact_id}",
         json = {
@@ -139,6 +143,7 @@ def test_delete_contact():
 
     contact_id = 1
 
+    logger.info(f"Sending request for deleting the entry for {contact_id} from database.")
     response = client.delete(f"/contacts/{contact_id}")
 
     assert response.status_code == 200
