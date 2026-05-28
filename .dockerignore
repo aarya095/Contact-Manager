@@ -1,9 +1,11 @@
+*.pyc
+__pycache__/
+.pytest_cache/
+.venv/
+docs/
+tests/
 .env.dev
 .env.main
 .env.test
-*.pyc
-__pycache__
-docs/
-tests/
+.env.example
 *.db
-.pytest_cache/
