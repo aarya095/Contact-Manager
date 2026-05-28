@@ -6,8 +6,6 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY ./alembic ./alembic
-COPY ./app ./app
-COPY ./config ./config
+COPY . .
 
-CMD [ "uvicorn", "app.main:app" ]
+CMD [ "uvicorn", "app.main:app" "--reload"]
