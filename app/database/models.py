@@ -12,5 +12,4 @@ class Contact(Base):
     contact_name : Mapped[str] 
     contact_number : Mapped[bytes] 
 
-if __name__ == '__main__':
-    Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)
