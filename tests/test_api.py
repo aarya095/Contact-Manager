@@ -54,7 +54,6 @@ def test_create_contact():
     assert response.status_code == 201
     data = response.json()
 
-    logger.debug(data)
     
     assert data['Message'] == "Contact created successfully"
     assert data['contact']['contact_name'] == "aarya"
@@ -73,7 +72,6 @@ def test_get_contact():
     assert response.status_code == 200
 
     data = response.json()
-    print(f"Data: {data}")
 
     assert 'contact_id' in data
     assert data['contact_name'] == "aarya"
