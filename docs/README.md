@@ -2,6 +2,11 @@
 
 FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and encrypted data handling.
 
+## Live Demo
+- Live API: https://contact-manager-dlpk.onrender.com/
+- Swagger Documentation: https://contact-manager-dlpk.onrender.com/docs
+
+
 ## 🚧 Project Status: In Progress
 
 ## 📌 Navigate
@@ -27,17 +32,19 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
         - `DELETE /contacts/{contact_id}`
 - 🔐 Encryption
     - Contact numbers are encrypted using Fernet (symmetric encryption)
-    - Key securely stored in .env file
-    - Keys are generated, updated, and deleted as per the operation
-- ⚙️ Architecture
+    - Master Key securely stored in .env file
+- 🐳 Containerization & Deployment
+    - Dockerized FastAPI application
+    - Multi-container setup using Docker Compose
+    - Persistent PostgreSQL storage using Docker volumes
+    - Deployed on Render with managed PostgreSQL integration
+- ⚙️ Backend Architecture
     - Database layer
     - Service layer
     - Endpoint layer
-- 📄 API Documentation
+- 📄 API Development & Documentation
     - Documented using Bruno (local-first API client)
-- 🌿 Git Workflow
-    - Feature-based branching
-    - Separate branches for debugging and enhancements
+    - Interactive API documentation provided by FastAPI Swagger UI
 - 📜 Logging
     - Used python's in-built logging module for adding logging to my codebase
     - Logs capture key events across all layers
@@ -45,6 +52,9 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
     - Used PyTest and FastAPI's TestClient to test all CRUD endpoints
     - Added unit tests for encryption and decryption utility functions
     - Verified API responses, status codes, and encrypted data handling
+- 🌿 Git Workflow
+    - Feature-based branching
+    - Separate branches for debugging and enhancements
 
 ## Architecture
 
@@ -57,9 +67,11 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 - Database: PostgreSQL and SQLite (development/testing)
 - ORM: SQLAlchemy
 - Validation: Pydantic
-- Encryption: Fernet (cryptography)
+- Encryption: Fernet (`cryptography`)
+- Containerization: Docker, Docker Compose
+- Deployment & Hosting: Render
 - Testing: PyTest, FastAPI TestClient
-- Logging: Python logging module
+- Logging: Python `logging` module
 - API Testing & Documentation: Bruno
 - Version Control: Git
 
