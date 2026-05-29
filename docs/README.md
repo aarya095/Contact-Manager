@@ -123,6 +123,11 @@ This project originally started as a CLI-based Contact Manager application.
 You can find the CLI version in the `cli` branch:
 https://github.com/aarya095/Contact-Manager/tree/menu-driven-cli
 
+After converting the app into an API, I first implemented a unique encryption key for each contact, with keys stored in the `.env` file. However, while preparing to Dockerize the app, I realized this approach wasn’t practical. I then simplified the design to use a single master encryption key stored in `.env`.
+
+The per-contact encryption implementation is available in the `feature/per-contact-env-keys` branch:
+https://github.com/aarya095/Contact-Manager/tree/feature/per-contact-env-keys
+
 <hr>
 
 <p>
