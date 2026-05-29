@@ -44,7 +44,7 @@ def test_create_contact():
     contact_name = "Aarya"
     contact_number = 9876543210
 
-    logger.info(f"Sending request for creating the entry for {contact_name} in database.")
+    logger.info(f"Sending request for creating the entry for {contact_name} and {contact_number} in database.")
     response = client.post(
         "/contacts/", json = {
             "contact_name": contact_name,
