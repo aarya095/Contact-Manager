@@ -78,32 +78,19 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 ## Project Structure
     
     .
-    ├── Dockerfile
-    ├── alembic
-    ├── app
-    │   ├── database
-    │   │   ├── database.py
-    │   │   ├── db_operations.py
-    │   │   └── models.py
-    │   ├── exceptions.py
-    │   ├── logging_config.py
-    │   ├── main.py
+  
+    ├── alembic/
+    ├── app/
+    │   ├── database/
+    │   ├── main.py # FastAPI application entry point
     │   ├── routes.py
     │   ├── schemas.py
-    │   └── services
-    │       ├── encryption.py
-    │       └── operations.py
-    ├── config
-    │   └── config.py
-    ├── docs
-    │   ├── Contact Manager API testing
-    │   ├── Diagrams
-    │   └── README.md
+    │   └── services/
+    ├── config/
+    ├── docs/
+    |── tests/
+    ├── Dockerfile
     ├── requirements.txt
-    ├── test.db
-    └── tests
-        ├── test_api.py
-        └── test_encryption.py
 
 ## Setup Instructions
 
