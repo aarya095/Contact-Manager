@@ -6,7 +6,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: #0d1117;
+    color: #e6edf3;
     padding: 30px;
 }
 
@@ -18,17 +19,21 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 25px;
+    color: #58a6ff;
 }
 
 .card {
-    background: white;
+    background: #161b22;
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
+    border: 1px solid #30363d;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 h2 {
     margin-bottom: 15px;
+    color: #e6edf3;
 }
 
 form {
@@ -40,11 +45,34 @@ form {
 input {
     padding: 10px;
     flex: 1;
+
+    background: #21262d;
+    color: #e6edf3;
+
+    border: 1px solid #30363d;
+    border-radius: 6px;
+}
+
+input::placeholder {
+    color: #8b949e;
 }
 
 button {
     padding: 10px 15px;
+
     cursor: pointer;
+
+    background: #238636;
+    color: white;
+
+    border: none;
+    border-radius: 6px;
+
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #2ea043;
 }
 
 table {
@@ -55,13 +83,22 @@ table {
 
 th,
 td {
-    border: 1px solid #ddd;
+    border: 1px solid #30363d;
     padding: 10px;
     text-align: center;
 }
 
 th {
-    background: #eee;
+    background: #21262d;
+    color: #58a6ff;
+}
+
+tr:nth-child(even) {
+    background: #1c2128;
+}
+
+tr:hover {
+    background: #262c36;
 }
 
 .action-btn {
@@ -73,11 +110,21 @@ th {
 }
 
 .success {
-    color: green;
+    color: #3fb950;
     margin-bottom: 15px;
 }
 
 .error {
-    color: red;
+    color: #f85149;
     margin-bottom: 15px;
+}
+
+#search-result {
+    margin-top: 15px;
+    color: #e6edf3;
+}
+
+#message {
+    margin-bottom: 15px;
+    font-weight: bold;
 }
