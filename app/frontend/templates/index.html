@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts Manager</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📒 Contacts Manager</h1>
+
+    <div id="message"></div>
+
+    <!-- Create Contact -->
+    <section class="card">
+        <h2>Add Contact</h2>
+
+        <form id="create-form">
+            <input
+                type="text"
+                id="name"
+                placeholder="Contact Name"
+                required
+            >
+
+            <input
+                type="text"
+                id="phone"
+                placeholder="Phone Number"
+                required
+            >
+
+            <button type="submit">
+                Add Contact
+            </button>
+        </form>
+    </section>
+
+    <!-- Search Contact -->
+    <section class="card">
+        <h2>Find Contact</h2>
+
+        <input
+            type="number"
+            id="search-id"
+            placeholder="Contact ID"
+        >
+
+        <button onclick="getContact()">
+            Search
+        </button>
+
+        <div id="search-result"></div>
+    </section>
+
+    <!-- Contacts List -->
+    <section class="card">
+        <h2>All Contacts</h2>
+
+        <button onclick="loadContacts()">
+            Refresh
+        </button>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody id="contacts-body">
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+<script src="/static/app.js"></script>
+
+</body>
+</html>
