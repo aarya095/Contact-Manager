@@ -95,8 +95,31 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 ## Setup Instructions
 
 1. Clone the repository:   
-- `git clone https://github.com/aarya095/Contact-Manager.git`    
-- `cd Contact-Manager`
+```bash
+git clone https://github.com/aarya095/Contact-Manager.git
+cd Contact-Manager
+```
+
+2. Create environment file:    
+- Create a `.env.main` file in the project root:    
+- Set sample env variables as follows:
+```bash
+DATABASE_URL = sqlite:///dev.db
+MASTER_KEY="OjVDJ1YVzBxrBAKiJfxXoAihMzVqbMQNm-kKvoltEJs="
+```
+
+3. Start the application:    
+- `docker compose up --build`
+
+4. Access the application:
+- Frontend:
+    - http://127.0.0.1:8000/
+- API Documentation:
+    - http://127.0.0.1:8000/docs
+
+### Running Without Docker
+
+1. Follow the first two instructions from the above setup.
 
 2. Create a virtual environment:    
 - `python -m venv venv`    
@@ -106,14 +129,17 @@ FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and 
 3. Install dependencies:    
 - `pip install -r requirements.txt`
 
-4. Create `.env.dev` file:
-- add `DATABASE_URL = 'sqlite:///dev.db'`
+4. Set .env_file path:
+- In the config/config.py, set env_file_path to `.env.main`
 
 5. Run the server:    
 - `uvicorn app.main:app --reload`
 
-6. Open in browser:    
-- http://127.0.0.1:8000/docs
+6. Access the application:
+- Frontend:
+    - http://127.0.0.1:8000/
+- API Documentation:
+    - http://127.0.0.1:8000/docs
 
 ## Project Evolution
 
