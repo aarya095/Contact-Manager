@@ -1,4 +1,11 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import (
+    APIRouter, 
+    HTTPException, 
+    Request, 
+    Depends
+    )
+
+from fastapi.templating import Jinja2Templates
 
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 from app.schemas import (
@@ -16,9 +23,16 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
+templates = Jinja2Templates(
+    directory="app/frontend/templates"
+)
+
 @router.get("/")
-def root():
-    return "Welcome to Contact Manager API"
+def root(request : Request):
+    return templates.TemplateResponse(
+        request = request,
+        name = "index.html"
+    )
 
 
 @router.post("/contacts", 
