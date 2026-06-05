@@ -1,10 +1,7 @@
 # 🗂️ Contact Manager API
 
-FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and encrypted data handling.
-
-## 🌐 Live Demo
-- Live Link: https://contact-manager-dlpk.onrender.com/
-- Swagger Documentation: https://contact-manager-dlpk.onrender.com/docs
+FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and encrypted data handling.   
+Swagger Documentation: https://contact-manager-dlpk.onrender.com/docs
 
 
 ## 🚧 Project Status: In Progress
