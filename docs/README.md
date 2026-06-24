@@ -14,6 +14,7 @@ Swagger Documentation: https://contact-manager-dlpk.onrender.com/docs
 - [`Project Structure`](#project-structure)
 - [`Setup Instructions`](#setup-instructions)
 - [`Project Evolution`](#project-evolution)
+- [`Feedback Welcome`](#feedback-welcome)
 
 ## Features
 - 🗂️ CRUD API
@@ -149,6 +150,20 @@ After converting the app into an API, I first implemented a unique encryption ke
 
 The per-contact encryption implementation is available in the `feature/per-contact-env-keys` branch:
 https://github.com/aarya095/Contact-Manager/tree/feature/per-contact-env-keys
+
+## Feedback Welcome
+
+I'm actively learning backend development with Python and FastAPI.
+
+If you notice improvements related to:
+- Code organization
+- API design
+- Naming conventions
+- Python best practices
+- Performance
+- Testing
+
+I'd greatly appreciate your feedback or suggestions.
 
 <hr>
 
