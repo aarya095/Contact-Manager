@@ -2,7 +2,7 @@ from app.database.models import Contact
 
 from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
 
-from sqlalchemy import select, delete 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 import logging
@@ -136,17 +136,6 @@ def delete_contact_by_id(
     return deleted_contact_data
     
 
-def empty_database_tables(db: Session):
-
-    logger.info("Starting to empty the database.")
-    stmt = delete(Contact)
-
-    db.execute(stmt.execution_options(synchronize_session="fetch"))
-
-    db.commit()
-    logger.info("Database has been emptied successfully.")
-
-
 def check_contact_exists(id_to_check: int, db: Session):
     """Retrieves all the contact names via 
     SQLAlchemy and checks if the contact entry exists"""
@@ -184,7 +173,6 @@ if __name__ == '__main__':
     db = SessionLocal()
     #result = check_contact_exists(id_to_check=2, db=db)
     #delete_contact_db(contact_name="aarya",db=db)
-    #empty_database_tables(db=db)
     
     #insert_contact(
     # "umeko",

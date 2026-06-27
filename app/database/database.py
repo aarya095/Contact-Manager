@@ -1,5 +1,5 @@
 import logging
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 
 from config.config import config
@@ -13,6 +13,18 @@ SessionLocal = sessionmaker(
                             autoflush = False,
                             autocommit = False
                             )
+
+def empty_database_tables():
+
+    logger.info("Starting to empty the database.")
+
+    metadata = MetaData()
+    metadata.reflect()
+
+    # Drop all tables
+    metadata.drop_all(bind=engine)
+
+    logger.info("Database has been emptied successfully.")
 
 def get_db():
     """Dependency to get the database session"""
