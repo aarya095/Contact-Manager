@@ -13,7 +13,7 @@ class User(Base):
 
     user_id : Mapped[int] = mapped_column(primary_key=True)
     username : Mapped[str]
-    password_hash : Mapped[str] = mapped_column(String(50)) 
+    password_hash : Mapped[str] = mapped_column(String(255)) 
     contacts : Mapped[List["Contact"]] = relationship(back_populates = "owner")
 
 class Contact(Base):
