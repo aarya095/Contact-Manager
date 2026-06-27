@@ -19,7 +19,7 @@ def empty_database_tables():
     logger.info("Starting to empty the database.")
 
     metadata = MetaData()
-    metadata.reflect()
+    metadata.reflect(bind=engine)
 
     # Drop all tables
     metadata.drop_all(bind=engine)
@@ -38,3 +38,6 @@ def get_db():
         raise
     finally:
         db.close()
+
+if __name__ == '__main__':
+    empty_database_tables()
