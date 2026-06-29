@@ -1,6 +1,6 @@
 from app.database.models import Contact
 
-from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
+from app.exceptions import ContactNotFoundError
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
