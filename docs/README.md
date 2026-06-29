@@ -1,7 +1,6 @@
 # 🗂️ Contact Manager API
-
+⚠️ **Live Demo:** Currently unavailable because the hosted database instance has expired.    
 FastAPI-based contact manager API with PostgreSQL, featuring CRUD operation and encrypted data handling.   
-Swagger Documentation: https://contact-manager-dlpk.onrender.com/docs
 
 
 ## 🚧 Project Status: In Progress
