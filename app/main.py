@@ -12,6 +12,7 @@ logger.info("logger initialized")
 
 app = FastAPI()
 
+
 app.mount(
     "/static",
     StaticFiles(directory="app/frontend/static/"),
