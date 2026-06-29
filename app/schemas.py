@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 class ContactBase(BaseModel):
+    owner_id : int
     contact_name : str
     contact_number : int
 

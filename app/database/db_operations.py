@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def insert_contact(
+        owner_id: int,
         contact_name: str, 
         encrypted_contact_number: bytes,
         db: Session
@@ -20,7 +21,8 @@ def insert_contact(
     with db as session:
         contact_data = Contact(
             contact_name = contact_name, 
-            contact_number = encrypted_contact_number
+            contact_number = encrypted_contact_number,
+            user_id = owner_id
             )
         session.add(contact_data)
         session.commit()
@@ -30,6 +32,7 @@ def insert_contact(
     
 
 def retrieve_contact_by_id(
+                        owner_id: int,
                         contact_id: str, 
                         db: Session
                         ) -> Contact:
@@ -42,7 +45,11 @@ def retrieve_contact_by_id(
         logger.exception(f"User doesn't exist")
         raise ContactNotFoundError()
 
-    stmt = select(Contact).filter_by(contact_id = contact_id)
+    stmt = (
+        select(Contact)
+        .where(user_id = owner_id)
+        .where(contact_id = contact_id)
+        )
 
     user_to_view = db.execute(stmt).first()
     user_to_view = user_to_view[0]
@@ -174,10 +181,11 @@ if __name__ == '__main__':
     #result = check_contact_exists(id_to_check=2, db=db)
     #delete_contact_db(contact_name="aarya",db=db)
     
-    #insert_contact(
-    # "umeko",
-    # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
-    # db)
+    insert_contact(
+        1,
+     "umeko",
+     b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
+     db)
     #result = retrieve_all_contacts(db=db)
     #result = retrieve_contact_by_id(contact_id=1, db=db)
     #print(result)
