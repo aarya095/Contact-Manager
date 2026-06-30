@@ -57,10 +57,10 @@ def retrieve_contact_by_id(
     return user_to_view
         
     
-def retrieve_all_contacts(db: Session) -> list[tuple[Contact]]:
+def retrieve_all_contacts(owner_id: int, db: Session) -> list[tuple[Contact]]:
     """Retrieves all the contacts via SQLAlchemy"""
 
-    stmt = select(Contact)
+    stmt = select(Contact).where(Contact.user_id == owner_id)
 
     contacts_data = db.execute(stmt).all()
 
@@ -181,14 +181,14 @@ if __name__ == '__main__':
     #result = check_contact_exists(id_to_check=2, db=db)
     #delete_contact_db(contact_name="aarya",db=db)
     
-    insert_contact(
-        1,
-     "umeko",
-     b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
-     db)
-    #result = retrieve_all_contacts(db=db)
-    #result = retrieve_contact_by_id(contact_id=1, db=db)
-    #print(result)
+    #insert_contact(
+    #    1,
+    # "umeko",
+    # b'gAAAAABptliCAHsPyXXjDcQjqtQLoqwiEaIgZ1ZxiZykUGVk1so4Pr4c30AUM-uOIeJmkXURSzd_VQuaFgEhyzAXvAzTDWoxrg==',
+    # db)
+    #result = retrieve_all_contacts(owner_id = 1, db=db)
+    #result = retrieve_contact_by_id(owner_id = 1, contact_id=2, db=db)
+    #print(len(result))
     #logger.debug(f"{result}")
     #user = view_contact_by_name(contact_name="aarya",db=db)
     #name, contact_number = view_contact_by_name("vikas")
