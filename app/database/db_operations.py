@@ -86,7 +86,7 @@ def update_contact_by_id(
     stmt = select(Contact).filter_by(
         contact_id = contact_id
         )
-    user_to_update_tuple = db.execute(statement = stmt).first()
+    user_to_update_tuple = db.execute(stmt).first()
     user_to_update = user_to_update_tuple[0]
     
     if user_to_update:
