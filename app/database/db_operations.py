@@ -57,7 +57,10 @@ def retrieve_contact_by_id(
     return user_to_view
         
     
-def retrieve_all_contacts(owner_id: int, db: Session) -> list[tuple[Contact]]:
+def retrieve_all_contacts(
+        owner_id: int, 
+        db: Session
+        ) -> list[tuple[Contact]]:
     """Retrieves all the contacts via SQLAlchemy"""
 
     stmt = select(Contact).where(Contact.user_id == owner_id)
