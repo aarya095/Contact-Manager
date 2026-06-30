@@ -47,8 +47,8 @@ def retrieve_contact_by_id(
 
     stmt = (
         select(Contact)
-        .where(user_id = owner_id)
-        .where(contact_id = contact_id)
+        .where(Contact.user_id == owner_id)
+        .where(Contact.contact_id == contact_id)
         )
 
     user_to_view = db.execute(stmt).first()
