@@ -118,22 +118,26 @@ def update_contact_by_id(
     
     
 def delete_contact_by_id(
+        owner_id: int, 
         contact_id: str, 
         db: Session
         ) -> dict:
     """Create an entry in the database"""
 
     contact_exists = check_contact_exists(
-                    id_to_check = contact_id,
+                    owner_id = owner_id,
+                    contact_id = contact_id,
                     db = db
                     )
     if not contact_exists:
         logger.exception(f"User doesn't exist")
         raise ContactNotFoundError()
 
-    stmt = select(Contact).filter_by(
-            contact_id = contact_id
-                )
+    stmt = (
+        select(Contact)
+        .where(Contact.user_id == owner_id)
+        .where(Contact.contact_id == contact_id)
+        )
     
     user_to_delete_tuple = db.execute(statement = stmt).one()
     user_to_delete = user_to_delete_tuple[0]
