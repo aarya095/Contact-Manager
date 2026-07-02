@@ -54,8 +54,7 @@ def retrieve_contact_by_id(
         .where(Contact.contact_id == contact_id)
         )
 
-    user_to_view = db.execute(stmt).first()
-    user_to_view = user_to_view[0]
+    user_to_view = db.scalar(stmt)
 
     return user_to_view
         
@@ -96,8 +95,7 @@ def update_contact_by_id(
         .where(Contact.contact_id == contact_id)
         )
 
-    user_to_update_tuple = db.execute(stmt).first()
-    user_to_update = user_to_update_tuple[0]
+    user_to_update = db.scalar(stmt)
     
     if user_to_update:
         
@@ -142,8 +140,7 @@ def delete_contact_by_id(
         .where(Contact.contact_id == contact_id)
         )
     
-    user_to_delete_tuple = db.execute(statement = stmt).one()
-    user_to_delete = user_to_delete_tuple[0]
+    user_to_delete = db.scalar(statement = stmt)
 
     deleted_contact_data = {
         "id": user_to_delete.contact_id,
@@ -171,10 +168,10 @@ def check_contact_exists(
         .where(Contact.contact_id == contact_id)
         )
 
-    user_to_find = db.execute(stmt).first()
+    contact_to_find = db.execute(stmt).first()
 
-    if user_to_find:
-        logger.info(f"User found in the database: {contact_id}")
+    if contact_to_find:
+        logger.info(f"Contact found in the database: {contact_id}")
         return True
     return False
     
