@@ -26,3 +26,19 @@ def create_user(
     db.refresh(user)
 
     return user
+
+def check_user_exists(
+        user_id: int, 
+        db: Session
+        ) -> bool:
+    """
+    Check whether a user exists in the database.
+    """
+
+    stmt = select(User.user_id).where(User.user_id == user_id)
+    user_to_find = db.execute(stmt).first()
+
+    if user_to_find:
+        logger.info(f"Contact found in the database: {user_id}")
+        return True
+    return False
