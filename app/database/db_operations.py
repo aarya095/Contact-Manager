@@ -71,11 +71,12 @@ def retrieve_all_contacts(
 
         
 def update_contact_by_id(
-                    contact_id: str, 
-                    db: Session,
-                    updated_name: str | None = None,
-                    updated_encrypted_contact_number: bytes | None = None
-                ) -> Contact:
+        owner_id: int, 
+        contact_id: str, 
+        db: Session,
+        updated_name: str | None = None,
+        updated_encrypted_contact_number: bytes | None = None
+        ) -> Contact:
 
     contact_exists = check_contact_exists(
                         id_to_check = contact_id,
@@ -86,9 +87,12 @@ def update_contact_by_id(
         logger.exception(f"User doesn't exist")
         return ContactNotFoundError
 
-    stmt = select(Contact).filter_by(
-        contact_id = contact_id
+    stmt = (
+        select(Contact)
+        .where(Contact.user_id == owner_id)
+        .where(Contact.contact_id == contact_id)
         )
+
     user_to_update_tuple = db.execute(stmt).first()
     user_to_update = user_to_update_tuple[0]
     
