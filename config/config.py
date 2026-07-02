@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-env_file_path = ".env.dev"
+env_file_path = ".env.test"
 load_dotenv(dotenv_path = env_file_path)
 
 class Config:
