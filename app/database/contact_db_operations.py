@@ -48,13 +48,13 @@ def retrieve_contact_by_id(
         logger.exception(f"User doesn't exist")
         raise ContactNotFoundError()
 
-    stmt = (
+    statement = (
         select(Contact)
         .where(Contact.user_id == owner_id)
         .where(Contact.contact_id == contact_id)
         )
 
-    user_to_view = db.scalar(stmt)
+    user_to_view = db.scalar(statement)
 
     return user_to_view
         
@@ -65,9 +65,9 @@ def retrieve_all_contacts(
         ) -> list[tuple[Contact]]:
     """Retrieves all the contacts via SQLAlchemy"""
 
-    stmt = select(Contact).where(Contact.user_id == owner_id)
+    statement = select(Contact).where(Contact.user_id == owner_id)
 
-    contacts_data = db.execute(stmt).all()
+    contacts_data = db.execute(statement).all()
 
     return contacts_data
 
@@ -89,13 +89,13 @@ def update_contact_by_id(
         logger.exception(f"User doesn't exist")
         return ContactNotFoundError
 
-    stmt = (
+    statement = (
         select(Contact)
         .where(Contact.user_id == owner_id)
         .where(Contact.contact_id == contact_id)
         )
 
-    user_to_update = db.scalar(stmt)
+    user_to_update = db.scalar(statement)
     
     if user_to_update:
         
@@ -134,13 +134,13 @@ def delete_contact_by_id(
         logger.exception(f"User doesn't exist")
         raise ContactNotFoundError()
 
-    stmt = (
+    statement = (
         select(Contact)
         .where(Contact.user_id == owner_id)
         .where(Contact.contact_id == contact_id)
         )
     
-    user_to_delete = db.scalar(statement = stmt)
+    user_to_delete = db.scalar(statement = statement)
 
     deleted_contact_data = {
         "id": user_to_delete.contact_id,
@@ -162,13 +162,13 @@ def check_contact_exists(
     """Retrieves all the contact names via 
     SQLAlchemy and checks if the contact entry exists"""
 
-    stmt = (
+    statement = (
         select(Contact)
         .where(Contact.user_id == owner_id)
         .where(Contact.contact_id == contact_id)
         )
 
-    contact_to_find = db.execute(stmt).first()
+    contact_to_find = db.execute(statement).first()
 
     if contact_to_find:
         logger.info(f"Contact found in the database: {contact_id}")
