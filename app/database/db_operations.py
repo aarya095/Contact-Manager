@@ -154,16 +154,24 @@ def delete_contact_by_id(
     return deleted_contact_data
     
 
-def check_contact_exists(id_to_check: int, db: Session):
+def check_contact_exists(
+        owner_id: int, 
+        contact_id: int, 
+        db: Session
+        ) -> bool:
     """Retrieves all the contact names via 
     SQLAlchemy and checks if the contact entry exists"""
 
-    stmt = select(Contact).filter_by(contact_id = id_to_check)
+    stmt = (
+        select(Contact)
+        .where(Contact.user_id == owner_id)
+        .where(Contact.contact_id == contact_id)
+        )
 
     user_to_find = db.execute(stmt).first()
 
     if user_to_find:
-        logger.info(f"User found in the database: {id_to_check}")
+        logger.info(f"User found in the database: {contact_id}")
         return True
     return False
     
