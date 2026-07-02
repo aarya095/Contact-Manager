@@ -8,10 +8,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 def create_user(
-    db: Session,
-    username: str,
-    password_hash: str,
-) -> User:
+        db: Session,
+        username: str,
+        password_hash: str,
+    ) -> User:
     """
     Creates a new user in the database.
     """
