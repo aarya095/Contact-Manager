@@ -6,6 +6,7 @@ from app.database.user_db_operations import (
     get_user_by_id,
     get_all_users,
     update_user,
+    delete_user,
     )
 from app.database.models import User
 
@@ -94,3 +95,25 @@ def test_update_user(db_session):
     assert updated_user.user_id == user.user_id
     assert updated_user.username == "alice_new"
     assert updated_user.password_hash == "new_hash"
+
+
+def test_delete_user(db_session):
+    user = User(
+        username="alice",
+        password_hash="hash123",
+    )
+    db_session.add(user)
+    db_session.commit()
+
+    deleted_username = delete_user(
+        user_id=user.user_id,
+        db=db_session,
+    )
+
+    assert deleted_username == "alice"
+
+    deleted_user = db_session.scalar(
+        select(User).where(User.user_id == user.user_id)
+    )
+
+    assert deleted_user is None
