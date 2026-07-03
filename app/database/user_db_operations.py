@@ -58,7 +58,9 @@ def update_user(
         updated_username: str | None = None,
         updated_password_hash: str | None = None,
     ) -> User:
-    """Update a user's username and password hash."""
+    """
+    Update a user's username and password hash.
+    """
 
     statement = select(User).where(User.user_id == user_id)
     user = db.scalar(statement)
