@@ -14,7 +14,6 @@ Base = declarative_base()
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_database():
-
     Base.metadata.create_all(bind=engine)
 
     yield
@@ -24,7 +23,6 @@ def setup_database():
 
 @pytest.fixture
 def db_session():
-    
     connection = engine.connect()
     transaction = connection.begin()
 
