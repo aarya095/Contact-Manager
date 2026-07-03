@@ -80,6 +80,28 @@ def update_user(
     return user
 
 
+def delete_user(
+        user_id: int,
+        db: Session,
+    ) -> str:
+    """
+    Delete an existing user and return the username.
+    """
+
+    if not check_user_exists(user_id, db):
+        raise UserNotFoundError
+
+    statement = select(User).where(User.user_id == user_id)
+    user = db.scalar(statement)
+
+    username = user.username
+
+    db.delete(user)
+    db.commit()
+
+    return username
+
+
 def check_user_exists(
         user_id: int, 
         db: Session
@@ -92,6 +114,6 @@ def check_user_exists(
     user_to_find = db.execute(statement).first()
 
     if user_to_find:
-        logger.info(f"Contact found in the database: {user_id}")
+        logger.info(f"User found in the database: {user_id}")
         return True
     return False
