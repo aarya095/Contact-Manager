@@ -5,6 +5,7 @@ from app.database.user_db_operations import (
     insert_user, 
     get_user_by_id,
     get_all_users,
+    update_user,
     )
 from app.database.models import User
 
@@ -71,3 +72,25 @@ def test_get_all_users(db_session):
     assert len(users) == 2
     assert users[0].username == "alice"
     assert users[1].username == "bob"
+
+
+def test_update_user(db_session):
+
+    user = User(
+        username = "alice",
+        password_hash = "old_hash",
+    )
+
+    db_session.add(user)
+    db_session.commit()
+
+    updated_user = update_user(
+        db = db_session,
+        user_id = user.user_id,
+        updated_username = "alice_new",
+        updated_password_hash = "new_hash",
+    )
+
+    assert updated_user.user_id == user.user_id
+    assert updated_user.username == "alice_new"
+    assert updated_user.password_hash == "new_hash"
