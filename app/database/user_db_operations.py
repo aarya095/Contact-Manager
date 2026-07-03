@@ -44,12 +44,12 @@ def get_user_by_id(
 
     logger.info(f"Retrieving user with ID {user_id}.")
 
-    if not check_user_exists(user_id, db):
-        logger.warning(f"User with ID {user_id} not found.")
-        raise UserNotFoundError
-
     statement = select(User).where(User.user_id == user_id)
     user = db.scalar(statement)
+
+    if user is None:
+        logger.warning(f"User with ID {user_id} not found.")
+        raise UserNotFoundError
 
     logger.info(f"Retrieved user '{user.username}' (ID {user.user_id}).")
 
@@ -119,12 +119,12 @@ def delete_user(
 
     logger.info(f"Deleting user with ID {user_id}.")
 
-    if not check_user_exists(user_id, db):
-        logger.warning(f"User with ID {user_id} not found.")
-        raise UserNotFoundError
-
     statement = select(User).where(User.user_id == user_id)
     user = db.scalar(statement)
+
+    if user is None:
+        logger.warning(f"User with ID {user_id} not found.")
+        raise UserNotFoundError
 
     username = user.username
 
@@ -145,7 +145,7 @@ def check_user_exists(
     """
 
     statement = select(User.user_id).where(User.user_id == user_id)
-    user_to_find = db.execute(statement).first()
+    user_to_find = db.scalar(statement)
 
     if user_to_find:
         logger.info(f"User found in the database: {user_id}")
