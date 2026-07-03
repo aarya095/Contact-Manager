@@ -38,6 +38,9 @@ def get_user_by_id(
     Retrieve a user by their ID.
     """
 
+    if not check_user_exists(user_id, db):
+        raise UserNotFoundError
+
     statement = select(User).where(User.user_id == user_id)
     user = db.scalar(statement)
 
