@@ -47,8 +47,9 @@ def get_all_users(db_session: Session) -> list[User]:
     """Return all users from the database."""
     
     stmt = select(User)
-    return db_session.scalars(stmt).all()
+    users =  db_session.scalars(stmt).all()
 
+    return users
 
 def check_user_exists(
         user_id: int, 
