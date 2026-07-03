@@ -46,11 +46,11 @@ def get_user_by_id(
 
     return user
 
-def get_all_users(db_session: Session) -> list[User]:
+def get_all_users(db: Session) -> list[User]:
     """Return all users from the database."""
     
     statement = select(User)
-    users =  db_session.scalars(statement).all()
+    users =  db.scalars(statement).all()
 
     return users
 
