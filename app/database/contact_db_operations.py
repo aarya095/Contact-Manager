@@ -45,7 +45,7 @@ def retrieve_contact_by_id(
         )
     
     if not contact_exists:
-        logger.exception(f"User doesn't exist")
+        logger.exception(f"Contact doesn't exist")
         raise ContactNotFoundError()
 
     statement = (
@@ -86,7 +86,7 @@ def update_contact_by_id(
                         )
     
     if not contact_exists:
-        logger.exception(f"User doesn't exist")
+        logger.exception(f"Contact doesn't exist")
         return ContactNotFoundError
 
     statement = (
