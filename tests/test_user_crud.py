@@ -54,7 +54,7 @@ def test_get_user_by_id(db_session: Session):
     db_session.delete(created_user)
     db_session.commit()
 
-def test_get_all_users(db_session):
+def test_get_all_users(db_session: Session):
 
     user1 = User(
         username="alice",
@@ -75,7 +75,7 @@ def test_get_all_users(db_session):
     assert users[1].username == "bob"
 
 
-def test_update_user(db_session):
+def test_update_user(db_session: Session):
 
     user = User(
         username = "alice",
@@ -97,7 +97,8 @@ def test_update_user(db_session):
     assert updated_user.password_hash == "new_hash"
 
 
-def test_delete_user(db_session):
+def test_delete_user(db_session: Session):
+
     user = User(
         username="alice",
         password_hash="hash123",
