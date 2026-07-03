@@ -69,7 +69,7 @@ def update_user(
     user = db.scalar(statement)
 
     if user is None:
-        raise ValueError(f"User with ID {user_id} not found.")
+        raise UserNotFoundError
 
     if updated_username is not None:
         user.username = updated_username
