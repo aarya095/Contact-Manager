@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.database.user_db_operations import (
     insert_user, 
-    get_user_by_id
+    get_user_by_id,
+    get_all_users,
     )
 from app.database.models import User
 
@@ -50,3 +51,23 @@ def test_get_user_by_id(db_session: Session):
     # Cleanup
     db_session.delete(created_user)
     db_session.commit()
+
+def test_get_all_users(db_session):
+
+    user1 = User(
+        username="alice",
+        password_hash="hash1",
+    )
+    user2 = User(
+        username="bob",
+        password_hash="hash2",
+    )
+
+    db_session.add_all([user1, user2])
+    db_session.commit()
+
+    users = get_all_users(db_session)
+
+    assert len(users) == 2
+    assert users[0].username == "alice"
+    assert users[1].username == "bob"
