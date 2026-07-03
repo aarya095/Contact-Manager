@@ -9,7 +9,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def create_user(
+def insert_user(
         db: Session,
         username: str,
         password_hash: str,
