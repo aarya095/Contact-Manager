@@ -51,6 +51,33 @@ def get_all_users(db_session: Session) -> list[User]:
 
     return users
 
+
+def update_user(
+        user_id: int,
+        db: Session,
+        updated_username: str | None = None,
+        updated_password_hash: str | None = None,
+    ) -> User:
+    """Update a user's username and password hash."""
+
+    stmt = select(User).where(User.user_id == user_id)
+    user = db.scalar(stmt)
+
+    if user is None:
+        raise ValueError(f"User with ID {user_id} not found.")
+
+    if updated_username is not None:
+        user.username = updated_username
+
+    if updated_password_hash is not None:
+        user.password_hash = updated_password_hash
+
+    db.commit()
+    db.refresh(user)
+
+    return user
+
+
 def check_user_exists(
         user_id: int, 
         db: Session
