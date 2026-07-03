@@ -131,7 +131,7 @@ def delete_contact_by_id(
                     db = db
                     )
     if not contact_exists:
-        logger.exception(f"User doesn't exist")
+        logger.exception(f"Contact doesn't exist")
         raise ContactNotFoundError()
 
     statement = (
