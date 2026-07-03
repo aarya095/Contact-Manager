@@ -16,7 +16,9 @@ def insert_contact(
         encrypted_contact_number: bytes,
         db: Session
         ) -> Contact:
-    """Create an entry in the database"""
+    """
+    Create an entry in the database
+    """
 
     contact_data = Contact(
         contact_name = contact_name, 
@@ -36,7 +38,9 @@ def retrieve_contact_by_id(
                         contact_id: str, 
                         db: Session
                         ) -> Contact:
-    """Retrieves one contact via SQLAlchemy"""
+    """
+    Retrieves one contact via SQLAlchemy
+    """
 
     contact_exists = check_contact_exists(
         owner_id = owner_id,
@@ -63,7 +67,9 @@ def retrieve_all_contacts(
         owner_id: int, 
         db: Session
         ) -> list[tuple[Contact]]:
-    """Retrieves all the contacts via SQLAlchemy"""
+    """
+    Retrieves all the contacts via SQLAlchemy
+    """
 
     statement = select(Contact).where(Contact.user_id == owner_id)
 
@@ -79,6 +85,9 @@ def update_contact_by_id(
         updated_name: str | None = None,
         updated_encrypted_contact_number: bytes | None = None
         ) -> Contact:
+    """
+    Updates the contact name and number if provided
+    """
 
     contact_exists = check_contact_exists(
                         id_to_check = contact_id,
@@ -123,7 +132,9 @@ def delete_contact_by_id(
         contact_id: str, 
         db: Session
         ) -> dict:
-    """Create an entry in the database"""
+    """
+    Create an entry in the database
+    """
 
     contact_exists = check_contact_exists(
                     owner_id = owner_id,
