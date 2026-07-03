@@ -134,22 +134,3 @@ def delete_user(
     logger.info(f"Deleted user '{username}' (ID {user_id}).")
 
     return username
-
-
-def check_user_exists(
-        user_id: int,
-        db: Session,
-    ) -> bool:
-    """
-    Check whether a user exists in the database.
-    """
-
-    statement = select(User.user_id).where(User.user_id == user_id)
-    user_to_find = db.scalar(statement)
-
-    if user_to_find:
-        logger.info(f"User found in the database: {user_id}")
-        return True
-
-    logger.info(f"User not found in the database: {user_id}")
-    return False
