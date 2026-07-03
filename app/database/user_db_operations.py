@@ -46,8 +46,8 @@ def get_user_by_id(
 def get_all_users(db_session: Session) -> list[User]:
     """Return all users from the database."""
     
-    stmt = select(User)
-    users =  db_session.scalars(stmt).all()
+    statement = select(User)
+    users =  db_session.scalars(statement).all()
 
     return users
 
@@ -60,8 +60,8 @@ def update_user(
     ) -> User:
     """Update a user's username and password hash."""
 
-    stmt = select(User).where(User.user_id == user_id)
-    user = db.scalar(stmt)
+    statement = select(User).where(User.user_id == user_id)
+    user = db.scalar(statement)
 
     if user is None:
         raise ValueError(f"User with ID {user_id} not found.")
