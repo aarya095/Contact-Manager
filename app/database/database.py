@@ -15,6 +15,9 @@ SessionLocal = sessionmaker(
                             )
 
 def empty_database_tables():
+    """
+    Drops all the tables in the DB
+    """
 
     logger.info("Starting to empty the database.")
 
@@ -27,7 +30,9 @@ def empty_database_tables():
     logger.info("Database has been emptied successfully.")
 
 def get_db():
-    """Dependency to get the database session"""
+    """
+    Dependency to get the database session
+    """
     
     db = SessionLocal()
     logger.debug("DB session created.")
