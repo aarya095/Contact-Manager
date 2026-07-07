@@ -1,9 +1,13 @@
+# Built-in Modules
 import logging
 
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+# User-Defined Modules
 from app.routes import router
 from app.logging_config import setup_logging
+
+# External Modules
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 logger = logging.getLogger(__name__)
 
