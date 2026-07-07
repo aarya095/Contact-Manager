@@ -42,16 +42,6 @@ def retrieve_contact_by_id(
     Retrieves one contact via SQLAlchemy
     """
 
-    contact_exists = check_contact_exists(
-        owner_id = owner_id,
-        contact_id = contact_id, 
-        db = db
-        )
-    
-    if not contact_exists:
-        logger.exception(f"Contact doesn't exist")
-        raise ContactNotFoundError()
-
     statement = (
         select(Contact)
         .where(Contact.user_id == owner_id)
@@ -59,6 +49,10 @@ def retrieve_contact_by_id(
         )
 
     user_to_view = db.scalar(statement)
+
+    if not user_to_view:
+        logger.exception(f"Contact doesn't exist")
+        raise ContactNotFoundError()
 
     return user_to_view
         
@@ -89,15 +83,6 @@ def update_contact_by_id(
     Updates the contact name and number if provided
     """
 
-    contact_exists = check_contact_exists(
-                        id_to_check = contact_id,
-                        db = db
-                        )
-    
-    if not contact_exists:
-        logger.exception(f"Contact doesn't exist")
-        return ContactNotFoundError
-
     statement = (
         select(Contact)
         .where(Contact.user_id == owner_id)
@@ -105,6 +90,10 @@ def update_contact_by_id(
         )
 
     user_to_update = db.scalar(statement)
+
+    if not user_to_update:
+        logger.exception(f"Contact doesn't exist")
+        raise ContactNotFoundError()
     
     if user_to_update:
         
@@ -136,15 +125,6 @@ def delete_contact_by_id(
     Create an entry in the database
     """
 
-    contact_exists = check_contact_exists(
-                    owner_id = owner_id,
-                    contact_id = contact_id,
-                    db = db
-                    )
-    if not contact_exists:
-        logger.exception(f"Contact doesn't exist")
-        raise ContactNotFoundError()
-
     statement = (
         select(Contact)
         .where(Contact.user_id == owner_id)
@@ -152,6 +132,10 @@ def delete_contact_by_id(
         )
     
     user_to_delete = db.scalar(statement = statement)
+
+    if not user_to_delete:
+        logger.exception(f"Contact doesn't exist")
+        raise ContactNotFoundError()
 
     deleted_contact_data = {
         "id": user_to_delete.contact_id,
@@ -208,7 +192,6 @@ if __name__ == '__main__':
                                 autocommit = False
                                 )
     db = SessionLocal()
-    #result = check_contact_exists(id_to_check=2, db=db)
     #delete_contact_db(contact_name="aarya",db=db)
     
     result = insert_contact(
