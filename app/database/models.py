@@ -1,12 +1,12 @@
-# External Modules
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import String, ForeignKey
-
 # Built-in Modules
 from typing import List
 
 # User-Defined Modules
 from app.database.database import engine
+
+# External Modules
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy import String, ForeignKey
 
 class Base(DeclarativeBase):
     pass
