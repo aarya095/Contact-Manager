@@ -10,10 +10,6 @@ from app.database.user_db_operations import (
     )
 from app.database.models import User
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 def test_create_user(db_session: Session):
     user = insert_user(
@@ -29,6 +25,7 @@ def test_create_user(db_session: Session):
     assert saved_user is not None
     assert saved_user.username == "testuser"
     assert saved_user.password_hash == "hashed_password"
+
 
 def test_get_user_by_id(db_session: Session):
     # Arrange
@@ -53,6 +50,7 @@ def test_get_user_by_id(db_session: Session):
     # Cleanup
     db_session.delete(created_user)
     db_session.commit()
+    
 
 def test_get_all_users(db_session: Session):
 
