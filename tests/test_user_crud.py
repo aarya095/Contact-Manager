@@ -1,4 +1,4 @@
-from sqlalchemy import delete, select 
+from sqlalchemy import select 
 from sqlalchemy.orm import Session
 
 from app.database.user_db_operations import (
