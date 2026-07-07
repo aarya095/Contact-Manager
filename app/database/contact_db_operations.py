@@ -73,7 +73,7 @@ def retrieve_all_contacts(
 
     statement = select(Contact).where(Contact.user_id == owner_id)
 
-    contacts_data = db.execute(statement).all()
+    contacts_data = db.scalars(statement).all()
 
     return contacts_data
 
