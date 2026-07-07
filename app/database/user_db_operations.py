@@ -1,11 +1,13 @@
-from app.database.models import User
+# Built-in Modules
+import logging
 
+# User-Defined Modules
+from app.database.models import User
 from app.exceptions import UserNotFoundError
 
+# External Modules
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-import logging
 
 logger = logging.getLogger(__name__)
 
