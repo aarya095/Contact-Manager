@@ -6,6 +6,7 @@ from app.database.contact_db_operations import (
     retrieve_contact_by_id,
     retrieve_all_contacts,
     update_contact_by_id,
+    delete_contact_by_id,
 )
 
 from app.database.user_db_operations import (
@@ -172,3 +173,43 @@ def test_update_contact_by_id(db_session: Session):
         == updated_encrypted_contact_number
     )
     assert updated_contact.user_id == created_user.user_id
+
+
+def test_delete_contact_by_id(db_session: Session):
+    
+    # Arrange
+    username = "test_user"
+    password_hash = "hashed_password"
+
+    created_user = insert_user(
+        db=db_session,
+        username=username,
+        password_hash=password_hash,
+    )
+
+    created_contact = insert_contact(
+        owner_id=created_user.user_id,
+        contact_name="John Doe",
+        encrypted_contact_number=b"encrypted_number",
+        db=db_session,
+    )
+
+    # Act
+    deleted_contact = delete_contact_by_id(
+        owner_id=created_user.user_id,
+        contact_id=created_contact.contact_id,
+        db=db_session,
+    )
+
+    # Assert
+    assert deleted_contact["id"] == created_contact.contact_id
+    assert deleted_contact["contact_name"] == created_contact.contact_name
+
+    statement = (
+        select(Contact)
+        .where(Contact.contact_id == created_contact.contact_id)
+    )
+
+    retrieved_contact = db_session.scalar(statement)
+
+    assert retrieved_contact is None
