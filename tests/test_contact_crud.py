@@ -60,6 +60,7 @@ def test_insert_contact(db_session: Session):
 
 
 def test_retrieve_contact_by_id(db_session: Session):
+
     # Arrange
     username = "test_user"
     password_hash = "hashed_password"
@@ -96,6 +97,7 @@ def test_retrieve_contact_by_id(db_session: Session):
 
 
 def test_retrieve_all_contacts(db_session: Session):
+    
     # Arrange
     username = "test_user"
     password_hash = "hashed_password"

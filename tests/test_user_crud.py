@@ -15,6 +15,7 @@ from sqlalchemy.orm import Session
 
 
 def test_create_user(db_session: Session):
+
     user = insert_user(
         db = db_session,
         username = "testuser",
@@ -31,6 +32,7 @@ def test_create_user(db_session: Session):
 
 
 def test_get_user_by_id(db_session: Session):
+    
     # Arrange
     created_user = insert_user(
         db = db_session,
