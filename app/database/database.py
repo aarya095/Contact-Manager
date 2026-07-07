@@ -1,8 +1,12 @@
+# Built-in Modules
 import logging
+
+# User-Defined Modules
+from config.config import config
+
+# External Modules
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
-
-from config.config import config
 
 logger = logging.getLogger(__name__)
 
