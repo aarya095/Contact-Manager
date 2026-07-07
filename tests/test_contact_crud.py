@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.database.contact_db_operations import (
     insert_contact,
     retrieve_contact_by_id,
+    retrieve_all_contacts,
 )
 
 from app.database.user_db_operations import (
@@ -87,3 +88,45 @@ def test_retrieve_contact_by_id(db_session: Session):
     assert retrieved_contact.contact_name == contact_name
     assert retrieved_contact.contact_number == encrypted_contact_number
     assert retrieved_contact.user_id == created_user.user_id
+
+
+def test_retrieve_all_contacts(db_session: Session):
+    # Arrange
+    username = "test_user"
+    password_hash = "hashed_password"
+
+    created_user = insert_user(
+        db=db_session,
+        username=username,
+        password_hash=password_hash,
+    )
+
+    first_contact = insert_contact(
+        owner_id=created_user.user_id,
+        contact_name="John Doe",
+        encrypted_contact_number=b"encrypted_number_1",
+        db=db_session,
+    )
+
+    second_contact = insert_contact(
+        owner_id=created_user.user_id,
+        contact_name="Jane Smith",
+        encrypted_contact_number=b"encrypted_number_2",
+        db=db_session,
+    )
+
+    # Act
+    retrieved_contacts = retrieve_all_contacts(
+        owner_id=created_user.user_id,
+        db=db_session,
+    )
+
+    # Assert
+    assert len(retrieved_contacts) == 2
+
+    retrieved_contact_ids = {
+        contact.contact_id for contact in retrieved_contacts
+    }
+
+    assert first_contact.contact_id in retrieved_contact_ids
+    assert second_contact.contact_id in retrieved_contact_ids
