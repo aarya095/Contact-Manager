@@ -1,6 +1,4 @@
-from sqlalchemy import select 
-from sqlalchemy.orm import Session
-
+# User-Defined Modules
 from app.database.contact_db_operations import (
     insert_contact,
     retrieve_contact_by_id,
@@ -14,6 +12,11 @@ from app.database.user_db_operations import (
 )
 
 from app.database.models import Contact
+
+# External Modules
+from sqlalchemy import select 
+from sqlalchemy.orm import Session
+
 
 def test_insert_contact(db_session: Session):
 

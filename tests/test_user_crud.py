@@ -1,6 +1,4 @@
-from sqlalchemy import select 
-from sqlalchemy.orm import Session
-
+# User-Defined Modules
 from app.database.user_db_operations import (
     insert_user, 
     get_user_by_id,
@@ -8,7 +6,12 @@ from app.database.user_db_operations import (
     update_user,
     delete_user,
     )
+
 from app.database.models import User
+
+# External Modules
+from sqlalchemy import select 
+from sqlalchemy.orm import Session
 
 
 def test_create_user(db_session: Session):
