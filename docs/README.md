@@ -119,12 +119,12 @@ MASTER_KEY="OjVDJ1YVzBxrBAKiJfxXoAihMzVqbMQNm-kKvoltEJs="
 1. Follow the first two instructions from the above setup.
 
 2. Create a virtual environment:
-# Windows
-- `python -m venv venv`
-- `venv\Scripts\activate`
-# Linux/macOS
-- `python3 -m venv venv`  
-- `source venv/bin/activate`    
+- Windows
+    - `python -m venv venv`
+    - `venv\Scripts\activate`
+- Linux/macOS
+    - `python3 -m venv venv`  
+    - `source venv/bin/activate`    
 
 3. Install dependencies:    
 - `pip install -r requirements.txt`
