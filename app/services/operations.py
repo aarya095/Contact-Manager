@@ -1,7 +1,7 @@
 import logging
 
 from app.services.encryption import encrypt, decrypt
-from app.database import contact_crud as db_ops
+from app.database import contact_db_operations as db_ops
 from app.schemas import ContactResponse
 
 from sqlalchemy.orm import Session
