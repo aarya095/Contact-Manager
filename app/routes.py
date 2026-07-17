@@ -37,9 +37,11 @@ def root(request : Request):
     )
 
 
-@router.post("/contacts", 
-             status_code = 201,
-             summary = "Create a new contact")
+@router.post(
+        "/contacts", 
+        status_code = 201,
+        summary = "Create a new contact"
+        )
 def create_contact(
                     contact: ContactCreate,
                     db: Session = Depends(get_db)
@@ -67,9 +69,11 @@ def create_contact(
             detail = "Contact name already exists!"
             )
     
-@router.get("/contacts/{contact_id}",
-            status_code = 200, 
-            summary = "Gets the contact entry by id")
+@router.get(
+        "/contacts/{contact_id}",
+        status_code = 200, 
+        summary = "Gets the contact entry by id"
+        )
 def get_contact(
                 contact_id: int,
                 db: Session = Depends(get_db)):
@@ -95,9 +99,11 @@ def get_contact(
             )
 
 
-@router.get("/contacts", 
-            status_code = 200,
-            summary = "Gets all the contact entries stored in the database")
+@router.get(
+        "/contacts", 
+        status_code = 200,
+        summary = "Gets all the contact entries stored in the database"
+        )
 def list_contacts(db: Session = Depends(get_db)) -> list[dict[str, str | int]]:
     
     logger.info("GET /contacts - request received")
@@ -109,9 +115,11 @@ def list_contacts(db: Session = Depends(get_db)) -> list[dict[str, str | int]]:
     return contacts_data
     
 
-@router.put("/contacts/{contact_id}", 
-            status_code = 200,
-            summary = "Updates an existing contact")
+@router.put(
+        "/contacts/{contact_id}", 
+        status_code = 200,
+        summary = "Updates an existing contact"
+        )
 def update_contact(
                    contact_id: int,
                    contact: ContactUpdate,
@@ -142,9 +150,11 @@ def update_contact(
             )
     
     
-@router.delete("/contacts/{contact_id}", 
-               status_code = 200,
-               summary = "Deletes an existing contact")
+@router.delete(
+        "/contacts/{contact_id}", 
+        status_code = 200,
+        summary = "Deletes an existing contact"
+        )
 def delete_contact(
                     contact_id: int,
                     db: Session = Depends(get_db)
