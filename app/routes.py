@@ -1,23 +1,25 @@
+# Built-in Modules
+import logging
+
+# User-Defined Modules
+from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
+from app.schemas import (
+    ContactCreate, ContactUpdate
+)
+from app.services import operations as op
+from app.database.database import get_db
+
+# External Modules
 from fastapi import (
     APIRouter, 
     HTTPException, 
     Request, 
     Depends
     )
-
 from fastapi.templating import Jinja2Templates
-
-from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
-from app.schemas import (
-    ContactCreate, ContactUpdate
-)
-from app.services import operations as op
 
 from sqlalchemy.orm import Session
 
-from app.database.database import get_db
-
-import logging
 
 logger = logging.getLogger(__name__)
 
