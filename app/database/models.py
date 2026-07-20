@@ -15,7 +15,10 @@ class User(Base):
     __tablename__ = "users"
 
     user_id : Mapped[int] = mapped_column(primary_key=True)
-    username : Mapped[str]
+    username : Mapped[str] = mapped_column(
+        unique = True,
+        index = True,
+    )
     password_hash : Mapped[str] = mapped_column(String(255)) 
     contacts : Mapped[List["Contact"]] = relationship(back_populates = "owner")
 
