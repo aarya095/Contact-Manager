@@ -3,7 +3,7 @@ import logging
 
 # User-Defined Modules
 from app.database.models import User
-from app.exceptions import UserNotFoundError
+from app.exceptions import UserNotFoundError, UserAlreadyExistsError
 
 # External Modules
 from sqlalchemy import select
@@ -22,9 +22,21 @@ def insert_user(
 
     logger.info(f"Creating user '{username}'.")
 
+    existing_user = (
+        db.query(User)
+        .filter(User.username == username)
+        .first()
+    )
+
+    if existing_user is not None:
+        logger.warning(f"User '{username}' already exists.")
+        raise UserAlreadyExistsError(
+            f"Username '{username}' already exists."
+        )
+
     user = User(
-        username=username,
-        password_hash=password_hash,
+        username = username,
+        password_hash = password_hash,
     )
 
     db.add(user)
@@ -36,24 +48,18 @@ def insert_user(
     return user
 
 
-def get_user_by_id(
-        user_id: int,
+def get_user_by_username(
+        username: str,
         db: Session,
     ) -> User:
     """
     Retrieve a user by their ID.
     """
 
-    logger.info(f"Retrieving user with ID {user_id}.")
+    logger.info(f"Retrieving user with username '{username}'.")
 
-    statement = select(User).where(User.user_id == user_id)
+    statement = select(User).where(User.username == username)
     user = db.scalar(statement)
-
-    if user is None:
-        logger.warning(f"User with ID {user_id} not found.")
-        raise UserNotFoundError
-
-    logger.info(f"Retrieved user '{user.username}' (ID {user.user_id}).")
 
     return user
 
