@@ -2,11 +2,18 @@
 import logging
 
 # User-Defined Modules
-from app.exceptions import ContactNotFoundError, UserAlreadyExistsError
+from app.exceptions import (
+    ContactNotFoundError, 
+    UserAlreadyExistsError,
+    )
 from app.schemas import (
-    ContactCreate, ContactUpdate
+    UserCreate, UserResponse,
+    ContactCreate, ContactUpdate,
 )
 from app.services import operations as op
+from app.services import auth 
+from app.database import user_db_operations as user_db_ops
+from app.database import models
 from app.database.database import get_db
 
 # External Modules
@@ -36,6 +43,40 @@ def root(request : Request):
         name = "index.html"
     )
 
+
+@router.post(
+        "/register",
+        status_code = 201,
+        summary = "Register user"
+        )
+def register_user(
+    user : UserCreate,
+    db: Session = Depends(get_db),
+) -> UserResponse:
+    
+    logger.info("POST /register - request received")
+
+    try:
+        password_hash = auth.get_password_hash(
+            plain_password = user.password
+        )
+        user = user_db_ops.insert_user(
+            db,
+            username = user.username,
+            password_hash = password_hash,
+        )
+
+        return UserResponse(
+            user_id = user.user_id,
+            username = user.username,
+        )
+
+    except UserAlreadyExistsError:
+        raise HTTPException(
+            status_code = 400, 
+            detail = "Username already exists!"
+            )
+    
 
 @router.post(
         "/contacts", 
