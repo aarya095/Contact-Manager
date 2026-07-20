@@ -1,4 +1,5 @@
 # Built-in Modules
+import logging
 from datetime import datetime, timedelta, UTC
 
 # User-Defined Modules
@@ -16,6 +17,8 @@ from pwdlib import PasswordHash
 from sqlalchemy.orm import Session
 
 
+logger = logging.getLogger(__name__)
+
 password_context = PasswordHash.recommended()
 oauth_2_scheme = OAuth2PasswordBearer(tokenUrl = "token")
 
@@ -31,11 +34,13 @@ def authenticate_user(
         db: Session,
         ):
 
-    user = get_user_by_username(db, username)
+    user = get_user_by_username(username, db)
     if not user:
+        logger.info(f"Login failed: user '{username}' not found.")
         return False
         
-    if not verify_password(password, user['hashed_password']):
+    if not verify_password(password, user.password_hash):
+        logger.info(f"Login failed: invalid password for '{username}'.")
         return False
     
     return user
