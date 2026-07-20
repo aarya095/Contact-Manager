@@ -13,7 +13,6 @@ from app.schemas import (
 from app.services import operations as op
 from app.services import auth 
 from app.database import user_db_operations as user_db_ops
-from app.database import models
 from app.database.database import get_db
 
 # External Modules
