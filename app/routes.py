@@ -20,10 +20,8 @@ from app.database.database import get_db
 
 # External Modules
 from fastapi import (
-    APIRouter, 
-    HTTPException, 
-    Request, 
-    status,
+    APIRouter, HTTPException, 
+    Request, status,
     Depends
     )
 from fastapi.security import OAuth2PasswordRequestForm
