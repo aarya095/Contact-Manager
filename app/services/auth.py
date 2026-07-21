@@ -126,11 +126,15 @@ def get_current_user(
         token_data = TokenData(username = username)
 
     except JWTError:
+        logger.warning("JWT validation failed due to an invalid or expired token.")
         raise credential_exception
     
     user = get_user_by_username(username = token_data.username, db = db)
 
     if user is None:
+        logger.warning(
+            f"Authentication failed: user '{token_data.username}' not found."
+        )
         raise credential_exception
     
     return UserResponse(
