@@ -30,11 +30,14 @@ logger = logging.getLogger(__name__)
 password_context = PasswordHash.recommended()
 oauth_2_scheme = OAuth2PasswordBearer(tokenUrl = "token")
 
+
 def verify_password(plain_password: str, hashed_password: str):
     return password_context.verify(plain_password, hashed_password)
 
+
 def get_password_hash(plain_password: str) -> str:
     return password_context.hash(plain_password)
+
 
 def authenticate_user(
         username: str, 
@@ -52,6 +55,7 @@ def authenticate_user(
         return False
     
     return user
+
 
 def create_access_token(
         data: dict, 
