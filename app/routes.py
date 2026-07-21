@@ -47,6 +47,9 @@ def root(request : Request):
         name = "index.html"
     )
 
+@router.get("/users/me/")
+def read_users_me(current_user = Depends(auth.get_current_user)):
+    return current_user
 
 @router.post(
         "/register",
