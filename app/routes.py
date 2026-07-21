@@ -9,7 +9,7 @@ from app.exceptions import (
     UserAlreadyExistsError,
     )
 from app.schemas import (
-    UserCreate, UserResponse,
+    UserCreate, UserResponse, UserBase,
     ContactCreate, ContactUpdate,
     Token,
 )
@@ -105,10 +105,10 @@ def login_for_access_token(
         headers = {"WWW-Authenticate" : "Bearer"}
         )
     
-    access_toekn_expires = timedelta(minutes = config.ACCESS_TOKEN_EXPIRE_TIME)
+    access_toekn_expires = timedelta(minutes = int(config.ACCESS_TOKEN_EXPIRE_TIME))
 
     access_token = auth.create_access_token(
-        data = {"sub" : user['username']},
+        data = {"sub" : user.username},
         expires_delta = access_toekn_expires
     )
 
