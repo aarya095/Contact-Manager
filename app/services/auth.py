@@ -66,3 +66,38 @@ def create_access_token(
         )
 
     return encoded_jwt
+
+
+def get_current_user(
+        db: Session, 
+        token: str = Depends(oauth_2_scheme)
+        ):
+
+    credential_exception = HTTPException(
+        status_code = status.HTTP_401_UNAUTHORIZED, 
+        detail = "Could not validate credentials", 
+        headers = {"WWW-Authenticate" : "Bearer"}
+        )
+    
+    try:
+        payload = jwt.decode(
+            token = token, 
+            key = config.SECRET_KEY, 
+            algorithms = [config.ALGORITHM]
+            )
+        
+        username : str = payload.get("sub")
+        if username is None:
+            raise credential_exception
+        
+        token_data = TokenData(username = username)
+
+    except JWTError:
+        raise credential_exception
+    
+    user = get_user_by_username(username = token_data.username, db = db)
+
+    if user is None:
+        raise credential_exception
+    
+    return user
