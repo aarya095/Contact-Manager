@@ -9,7 +9,7 @@ from datetime import (
 # User-Defined Modules
 from config.config import config
 from app.schemas import TokenData
-from database.user_db_operations import get_user_by_username
+from app.database.user_db_operations import get_user_by_username
 
 # External Modules
 from fastapi import (
