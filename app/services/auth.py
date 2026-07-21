@@ -8,8 +8,9 @@ from datetime import (
 
 # User-Defined Modules
 from config.config import config
-from app.schemas import TokenData
+from app.schemas import TokenData, UserResponse
 from app.database.user_db_operations import get_user_by_username
+from app.database.database import get_db
 
 # External Modules
 from fastapi import (
@@ -81,7 +82,7 @@ def create_access_token(
 
 
 def get_current_user(
-        db: Session, 
+        db: Session  = Depends(get_db), 
         token: str = Depends(oauth_2_scheme)
         ):
 
@@ -112,4 +113,7 @@ def get_current_user(
     if user is None:
         raise credential_exception
     
-    return user
+    return UserResponse(
+        username = user.username,
+        user_id = user.user_id
+    )   
