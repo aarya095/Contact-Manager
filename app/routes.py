@@ -1,7 +1,9 @@
 # Built-in Modules
 import logging
+from datetime import timedelta
 
 # User-Defined Modules
+from config.config import config
 from app.exceptions import (
     ContactNotFoundError, 
     UserAlreadyExistsError,
@@ -9,6 +11,7 @@ from app.exceptions import (
 from app.schemas import (
     UserCreate, UserResponse,
     ContactCreate, ContactUpdate,
+    Token,
 )
 from app.services import operations as op
 from app.services import auth 
@@ -20,8 +23,10 @@ from fastapi import (
     APIRouter, 
     HTTPException, 
     Request, 
+    status,
     Depends
     )
+from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
 
 from sqlalchemy.orm import Session
@@ -75,6 +80,39 @@ def register_user(
             status_code = 400, 
             detail = "Username already exists!"
             )
+    
+
+@router.post(
+        "/token", 
+        summary = "Authenticates users and returns the access token", 
+        response_model = Token,
+        )
+def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db),
+    ) -> dict:
+
+    user = auth.authenticate_user(
+        username = form_data.username, 
+        password = form_data.password, 
+        db = db
+        )
+
+    if not user:
+        raise HTTPException(        
+        status_code = status.HTTP_401_UNAUTHORIZED, 
+        detail = "Incorrect Username or Password", 
+        headers = {"WWW-Authenticate" : "Bearer"}
+        )
+    
+    access_toekn_expires = timedelta(minutes = config.ACCESS_TOKEN_EXPIRE_TIME)
+
+    access_token = auth.create_access_token(
+        data = {"sub" : user['username']},
+        expires_delta = access_toekn_expires
+    )
+
+    return {"access_token" : access_token, "token_type" : "bearer"}
     
 
 @router.post(
