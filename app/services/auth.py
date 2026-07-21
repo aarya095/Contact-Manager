@@ -4,13 +4,13 @@ from datetime import datetime, timedelta, UTC
 
 # User-Defined Modules
 from config.config import config
+from app.schemas import TokenData
 from database.user_db_operations import get_user_by_username
 
 # External Modules
-from fastapi import Depends
+from fastapi import HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-from pydantic import BaseModel
 from jose import JWTError, jwt
 from pwdlib import PasswordHash
 
