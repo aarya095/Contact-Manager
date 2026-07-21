@@ -45,6 +45,12 @@ def authenticate_user(
         password: str,
         db: Session,
     ):
+    """
+    Authenticate a user using their username and password.
+
+    Retrieves the user from the database and verifies the provided
+    password against the stored password hash.
+    """
 
     user = get_user_by_username(username, db)
     if not user:
@@ -62,7 +68,14 @@ def create_access_token(
         data: dict, 
         expires_delta: timedelta | None = None
         ) -> str:
-    
+    """
+    Create a JWT access token.
+
+    Encodes the provided payload into a JSON Web Token (JWT) and
+    adds an expiration ("exp") claim. If no expiration duration is
+    provided, the token expires after 15 minutes.
+    """
+
     to_encode = data.copy()
 
     if expires_delta:
@@ -85,6 +98,13 @@ def get_current_user(
         db: Session  = Depends(get_db), 
         token: str = Depends(oauth_2_scheme)
         ):
+    """
+    Retrieve the currently authenticated user from a JWT access token.
+
+    Decodes and validates the provided JWT, extracts the username from
+    the token's "sub" claim, and fetches the corresponding user from
+    the database.
+    """
 
     credential_exception = HTTPException(
         status_code = status.HTTP_401_UNAUTHORIZED, 
