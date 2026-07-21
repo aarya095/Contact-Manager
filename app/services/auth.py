@@ -44,7 +44,7 @@ def authenticate_user(
         username: str, 
         password: str,
         db: Session,
-        ):
+    ):
 
     user = get_user_by_username(username, db)
     if not user:
