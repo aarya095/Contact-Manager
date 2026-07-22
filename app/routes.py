@@ -122,12 +122,14 @@ def login_for_access_token(
         summary = "Create a new contact"
         )
 def create_contact(
-                    contact: ContactCreate,
-                    db: Session = Depends(get_db)
-                    ):
+    contact: ContactCreate,
+    current_user: UserResponse = Depends(auth.get_current_user),
+    db: Session = Depends(get_db)
+):
     logger.info("POST /contacts - request received")
     try:
         contact_data = op.create_contact(
+                        owner_id = current_user.user_id,
                         contact_name = contact.contact_name, 
                         contact_number=contact.contact_number,
                         db = db
@@ -154,11 +156,15 @@ def create_contact(
         summary = "Gets the contact entry by id"
         )
 def get_contact(
-                contact_id: int,
-                db: Session = Depends(get_db)):
+    contact_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(auth.get_current_user),
+):
+    
     logger.info(f"GET /contacts/{contact_id} - request received")
     try:
         contact_data = op.get_contact(
+                                owner_id = current_user.user_id,
                                 contact_id = contact_id,
                                 db = db
                                 )
@@ -183,11 +189,14 @@ def get_contact(
         status_code = 200,
         summary = "Gets all the contact entries stored in the database"
         )
-def list_contacts(db: Session = Depends(get_db)) -> list[dict[str, str | int]]:
+def list_contacts(
+    current_user: UserResponse = Depends(auth.get_current_user), 
+    db: Session = Depends(get_db)
+) -> list[dict[str, str | int]]:
     
     logger.info("GET /contacts - request received")
     
-    contacts_data = op.list_contacts(db)
+    contacts_data = op.list_contacts(current_user.user_id, db)
     
     logger.info("GET /contacts - success (status=201)")
 
@@ -200,13 +209,16 @@ def list_contacts(db: Session = Depends(get_db)) -> list[dict[str, str | int]]:
         summary = "Updates an existing contact"
         )
 def update_contact(
-                   contact_id: int,
-                   contact: ContactUpdate,
-                   db: Session = Depends(get_db)
-                   ):
+    contact_id: int,
+    contact: ContactUpdate,
+    current_user: UserResponse = Depends(auth.get_current_user),
+    db: Session = Depends(get_db)
+):
+    
     logger.info("PUT /contacts - request received")
     try:
         updated_contact_data = op.update_contact(
+            owner_id = current_user.user_id,
             contact_id = contact_id,
             updated_contact_name = contact.contact_name,
             updated_contact_number = contact.contact_number,
@@ -235,12 +247,14 @@ def update_contact(
         summary = "Deletes an existing contact"
         )
 def delete_contact(
-                    contact_id: int,
-                    db: Session = Depends(get_db)
-                    ):
+    contact_id: int,
+    current_user: UserResponse = Depends(auth.get_current_user),
+    db: Session = Depends(get_db)
+):
     logger.info("DELETE /contacts - request received")
     try:
         deleted_contact_data = op.delete_contact(
+                        owner_id = current_user.user_id,
                         contact_id = contact_id,
                         db = db
                         )
