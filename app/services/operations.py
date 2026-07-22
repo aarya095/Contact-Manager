@@ -14,11 +14,11 @@ logger = logging.getLogger(__name__)
 
 
 def create_contact(
-        owner_id: int,
-        contact_name: str, 
-        contact_number: int,
-        db: Session
-        ) -> ContactResponse:
+    owner_id: int,
+    contact_name: str, 
+    contact_number: int,
+    db: Session
+) -> ContactResponse:
     """
     Encrypts the contact number, sends the key to the .env file, and 
     sends the contact data to the database
@@ -50,10 +50,10 @@ def create_contact(
 
 
 def get_contact(
-        owner_id: int,
-        contact_id: str, 
-        db: Session
-        ) -> ContactResponse:
+    owner_id: int,
+    contact_id: str, 
+    db: Session
+) -> ContactResponse:
     """
     Retrieves the encrypted contact number from the Database, 
     decrypts it, and returns it
@@ -110,12 +110,12 @@ def list_contacts(owner_id: int, db: Session) -> dict:
 
 
 def update_contact(
-        owner_id: int,
-        contact_id: int, 
-        updated_contact_name: str, 
-        updated_contact_number: int,
-        db: Session
-        ) -> ContactResponse:
+    owner_id: int,
+    contact_id: int, 
+    updated_contact_name: str, 
+    updated_contact_number: int,
+    db: Session
+) -> ContactResponse:
     """
     Seeks out the old contact info to be updated,
     Encrypts the new contact number, sends the key to the .env file, 
@@ -150,10 +150,10 @@ def update_contact(
 
 
 def delete_contact(
-        owner_id: int,
-        contact_id: str,
-        db: Session 
-        ) -> dict:
+    owner_id: int,
+    contact_id: str,
+    db: Session 
+) -> dict:
     """
     Deletes the contact entry from the database, also the key in the .env file
     """
