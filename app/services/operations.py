@@ -49,7 +49,7 @@ def get_contact(
         owner_id: int,
         contact_id: str, 
         db: Session
-        ) -> dict:
+        ) -> ContactResponse:
     """
     Retrieves the encrypted contact number from the Database, 
     decrypts it, and returns it
@@ -66,16 +66,14 @@ def get_contact(
     original_contact_number = decrypt(
         encrypted_contact_number = contact_data.contact_number
         )
-    
-    contact_data_dict = {
-        'contact_id': contact_data.contact_id,
-        'contact_name': contact_data.contact_name,
-        'contact_number': original_contact_number
-    }
-    
+
     logger.info(f"Contact number retrieved for {contact_id} successfully!")
     
-    return contact_data_dict
+    return ContactResponse(
+        contact_id = contact_data.contact_id,
+        contact_name = contact_data.contact_name,
+        contact_number = original_contact_number,
+    )
 
     
 def list_contacts(owner_id: int, db: Session) -> dict:
