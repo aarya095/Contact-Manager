@@ -13,11 +13,11 @@ logger = logging.getLogger(__name__)
 
 
 def insert_contact(
-        owner_id: int,
-        contact_name: str, 
-        encrypted_contact_number: bytes,
-        db: Session
-        ) -> Contact:
+    owner_id: int,
+    contact_name: str, 
+    encrypted_contact_number: bytes,
+    db: Session
+) -> Contact:
     """
     Create an entry in the database
     """
@@ -36,10 +36,10 @@ def insert_contact(
     
 
 def retrieve_contact_by_id(
-                        owner_id: int,
-                        contact_id: str, 
-                        db: Session
-                        ) -> Contact:
+    owner_id: int,
+    contact_id: str, 
+    db: Session
+) -> Contact:
     """
     Retrieves one contact via SQLAlchemy
     """
@@ -60,9 +60,9 @@ def retrieve_contact_by_id(
         
     
 def retrieve_all_contacts(
-        owner_id: int, 
-        db: Session
-        ) -> list[tuple[Contact]]:
+    owner_id: int, 
+    db: Session
+) -> list[tuple[Contact]]:
     """
     Retrieves all the contacts via SQLAlchemy
     """
@@ -75,12 +75,12 @@ def retrieve_all_contacts(
 
         
 def update_contact_by_id(
-        owner_id: int, 
-        contact_id: str, 
-        db: Session,
-        updated_name: str | None = None,
-        updated_encrypted_contact_number: bytes | None = None
-        ) -> Contact:
+    owner_id: int, 
+    contact_id: str, 
+    db: Session,
+    updated_name: str | None = None,
+    updated_encrypted_contact_number: bytes | None = None
+) -> Contact:
     """
     Updates the contact name and number if provided
     """
@@ -119,10 +119,10 @@ def update_contact_by_id(
     
     
 def delete_contact_by_id(
-        owner_id: int, 
-        contact_id: str, 
-        db: Session
-        ) -> dict:
+    owner_id: int, 
+    contact_id: str, 
+    db: Session
+) -> dict:
     """
     Create an entry in the database
     """
