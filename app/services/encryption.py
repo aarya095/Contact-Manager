@@ -28,6 +28,3 @@ def decrypt(encrypted_contact_number: bytes) -> int:
         )
 
     return original_contact_number
-
-if __name__ == '__main__':
-    pass
