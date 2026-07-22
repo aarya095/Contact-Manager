@@ -40,30 +40,6 @@ def get_password_hash(plain_password: str) -> str:
     return password_context.hash(plain_password)
 
 
-def authenticate_user(
-        username: str, 
-        password: str,
-        db: Session,
-    ):
-    """
-    Authenticate a user using their username and password.
-
-    Retrieves the user from the database and verifies the provided
-    password against the stored password hash.
-    """
-
-    user = get_user_by_username(username, db)
-    if not user:
-        logger.info(f"Login failed: user '{username}' not found.")
-        return False
-        
-    if not verify_password(password, user.password_hash):
-        logger.info(f"Login failed: invalid password for '{username}'.")
-        return False
-    
-    return user
-
-
 def create_access_token(
         data: dict, 
         expires_delta: timedelta | None = None
@@ -92,6 +68,30 @@ def create_access_token(
         )
 
     return encoded_jwt
+
+
+def authenticate_user(
+        username: str, 
+        password: str,
+        db: Session,
+    ):
+    """
+    Authenticate a user using their username and password.
+
+    Retrieves the user from the database and verifies the provided
+    password against the stored password hash.
+    """
+
+    user = get_user_by_username(username, db)
+    if not user:
+        logger.info(f"Login failed: user '{username}' not found.")
+        return False
+        
+    if not verify_password(password, user.password_hash):
+        logger.info(f"Login failed: invalid password for '{username}'.")
+        return False
+    
+    return user
 
 
 def get_current_user(
