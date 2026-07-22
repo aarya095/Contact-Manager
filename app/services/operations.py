@@ -89,9 +89,7 @@ def list_contacts(owner_id: int, db: Session) -> dict:
     contacts_data = db_ops.retrieve_all_contacts(owner_id, db)
     decrypted_contacts_data = []
 
-    for tuple_of_contact_data in contacts_data:
-
-        contact_data = tuple_of_contact_data[0]
+    for contact_data in contacts_data:
 
         original_contact_number = decrypt(
             encrypted_contact_number = contact_data.contact_number 
