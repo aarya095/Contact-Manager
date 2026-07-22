@@ -15,8 +15,10 @@ def create_contact(
         contact_number: int,
         db: Session
         ) -> ContactResponse:
-    """Encrypts the contact number, sends the key to the .env file, and 
-    sends the contact data to the database"""
+    """
+    Encrypts the contact number, sends the key to the .env file, and 
+    sends the contact data to the database
+    """
 
     logger.info(f"Creating the entry for {contact_name} in database.")
 
@@ -48,8 +50,10 @@ def get_contact(
         contact_id: str, 
         db: Session
         ) -> dict:
-    """Retrieves the encrypted contact number from the Database, 
-    decrypts it, and returns it"""
+    """
+    Retrieves the encrypted contact number from the Database, 
+    decrypts it, and returns it
+    """
 
     logger.info(f"Retrieving the entry for {contact_id} from database.")
 
@@ -75,8 +79,10 @@ def get_contact(
 
     
 def list_contacts(owner_id: int, db: Session) -> dict:
-    """Retrieves all the encrypted contact numbers from the Database, 
-    decrypts them all, and returns them"""
+    """
+    Retrieves all the encrypted contact numbers from the Database, 
+    decrypts them all, and returns them
+    """
 
     logger.info("Retrieving all contact entries from database.")
 
@@ -89,7 +95,7 @@ def list_contacts(owner_id: int, db: Session) -> dict:
 
         original_contact_number = decrypt(
             encrypted_contact_number = contact_data.contact_number 
-    )        
+        )        
         
         current_contact_data_dictionary = {
                             'contact_id' : contact_data.contact_id,
@@ -110,9 +116,11 @@ def update_contact(
         updated_contact_number: int,
         db: Session
         ) -> ContactResponse:
-    """Seeks out the old contact info to be updated,
+    """
+    Seeks out the old contact info to be updated,
     Encrypts the new contact number, sends the key to the .env file, 
-    deletes the old key, and sends the contact data to the database"""
+    deletes the old key, and sends the contact data to the database
+    """
 
     logger.info(f"Updating the entry for {contact_id} in database.")
 
@@ -145,7 +153,9 @@ def delete_contact(
         contact_id: str,
         db: Session 
         ) -> dict:
-    """Deletes the contact entry from the database, also the key in the .env file"""
+    """
+    Deletes the contact entry from the database, also the key in the .env file
+    """
 
     logger.info(f"Deleting the entry for {contact_id} from database.")
 
