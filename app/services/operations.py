@@ -1,10 +1,14 @@
+# Built-in Modules
 import logging
 
+# User-Defined Modules
 from app.services.encryption import encrypt, decrypt
 from app.database import contact_db_operations as db_ops
 from app.schemas import ContactResponse
 
+# External Modules
 from sqlalchemy.orm import Session
+
 
 logger = logging.getLogger(__name__)
 
@@ -143,6 +147,7 @@ def update_contact(
         contact_name = user_to_update.contact_name, 
         contact_number = updated_contact_number
         )
+
 
 def delete_contact(
         owner_id: int,
