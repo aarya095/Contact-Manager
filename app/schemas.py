@@ -17,7 +17,6 @@ class UserInDB(User):
     hashed_password : str
 
 class ContactBase(BaseModel):
-    owner_id : int
     contact_name : str
     contact_number : int
 
