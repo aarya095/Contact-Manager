@@ -1,7 +1,9 @@
+# User-Defined Modules
+from app.services.encryption import encrypt, decrypt 
+
+# External Modules
 from cryptography.fernet import InvalidToken
 import pytest
-
-from app.services.encryption import encrypt, decrypt 
 
 def test_encryption_decryption_process():
 
