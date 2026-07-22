@@ -97,7 +97,7 @@ def create_access_token(
 def get_current_user(
         db: Session  = Depends(get_db), 
         token: str = Depends(oauth_2_scheme)
-        ):
+        ) -> UserResponse:
     """
     Retrieve the currently authenticated user from a JWT access token.
 
