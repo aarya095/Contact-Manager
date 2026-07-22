@@ -9,7 +9,7 @@ from app.exceptions import (
     UserAlreadyExistsError,
     )
 from app.schemas import (
-    UserCreate, UserResponse, UserBase,
+    UserCreate, UserResponse, 
     ContactCreate, ContactUpdate,
     Token,
 )
