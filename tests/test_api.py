@@ -26,10 +26,10 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL, echo=True)
 
 SessionLocal = sessionmaker(
-                            bind = engine,
-                            autoflush = False,
-                            autocommit = False
-                            )
+                bind = engine,
+                autoflush = False,
+                autocommit = False
+                )
 
 def test_root():
     response = client.get("/")
