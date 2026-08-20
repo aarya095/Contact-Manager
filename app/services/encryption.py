@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 
 def encrypt(contact_number: int) -> bytes:
     """
-    Encrypts the contact number using fernet a symmmetric cipher
+    Encrypts the contact number using fernet a symmetric cipher
     """
 
     contact_number = contact_number.to_bytes(8,'big')   
@@ -18,7 +18,7 @@ def encrypt(contact_number: int) -> bytes:
 
 def decrypt(encrypted_contact_number: bytes) -> int:
     """
-    Decrypts the contact number using fernet a symmmetric cipher
+    Decrypts the contact number using fernet a symmetric cipher
     """
 
     f = Fernet(config.MASTER_KEY)
